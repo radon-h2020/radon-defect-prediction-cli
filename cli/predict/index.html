@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Predict - RadonDefectPredictor</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Predict";
+    var mkdocs_page_input_path = "cli/predict.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> RadonDefectPredictor</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Quick Start</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Command-line Usage</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../getting_started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../train/">Train</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../model/">Model</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Predict</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#-path-to-model">--path-to-model</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-path-to-file">--path-to-file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-l-language">-l, --language</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-d-destination">-d, --destination</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../apis/">API Reference</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../about/">About</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">RadonDefectPredictor</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Command-line Usage &raquo;</li>
+        
+      
+        
+          <li>Getting Started &raquo;</li>
+        
+      
+    
+    <li>Predict</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/radon-h2020/radon-defect-predictor/edit/master/docs/cli/predict.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="predict-unseen-instances">Predict unseen instances</h1>
+<p><code>radon-defect-predictor predict</code></p>
+<pre><code class="language-prompt">usage: radon-defect-predictor predict [-h] --path-to-model PATH_TO_MODEL_DIR --path-to-file PATH_TO_FILE -l {ansible,tosca} -d DEST
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+
+  --path-to-model PATH_TO_MODEL_DIR
+                        path to the folder containing the files related to the model
+  --path-to-file PATH_TO_FILE
+                        the path to the file to analyze
+  -l {ansible,tosca}, --language {ansible,tosca}
+                        the language of the file (i.e., TOSCA or YAML-based Ansible)
+  -d DEST, --destination DEST
+                        destination folder to save the prediction report
+</code></pre>
+<table>
+<thead>
+<tr>
+<th align="left">Option</th>
+<th align="left">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">--path-to-model</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">--path-to-file</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">-l, --language</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">-d, --destination</td>
+<td align="left">True</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p><strong>Return:</strong></p>
+<ul>
+<li>
+<p><code>exit(0)</code> if the file is predicted <em>clean</em>;</p>
+</li>
+<li>
+<p><code>exit(1)</code> if the file is predicted <em>failure-prone</em>.</p>
+</li>
+</ul>
+<p><br></p>
+<p><strong>Important!</strong> Make sure you trained a model using or downloaded a pre-trained model using , first. </p>
+<h2 id="-path-to-model">--path-to-model</h2>
+<p><strong><code>radon-defect-predictor predict --path-to-model path/to/model/</code></strong></p>
+<p>The path to the <strong>folder</strong> containing files related to a model (model, selected_features and report).
+The folder has to be structured as follows:</p>
+<p><em>path/to/</em><br>
+&emsp;|- <em>model/</em><br>
+&emsp;&emsp;|- <em>model.pkl</em><br>
+&emsp;&emsp;|- <em>model_features.json</em><br>
+&emsp;&emsp;|- <em>report.json</em><br></p>
+<p>Information about the aforementioned files can be found <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination">here</a> or <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination">here</a>.</p>
+<h2 id="-path-to-file">--path-to-file</h2>
+<p><strong><code>radon-defect-predictor train --path-to-csv path/to/repository-data.csv</code></strong></p>
+<p>The path to the <strong>.yml or .tosca</strong> file analyze.</p>
+<h2 id="-l-language">-l, --language</h2>
+<p><strong><code>radon-defect-predictor predict --l ansible</code></strong> <br>
+<strong><code>radon-defect-predictor predict --l tosca</code></strong></p>
+<p>The language of the file to analyze (that is Ansible or Tosca).
+This is needed to automatically extract the proper metrics (through <code>radon-ansible-metrics</code>(https://github.com/radon-h2020/radon-ansible-metrics) or <code>radon-tosca-metrics</code>(https://github.com/radon-h2020/radon-tosca-metrics)) to pass to the predictor.  </p>
+<h2 id="-d-destination">-d, --destination</h2>
+<p><strong><code>radon-defect-predictor predict --d path/to/results/</code></strong></p>
+<p>The path to the <strong>folder</strong> where to log the results</p>
+<ul>
+<li>
+<p><code>path/to/model-info/model.pkl</code> - the exported model in pickle format. After training a model, it is desirable to have a way to persist the model for future use without having to retrain. </p>
+</li>
+<li>
+<p><code>path/to/model-info/model_features.json</code> - the features selected by feature selection during training. It is important to track these features so to reduce the <em>test instances</em> to the same set of features used for training. </p>
+</li>
+<li>
+<p><code>path/to/model-info/report.json</code> - the cross-validation report of model training.</p>
+</li>
+</ul>
+<p><strong>Important!</strong> </p>
+<ul>
+<li>
+<p>Do not delete any of these files if you want to test new instances with the <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/predict/"><code>radon-defect-predictor predict</code></a> using the downloaded model.</p>
+</li>
+<li>
+<p>Make sure you save the model and related files to a distinct folder for each repository and language (i.e., Ansible and Tosca) to avoid conflicts with existing models, features and reports.
+Use the same folder only if you are overriding a model. The downloaded model will replace the existing one.</p>
+</li>
+</ul>
+<p><br></p>
+<h2 id="examples">Examples</h2>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../apis/" class="btn btn-neutral float-right" title="API Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../model/" class="btn btn-neutral" title="Model"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/radon-h2020/radon-defect-predictor/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../model/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../apis/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
