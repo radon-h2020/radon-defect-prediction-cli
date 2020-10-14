@@ -42,7 +42,6 @@ class DefectPredictor:
         assert 'commit' in data.columns
         assert 'committed_at' in data.columns
         assert 'filepath' in data.columns
-        assert 'repository' in data.columns
 
         data = data.fillna(0)
 
@@ -54,7 +53,7 @@ class DefectPredictor:
         data = data.reset_index(drop=True)
 
         # Remove metadata
-        data = data.drop(['commit', 'committed_at', 'filepath', 'repository'], axis=1)
+        data = data.drop(['commit', 'committed_at', 'filepath'], axis=1)
 
         self.X, self.y = data.drop(['failure_prone'], axis=1), data.failure_prone.values.ravel()
 

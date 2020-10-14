@@ -15,6 +15,7 @@ def valid_dir(x: str) -> str:
 
     return x
 
+
 def valid_file(x: str) -> str:
     """
     Check the file exists
@@ -25,6 +26,7 @@ def valid_file(x: str) -> str:
         raise argparse.ArgumentTypeError('Insert a valid path')
 
     return x
+
 
 def valid_balancers(x: str):
     """
@@ -57,23 +59,19 @@ def valid_normalizers(x: str):
 def valid_classifiers(x: str):
     """
     Check x is a list of valid classifiers
-    :param x: a string representing a list of classifiers (e.g., "decision-tree logistic-regression naive-bayes random-forest svm")
+    :param x: a string representing a list of classifiers (e.g., "dt logit nb rf svm")
     :return: the list of classifiers if every argument in x is a valid classifier; raise an ArgumentTypeError otherwise
     """
     classifiers = x.split(' ')
     for classifier in classifiers:
-        if classifier not in ('decision-tree', 'logistic-regression', 'naive-bayes', 'random-forest', 'svm'):
+        if classifier not in ('dt', 'logit', 'nb', 'rf', 'svm'):
             raise argparse.ArgumentTypeError(f'{classifier} is not a valid argument')
 
     return classifiers
 
 
-def get_parser():
-    description = 'A Python library to train machine learning models for defect prediction of infrastructure code.'
-
-    parser = argparse.ArgumentParser(prog='radon-defect-predictor', description=description)
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s')
-
+def set_train_parser(subparsers):
+    parser = subparsers.add_parser('train', help='Train a brand new model from scratch')
     parser.add_argument('--path-to-csv',
                         required=True,
                         action='store',
@@ -93,19 +91,20 @@ def get_parser():
                         type=valid_normalizers,
                         help='a list of normalizers to normalize data. Possible choices [none, minmax, std]')
 
+    # TODO: add feature-selectors
+
     parser.add_argument('--classifiers',
                         required=True,
                         dest='classifiers',
                         type=valid_classifiers,
-                        help='a list of classifiers to train. Possible choices [decision-tree, logistic-regression, '
-                             'naive-bayes, random-forest, svm]')
+                        help='a list of classifiers to train. Possible choices [dt, logit, nb, rf, svm]')
 
     parser.add_argument('-d', '--destination',
                         required=True,
                         action='store',
                         dest='dest',
                         type=valid_dir,
-                        help='destination folder to save model reports')
+                        help='destination folder to save the model and reports')
 
     """
     parser.add_argument('--verbose',
@@ -114,6 +113,111 @@ def get_parser():
                         default=False,
                         help='show log')
     """
+
+
+def set_predict_parser(subparsers):
+    parser = subparsers.add_parser('predict', help='Predict unseen instances')
+
+    parser.add_argument('--path-to-model',
+                        required=True,
+                        action='store',
+                        dest='path_to_model_dir',
+                        type=valid_dir,
+                        help='path to the folder containing the files related to the model')
+
+    parser.add_argument('--path-to-file',
+                        required=True,
+                        action='store',
+                        dest='path_to_file',
+                        type=valid_file,
+                        help='the path to the file to analyze')
+
+    parser.add_argument('-l', '--language',
+                        required=True,
+                        action='store',
+                        dest='language',
+                        type=str,
+                        choices=['ansible', 'tosca'],
+                        help='the language of the file (i.e., TOSCA or YAML-based Ansible)')
+
+    parser.add_argument('-d', '--destination',
+                        required=True,
+                        action='store',
+                        dest='dest',
+                        type=valid_dir,
+                        help='destination folder to save the prediction report')
+
+
+def set_download_model_parser(subparsers):
+    parser = subparsers.add_parser('download', help='Download a pre-trained model from the online APIs')
+    parser.add_argument('--path-to-repository',
+                        required=True,
+                        action='store',
+                        dest='path_to_repository',
+                        type=valid_dir,
+                        help='path to the cloned repository')
+
+    parser.add_argument('--host',
+                        required=True,
+                        action='store',
+                        dest='host',
+                        type=str,
+                        choices=['github', 'gitlab'],
+                        help='whether the repository is hosted on Github or Gitlab')
+
+    parser.add_argument('-t', '--token',
+                        required=False,  # TODO: handle with environment variable
+                        action='store',
+                        dest='token',
+                        type=str,
+                        help='the Github or Gitlab personal access token')
+
+    parser.add_argument('-l', '--language',
+                        required=True,
+                        action='store',
+                        dest='language',
+                        type=str,
+                        choices=['ansible', 'tosca'],
+                        help='the language of the file (i.e., TOSCA or YAML-based Ansible)')
+
+    parser.add_argument('-d', '--destination',
+                        required=True,
+                        action='store',
+                        dest='dest',
+                        type=valid_dir,
+                        help='destination folder to save the model')
+
+
+"""
+def set_load_model_parser(subparsers):
+    parser = subparsers.add_parser('load', help='Load a pre-trained model from the disk')
+    parser.add_argument('--path-to-model',
+                        required=True,
+                        action='store',
+                        dest='path_to_model_dir',
+                        type=valid_dir,
+                        help='path to the folder containing the model report')
+"""
+
+
+def set_model_parser(subparsers):
+    parser = subparsers.add_parser('model', help='Get a pre-trained model to predict unseen instances')
+    subparsers = parser.add_subparsers(dest='command')
+    set_download_model_parser(subparsers)
+    # set_load_model_parser(subparsers)
+
+
+def get_parser():
+    description = 'A Python library to train machine learning models for defect prediction of infrastructure code'
+
+    parser = argparse.ArgumentParser(prog='radon-defect-predictor', description=description)
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.1.0')
+    subparsers = parser.add_subparsers(dest='command')
+
+    set_train_parser(subparsers)
+    set_model_parser(subparsers)
+    set_predict_parser(subparsers)
+
     return parser
 
 
