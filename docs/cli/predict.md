@@ -2,7 +2,7 @@
 
 ```radon-defect-predictor predict```
 
-```prompt
+```text
 usage: radon-defect-predictor predict [-h] --path-to-model PATH_TO_MODEL_DIR --path-to-file PATH_TO_FILE -l {ansible,tosca} -d DEST
 
 optional arguments:
@@ -38,53 +38,57 @@ optional arguments:
 <br>
 
 
-**Important!** Make sure you trained a model using or downloaded a pre-trained model using , first. 
+!!! note "Important!" 
+    Make sure you trained a model using or downloaded a pre-trained model using, first. 
 
 ## --path-to-model 
 
-**```radon-defect-predictor predict --path-to-model path/to/model/```**
+```radon-defect-predictor predict --path-to-model path/to/model/```
 
 The path to the **folder** containing files related to a model (model, selected_features and report).
 The folder has to be structured as follows:
 
-*path/to/*<br>
-&emsp;|- *model/*<br>
-&emsp;&emsp;|- *model.pkl*<br>
-&emsp;&emsp;|- *model_features.json*<br>
-&emsp;&emsp;|- *model_report.json*<br>
-
+```text
+path/to/
+  |- model/
+    |- model.pkl
+    |- model_features.json
+    |- model_report.json
+```
+    
 Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
 
 
 ## --path-to-file
-**```radon-defect-predictor train --path-to-csv path/to/repository-data.csv```**
+```radon-defect-predictor train --path-to-csv path/to/repository-data.csv```
 
 The path to the **.yml or .tosca** file analyze.
 
 
 ## -l, --language
-**```radon-defect-predictor predict --l ansible```** <br>
-**```radon-defect-predictor predict --l tosca```**
+```radon-defect-predictor predict --l ansible``` <br>
+```radon-defect-predictor predict --l tosca```
 
 The language of the file to analyze (that is Ansible or Tosca).
 This is needed to automatically extract the proper metrics (through ```radon-ansible-metrics```(https://github.com/radon-h2020/radon-ansible-metrics) or ```radon-tosca-metrics```(https://github.com/radon-h2020/radon-tosca-metrics)) to pass to the predictor.  
 
 
 ## -d, --destination 
-**```radon-defect-predictor predict --d path/to/results/```**
+```radon-defect-predictor predict --d path/to/results/```
 
 The path to the **folder** where to log the results. It will save the following file:
 
-*  `path/to/results/prediction_results.json` - a json file with the following schema:
-    ```
-    { 
-      file=<string>,
-      failure_prone=<boolean>,
-      analyzed_at=<string> 
-    }
-    ```
+*  ```path/to/results/prediction_results.json``` - a json file with the following schema:
 
-**Note:** if the file already exists, it will modified in **appended mode**. The field `analyzed_at` (YYYY-MM-DD) helps 
+```text
+{ 
+  file=<string>,
+  failure_prone=<boolean>,
+  analyzed_at=<string> 
+}
+```
+
+**Note:** if the file already exists, it will modified in **appended mode**. The field ```analyzed_at``` (YYYY-MM-DD) helps 
 to track the predictions over time for each analyzed file.
 <br>
 

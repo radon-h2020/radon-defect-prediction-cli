@@ -1,8 +1,8 @@
-# Download or load a pre-trained model
+# Download a pre-trained model
 
 ```radon-defect-predictor model```
 
-```prompt
+```text
 usage: radon-defect-predictor model [-h] {download,load} ...
 
 positional arguments:
@@ -17,7 +17,7 @@ optional arguments:
 ## Download from APIs
 ```radon-defect-predictor model download ...```
 
-```prompt
+```text
 usage: radon-defect-predictor model download [-h] --path-to-repository PATH_TO_REPOSITORY --host {github,gitlab} [-t TOKEN] -l {ansible,tosca} -d DEST
 
 optional arguments:
@@ -64,21 +64,21 @@ The value of each criterion is automatically extracted by the [```radon-reposito
 
 
 ### --host
-**```radon-defect-predictor model download --host github```** <br>
-**```radon-defect-predictor model download --host gitlab```**
+```radon-defect-predictor model download --host github``` <br>
+```radon-defect-predictor model download --host gitlab```
 
 The hosting platform for software development and version control using Git. Github and Gitlab are supported.
 This option is required to use the appropriate APIs ([```pygithub```](https://github.com/PyGithub/PyGithub) or [```python-gitlab```](https://github.com/python-gitlab/python-gitlab)) to compute some of the aforementioned criteria.
 
 ### -t, --token
-**```radon-defect-predictor model download -t <SECRET_TOKEN>```** <br>
+```radon-defect-predictor model download -t <SECRET_TOKEN>``` <br>
 
 The personal access token to access Github and Gitlab APIs.
 See how to get one from [Github](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token) and [Gitlab](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html). <br>
 Once generated, pass the token to the ```--token``` option. <br>
 If not passed in the command, the user will be prompt for inserting one. For example:
 
-```
+```text
 radon-defect-predictor model download --path-to-repository some/path --host github -l ansible -d some/other/path/
 Github access token: ***************
 ```
@@ -90,8 +90,8 @@ You may want to avoid the previous step. If so, add the following to your enviro
 * ```GITLAB_ACCESS_TOKEN=<paste here your token>``` for Gitlab.
  
 ### -l, --language
-**```radon-defect-predictor model download --l ansible```** <br>
-**```radon-defect-predictor model download --l tosca```**
+```radon-defect-predictor model download --l ansible``` <br>
+```radon-defect-predictor model download --l tosca```
 
 Every models are trained for a specific language. 
 To download the proper model the user must specify the language (s)he wants to apply it to.
@@ -100,7 +100,7 @@ If the project contains both Ansible and Tosca files, the user can download two 
 
 
 ### -d, --destination 
-**```radon-defect-predictor train --d path/to/model-info/```**
+```radon-defect-predictor train --d path/to/model-info/```
 
 The path to the **folder** where to download the following files about the model:
 
@@ -110,48 +110,13 @@ The path to the **folder** where to download the following files about the model
 
 * ```path/to/model-info/model_report.json``` - the cross-validation report of model training.
 
-**Important!** 
-
-* Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-predictor/cli/predict/) using the downloaded model.
-
-* Make sure you save the model and related files to a distinct folder for each repository and language (i.e., Ansible and Tosca) to avoid conflicts with existing models, features and reports.
-Use the same folder only if you are overriding a model. The downloaded model will replace the existing one.
+!!! note "Important!" 
+    * Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-predictor/cli/predict/) using the downloaded model.
+    
+    * Make sure you save the model and related files to a distinct folder for each repository and language (i.e., Ansible and Tosca) to avoid conflicts with existing models, features and reports.
+    Use the same folder only if you are overriding a model. The downloaded model will replace the existing one.
 
 <br>
 
     
 ### Examples
-
-<!-- ## Load from disk
-```radon-defect-predictor model load ...```
-
-```prompt
-usage: radon-defect-predictor model load [-h] --path-to-model PATH_TO_MODEL_DIR
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --path-to-model PATH_TO_MODEL_DIR
-                        path to the folder containing the model report
-```
-
-| Option | Required |
-|:---|:---|
-| --path-to-model | True |
-
-<br>
-
-### --path-to-model 
-
-**```radon-defect-predictor model load --path-to-model path/to/model/```**
-
-The path to the **folder** containing model report (model, selected_features and report).
-The folder has to be structured as follows:
-
-*path/to/*<br>
-&emsp;|- *model/*<br>
-&emsp;&emsp;|- *model.pkl*<br>
-&emsp;&emsp;|- *model_features.json*<br>
-&emsp;&emsp;|- *model_report.json*<br>
-
-Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
--->

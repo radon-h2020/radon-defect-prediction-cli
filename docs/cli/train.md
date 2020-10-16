@@ -1,7 +1,7 @@
 # Train a new model from scratch
 ```radon-defect-predictor train```
 
-```prompt
+```text
 usage: radon-defect-predictor train [-h] --path-to-csv PATH_TO_CSV [--balancers BALANCERS] [--normalizers NORMALIZERS] --classifiers CLASSIFIERS -d DEST
 
 optional arguments:
@@ -44,7 +44,8 @@ An example observation is the following:
 * ```failure_pront: integer``` 1 if the observation is **failure-prone**; 0 otherwise;
 * ```metric_i: float``` a metric.
 
-**Note:** Lacking one of the following columns will raise an error: ```filepath```, ```commit```, ```committed_at```, ```failure_prone```. 
+!!! warning 
+    Lacking one of the following columns will raise an error: ```filepath```, ```commit```, ```committed_at```, ```failure_prone```. 
 
 
 ## --balancers 
@@ -105,12 +106,10 @@ It generates the following files:
 
 * ```path/to/report/model_report.json``` - the cross-validation report of model training.
 
-**Important!** 
-
-* Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-predictor/cli/predict/) using the trained model.
-
-* Make sure you create a distinct folder for each repository to avoid conflicts with existing models, features and reports.
-Use the same folder only if you are re-training a model. The new model will replace the existing one only if its *average precision* (a.k.a. AUC-PR) is higher than the one of the current model (present in *path/to/report/model_report.json*).  
+!!! note "Important!"
+    * Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-predictor/cli/predict/) using the trained model.
+    * Make sure you create a distinct folder for each repository to avoid conflicts with existing models, features and reports.
+      Use the same folder only if you are re-training a model. The new model will replace the existing one only if its *average precision* (a.k.a. AUC-PR) is higher than the one of the current model (present in *path/to/report/model_report.json*).  
 
 
 ## Examples
@@ -118,16 +117,16 @@ Use the same folder only if you are re-training a model. The new model will repl
 Download the following [training set](https://radon-h2020.github.io/radon-defect-predictor/examples_resources/molecule.csv) generated from the [ansible-community/molecule](https://github.com/ansible-community/molecule) project in ```path/to/molecule.csv```.
 This is the "ground truth" to train a model for that project. 
 
-Create a new foler for reports:
+Create a new folder for reports:
 
-```
+```text
 cd path/to/
 mkdir molecule_reports
 ```
 
 Then, run:
 
-```
+```text
 radon-defect-predictor train --path-to-csv path/to/molecule.csv --balancers "none rus" --normalizers "minmax" --classifiers "dt logit" -d path/to/molecule_reports/
 ```
 
@@ -139,7 +138,7 @@ Afterwards, it (1) uses the Random Under-Sampling balancer to balance the traini
 Finally, the best model (```model.pkl```), selected features (```model_features.json```), and cross-validation report (```model_report.json```) are saved into ```path/to/molecule_reports/```.
 You can see them by running
 
-```
+```text
 cd molecule_reports
 ls
 ```   
