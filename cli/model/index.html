@@ -7,14 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  
   <link rel="shortcut icon" href="../../img/favicon.ico">
   <title>Model - RadonDefectPredictor</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
-
-  <link rel="stylesheet" href="../../css/theme.css" />
-  <link rel="stylesheet" href="../../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
   <script>
     // Current page data
@@ -25,7 +22,7 @@
   
   <script src="../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
@@ -36,7 +33,6 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href="../.." class="icon icon-home"> RadonDefectPredictor</a>
         <div role="search">
@@ -47,51 +43,67 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-                <p class="caption"><span class="caption-text">Getting Started</span></p>
-                <ul class="current">
-                    <li class="toctree-l1"><a class="reference internal" href="../..">Quick Start</a>
-                    </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Command-line Usage</a>
-    <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../getting_started/">Getting Started</a>
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Getting Started</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../..">Quick Start</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../train/">Train</a>
+                <li class=" current">
+                    
+    <span class="caption-text">Command-line Usage</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../getting_started/">Getting Started</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="./">Model</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#download-from-apis">Download from APIs</a>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../train/">Train</a>
+                </li>
+                <li class="toctree-l3 current">
+                    
+    <a class="current" href="./">Model</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l4"><a href="#download-or-load-a-pre-trained-model">Download or load a pre-trained model</a></li>
+    
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#-path-to-repository">--path-to-repository</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#-host">--host</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#-t-token">-t, --token</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#-l-language">-l, --language</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#-d-destination">-d, --destination</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a>
-    </li>
+        
+            <li><a class="toctree-l5" href="#download-from-apis">Download from APIs</a></li>
+        
         </ul>
-    </li>
+    
+
     </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../predict/">Predict</a>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../predict/">Predict</a>
                 </li>
     </ul>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../apis/">API Reference</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../about/">About</a>
-                    </li>
-                </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../apis/">API Reference</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../about/">About</a>
+	    </li>
+          
+        </ul>
       </div>
-    </div>
+      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -127,7 +139,6 @@
       
     </li>
   </ul>
-  
   <hr/>
 </div>
           <div role="main">
@@ -135,7 +146,7 @@
               
                 <h1 id="download-or-load-a-pre-trained-model">Download or load a pre-trained model</h1>
 <p><code>radon-defect-predictor model</code></p>
-<pre><code class="language-prompt">usage: radon-defect-predictor model [-h] {download,load} ...
+<pre><code class="prompt">usage: radon-defect-predictor model [-h] {download,load} ...
 
 positional arguments:
   {download}
@@ -144,9 +155,10 @@ positional arguments:
 optional arguments:
   -h, --help       show this help message and exit
 </code></pre>
+
 <h2 id="download-from-apis">Download from APIs</h2>
 <p><code>radon-defect-predictor model download ...</code></p>
-<pre><code class="language-prompt">usage: radon-defect-predictor model download [-h] --path-to-repository PATH_TO_REPOSITORY --host {github,gitlab} [-t TOKEN] -l {ansible,tosca} -d DEST
+<pre><code class="prompt">usage: radon-defect-predictor model download [-h] --path-to-repository PATH_TO_REPOSITORY --host {github,gitlab} [-t TOKEN] -l {ansible,tosca} -d DEST
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -161,6 +173,7 @@ optional arguments:
   -d DEST, --destination DEST
                         destination folder to save the model
 </code></pre>
+
 <table>
 <thead>
 <tr>
@@ -222,6 +235,7 @@ If not passed in the command, the user will be prompt for inserting one. For exa
 <pre><code>radon-defect-predictor model download --path-to-repository some/path --host github -l ansible -d some/other/path/
 Github access token: ***************
 </code></pre>
+
 <p>You may want to avoid the previous step. If so, add the following to your environment variables:</p>
 <ul>
 <li>
@@ -249,7 +263,7 @@ If the project contains both Ansible and Tosca files, the user can download two 
 <p><code>path/to/model-info/model_features.json</code> - the features selected by feature selection during training. It is important to track these features so to reduce the <em>test instances</em> to the same set of features used for training. </p>
 </li>
 <li>
-<p><code>path/to/model-info/report.json</code> - the cross-validation report of model training.</p>
+<p><code>path/to/model-info/model_report.json</code> - the cross-validation report of model training.</p>
 </li>
 </ul>
 <p><strong>Important!</strong> </p>
@@ -267,8 +281,7 @@ Use the same folder only if you are overriding a model. The downloaded model wil
 <!-- ## Load from disk
 ```radon-defect-predictor model load ...```
 
-
-<pre><code class="language-prompt">usage: radon-defect-predictor model load [-h] --path-to-model PATH_TO_MODEL_DIR
+<pre><code class="prompt">usage: radon-defect-predictor model load [-h] --path-to-model PATH_TO_MODEL_DIR
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -294,7 +307,7 @@ The folder has to be structured as follows:
 &emsp;|- *model/*<br>
 &emsp;&emsp;|- *model.pkl*<br>
 &emsp;&emsp;|- *model_features.json*<br>
-&emsp;&emsp;|- *report.json*<br>
+&emsp;&emsp;|- *model_report.json*<br>
 
 Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
 -->
@@ -320,7 +333,7 @@ Information about the aforementioned files can be found [here](https://radon-h20
     
   </div>
 
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -330,7 +343,7 @@ Information about the aforementioned files can be found [here](https://radon-h20
 
   </div>
 
-  <div class="rst-versions" role="note" aria-label="versions">
+  <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
           <a href="https://github.com/radon-h2020/radon-defect-predictor/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
@@ -346,11 +359,6 @@ Information about the aforementioned files can be found [here](https://radon-h20
     <script>var base_url = '../..';</script>
     <script src="../../js/theme.js" defer></script>
       <script src="../../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
-            SphinxRtdTheme.Navigation.enable(true);
-        };
-    </script>
 
 </body>
 </html>
