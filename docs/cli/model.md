@@ -108,7 +108,7 @@ The path to the **folder** where to download the following files about the model
 
 * ```path/to/model-info/model_features.json``` - the features selected by feature selection during training. It is important to track these features so to reduce the *test instances* to the same set of features used for training. 
 
-* ```path/to/model-info/report.json``` - the cross-validation report of model training.
+* ```path/to/model-info/model_report.json``` - the cross-validation report of model training.
 
 **Important!** 
 
@@ -151,7 +151,7 @@ The folder has to be structured as follows:
 &emsp;|- *model/*<br>
 &emsp;&emsp;|- *model.pkl*<br>
 &emsp;&emsp;|- *model_features.json*<br>
-&emsp;&emsp;|- *report.json*<br>
+&emsp;&emsp;|- *model_report.json*<br>
 
 Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
 -->

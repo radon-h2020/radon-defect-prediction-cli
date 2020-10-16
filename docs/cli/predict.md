@@ -51,7 +51,7 @@ The folder has to be structured as follows:
 &emsp;|- *model/*<br>
 &emsp;&emsp;|- *model.pkl*<br>
 &emsp;&emsp;|- *model_features.json*<br>
-&emsp;&emsp;|- *report.json*<br>
+&emsp;&emsp;|- *model_report.json*<br>
 
 Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
 
@@ -73,21 +73,19 @@ This is needed to automatically extract the proper metrics (through ```radon-ans
 ## -d, --destination 
 **```radon-defect-predictor predict --d path/to/results/```**
 
-The path to the **folder** where to log the results
+The path to the **folder** where to log the results. It will save the following file:
 
-* ```path/to/model-info/model.pkl``` - the exported model in pickle format. After training a model, it is desirable to have a way to persist the model for future use without having to retrain. 
+*  `path/to/results/prediction_results.json` - a json file with the following schema:
+    ```
+    { 
+      file=<string>,
+      failure_prone=<boolean>,
+      analyzed_at=<string> 
+    }
+    ```
 
-* ```path/to/model-info/model_features.json``` - the features selected by feature selection during training. It is important to track these features so to reduce the *test instances* to the same set of features used for training. 
-
-* ```path/to/model-info/report.json``` - the cross-validation report of model training.
-
-**Important!** 
-
-* Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-predictor/cli/predict/) using the downloaded model.
-
-* Make sure you save the model and related files to a distinct folder for each repository and language (i.e., Ansible and Tosca) to avoid conflicts with existing models, features and reports.
-Use the same folder only if you are overriding a model. The downloaded model will replace the existing one.
-
+**Note:** if the file already exists, it will modified in **appended mode**. The field `analyzed_at` (YYYY-MM-DD) helps 
+to track the predictions over time for each analyzed file.
 <br>
 
 ## Examples

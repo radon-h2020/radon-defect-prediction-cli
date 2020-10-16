@@ -1,6 +1,13 @@
 import argparse
+import datetime
+import io
+import json
 import os
 import pandas as pd
+
+from ansiblemetrics import metrics_extractor
+from argparse import Namespace
+
 from .train import DefectPredictor
 
 
@@ -221,14 +228,55 @@ def get_parser():
     return parser
 
 
+def train(args: Namespace):
+    dp = DefectPredictor()
+    dp.balancers = args.balancers
+    dp.normalizers = args.normalizers
+    dp.classifiers = args.classifiers
+    dp.train(pd.read_csv(args.path_to_csv))
+    dp.dump_model(args.dest)
+    exit(0)
+
+
+def model(args: Namespace):
+    print(args)
+    exit(0)
+
+
+def predict(args: Namespace):
+    dp = DefectPredictor()
+    dp.load_model(args.path_to_model_dir)
+
+    # Read content of the script to analyze
+    with open(args.path_to_file, 'r') as f:
+        script_content = f.read()
+
+    # Extract metrics
+    if args.language == 'ansible':
+        metrics = metrics_extractor.extract_all(io.StringIO(script_content))
+    else:  # tosca
+        metrics = {}  # use toscametrics
+
+    unseen_data = pd.DataFrame(metrics, index=[0])
+    prediction = dp.predict(unseen_data)
+    report = dict(
+        file=args.path_to_file,
+        failure_prone=prediction,
+        analyzed_at=str(datetime.date.today())
+    )
+
+    with open(os.path.join(args.dest, 'prediction_report.json'), 'a') as f:
+        json.dump(report, f)
+
+    exit(0)
+
+
 def main():
     args = get_parser().parse_args()
 
-    dp = DefectPredictor(
-        data=pd.read_csv(args.path_to_csv),
-        classifiers=args.classifiers,
-        balancers=args.balancers if args.balancers else [],
-        normalizers=args.normalizers if args.normalizers else []
-    )
-
-    dp.train()
+    if args.command == 'train':
+        train(args)
+    elif args.command == 'model':
+        model(args)
+    elif args.command == 'predict':
+        predict(args)

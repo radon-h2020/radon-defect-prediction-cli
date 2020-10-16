@@ -9,5 +9,5 @@ classifiers_map = {
     'nb': GaussianNB(),
     'logit': LogisticRegression(),
     'rf': RandomForestClassifier(),
-    'svc': SVC()
+    'svm': SVC()
 }

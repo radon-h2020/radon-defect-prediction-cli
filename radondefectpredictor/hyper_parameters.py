@@ -39,9 +39,9 @@ svc_params = dict(
 )
 
 search_params_map = {
-    'decision-tree': decision_tree_params,
-    'naive-bayes': naive_params,
-    'logistic-regression': logistic_params,
-    'random-forest': random_forest_params,
-    'svc': svc_params
+    'dt': decision_tree_params,
+    'nb': naive_params,
+    'logit': logistic_params,
+    'rf': random_forest_params,
+    'svm': svc_params
 }

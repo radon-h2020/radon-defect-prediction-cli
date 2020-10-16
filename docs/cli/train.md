@@ -103,14 +103,14 @@ It generates the following files:
 
 * ```path/to/report/model_features.json``` - the features selected by feature selection during training. It is important to track these features so to reduce the *test instances* to the same set of features used for training. 
 
-* ```path/to/report/report.json``` - the cross-validation report of model training.
+* ```path/to/report/model_report.json``` - the cross-validation report of model training.
 
 **Important!** 
 
 * Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-predictor/cli/predict/) using the trained model.
 
 * Make sure you create a distinct folder for each repository to avoid conflicts with existing models, features and reports.
-Use the same folder only if you are re-training a model. The new model will replace the existing one only if its *average precision* (a.k.a. AUC-PR) is higher than the one of the current model (present in *path/to/report/report.json*).  
+Use the same folder only if you are re-training a model. The new model will replace the existing one only if its *average precision* (a.k.a. AUC-PR) is higher than the one of the current model (present in *path/to/report/model_report.json*).  
 
 
 ## Examples
@@ -136,7 +136,7 @@ This command loads the csv file and prepares it for training.
 Afterwards, it (1) uses the Random Under-Sampling balancer to balance the training data (```rus```), or none (```none```);
 (2) normalizes the data within the range [0,1] (```minmax```); and (3) uses the DecisionTree and LogisticRegression classifiers (```dt logit``` , respectively).
 
-Finally, the best model (```model.pkl```), selected features (```model_features.json```), and cross-validation report (```report.json```) are saved into ```path/to/molecule_reports/```.
+Finally, the best model (```model.pkl```), selected features (```model_features.json```), and cross-validation report (```model_report.json```) are saved into ```path/to/molecule_reports/```.
 You can see them by running
 
 ```
