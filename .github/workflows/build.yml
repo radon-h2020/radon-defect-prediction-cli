@@ -32,10 +32,9 @@ jobs:
       run: |
         sudo apt-get install unzip
         sudo unzip test_data.zip -d .
-        sudo chmod 777 test_data
+        sudo chmod 777 -R test_data
     - name: Install and test with unittest
       run: |
         pip install .
         sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/radon-defect-predictor /usr/local/bin
-        umask 777
         pytest -s
