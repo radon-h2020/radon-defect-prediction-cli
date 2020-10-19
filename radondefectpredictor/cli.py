@@ -3,9 +3,13 @@ import io
 import json
 import os
 import pandas as pd
+import requests
 
 from ansiblemetrics import metrics_extractor
 from argparse import ArgumentParser, ArgumentTypeError, Namespace
+from dotenv import load_dotenv
+from getpass import getpass
+from repositoryscorer import scorer
 
 from .train import DefectPredictor
 
@@ -178,6 +182,20 @@ def set_download_model_parser(subparsers):
                         type=str,
                         help='the Github or Gitlab personal access token')
 
+    parser.add_argument('-o', '--owner',
+                        required=True,
+                        action='store',
+                        dest='repository_owner',
+                        type=str,
+                        help='the repository owner')
+
+    parser.add_argument('-n', '--name',
+                        required=True,
+                        action='store',
+                        dest='repository_name',
+                        type=str,
+                        help='the repository name')
+
     parser.add_argument('-l', '--language',
                         required=True,
                         action='store',
@@ -192,18 +210,6 @@ def set_download_model_parser(subparsers):
                         dest='dest',
                         type=valid_dir,
                         help='destination folder to save the model')
-
-
-"""
-def set_load_model_parser(subparsers):
-    parser = subparsers.add_parser('load', help='Load a pre-trained model from the disk')
-    parser.add_argument('--path-to-model',
-                        required=True,
-                        action='store',
-                        dest='path_to_model_dir',
-                        type=valid_dir,
-                        help='path to the folder containing the model report')
-"""
 
 
 def set_model_parser(subparsers):
@@ -238,7 +244,48 @@ def train(args: Namespace):
 
 
 def model(args: Namespace):
-    print(args)
+    load_dotenv()
+
+    if not (args.token or os.getenv('GITHUB_ACCESS_TOKEN')):
+        args.token = getpass('Github access token:')
+    elif not args.token:
+        args.token = os.getenv('GITHUB_ACCESS_TOKEN')
+
+    # TODO deal --host and --language
+    print('Downloading model...')
+    scores = scorer.score_repository(
+        path_to_repo=args.path_to_repository,
+        access_token=args.token,
+        repo_owner=args.repository_owner,
+        repo_name=args.repository_name
+    )
+
+    #TODO update depending on API body
+    scores['commitFrequency'] = scores['commit_frequency']
+    scores['coreContributors'] = scores['core_contributors']
+    scores['issueFrequency'] = scores['issue_frequency']
+    scores['percentComments'] = scores['percent_comment']
+    scores['percentIac'] = scores['iac_ratio']
+    scores['sloc'] = scores['repository_size']
+
+    url = 'https://radon.giovanni.pink/api/models/pre-trained-model'
+    response = requests.post(url, json=scores)
+
+    if response.status_code != 200:
+        print(f'Response returned status: {response.status_code}')
+        exit(1)
+
+    response_body = response.json()
+
+    if response_body['model']:
+        with open(os.path.join(args.dest, 'model.pkl'), 'w') as f:
+            f.write(response_body['model'])
+
+    if response_body['attributes']:
+        with open(os.path.join(args.dest, 'model_features.json'), 'w') as f:
+            json.dump(response_body['attributes'], f)
+
+    print('Done!')
     exit(0)
 
 
@@ -272,10 +319,9 @@ def predict(args: Namespace):
 
 def main():
     args = get_parser().parse_args()
-
     if args.command == 'train':
         train(args)
-    elif args.command == 'model':
+    elif args.command == 'download':
         model(args)
     elif args.command == 'predict':
         predict(args)

@@ -28,6 +28,10 @@ optional arguments:
                         whether the repository is hosted on Github or Gitlab
   -t TOKEN, --token TOKEN
                         the Github or Gitlab personal access token
+  -o, --owner REPOSITORY_OWNER
+                        the repository owner
+  -n, --name REPOSITORY_NAME
+                        the repository name
   -l {ansible,tosca}, --language {ansible,tosca}
                         the language of the file (i.e., TOSCA or YAML-based Ansible)
   -d DEST, --destination DEST
@@ -83,15 +87,24 @@ radon-defect-predictor model download --path-to-repository some/path --host gith
 Github access token: ***************
 ```
 
-You may want to avoid the previous step. If so, add the following to your environment variables:
+!!! note "Planned! Not currently supported"
+    You may want to avoid the previous step. If so, add the following to your environment variables:
+    
+    * ```GITHUB_ACCESS_TOKEN=<paste here your token>``` for Github, and/or
+    
+    * ```GITLAB_ACCESS_TOKEN=<paste here your token>``` for Gitlab.
 
-* ```GITHUB_ACCESS_TOKEN=<paste here your token>``` for Github, and/or
-
-* ```GITLAB_ACCESS_TOKEN=<paste here your token>``` for Gitlab.
+ 
+### -o, --owner
+```radon-defect-predictor model download -o radon-h2020``` <br>
+ 
+### -n, --name
+```radon-defect-predictor model download -o radon-defect-predictor``` <br>
+ 
  
 ### -l, --language
-```radon-defect-predictor model download --l ansible``` <br>
-```radon-defect-predictor model download --l tosca```
+```radon-defect-predictor model download -l ansible``` <br>
+```radon-defect-predictor model download -l tosca```
 
 Every models are trained for a specific language. 
 To download the proper model the user must specify the language (s)he wants to apply it to.
