@@ -40,6 +40,7 @@ jobs:
       env:
         GITHUB_ACCESS_TOKEN: ${{ secrets.RADON_GITHUB_ACCESS_TOKEN }}
       run: |
+        echo $GITHUB_ACCESS_TOKEN
         pip install .
         sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/radon-defect-predictor /usr/local/bin
         pip install pytest
