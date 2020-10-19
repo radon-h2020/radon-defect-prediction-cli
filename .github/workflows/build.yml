@@ -29,11 +29,9 @@ jobs:
         sudo apt-get install unzip
         sudo unzip test_data.zip -d .
     - name: Install and test with unittest
-      env:
-        TEST_TOKEN: ${{ secrets.RADON_GITHUB_ACCESS_TOKEN }}
       run: |
         printenv
-        export TEST_TOKEN
+        export TEST_TOKEN=${{ secrets.RADON_GITHUB_ACCESS_TOKEN }}
         pip install .
         sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/radon-defect-predictor /usr/local/bin
         pip install pytest python-dotenv
