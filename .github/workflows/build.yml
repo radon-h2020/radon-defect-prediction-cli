@@ -33,12 +33,13 @@ jobs:
         sudo unzip test_data.zip -d .
     - name: Export env variable
       run: |
-        export GITHUB_ACCESS_TOKEN=${{ secrets.RADON_GITHUB_ACCESS_TOKEN }}
+        export GITHUB_ACCESS_TOKEN
         printenv
     - name: Install and test with unittest
       run: |
-        pip install .
-        sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/radon-defect-predictor /usr/local/bin
-        pip install pytest python-dotenv
-        sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/pytest /usr/local/bin
+      #  pip install .
+      #  sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/radon-defect-predictor /usr/local/bin
+      #  pip install pytest python-dotenv
+      #  sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/pytest /usr/local/bin
+        pip install pytest
         sudo pytest -s
