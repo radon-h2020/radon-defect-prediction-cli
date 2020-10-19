@@ -2,8 +2,6 @@
 .idea
 test_data/
 bin/
-lib64
-pyvenv.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
