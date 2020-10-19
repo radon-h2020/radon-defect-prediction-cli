@@ -30,7 +30,7 @@ jobs:
         sudo unzip test_data.zip -d .
     - name: Install and test with unittest
       env:
-        GITHUB_ACCESS_TOKEN: ${{ secrets.RADON_GITHUB_ACCESS_TOKEN }}
+        TEST_TOKEN: ${{ secrets.RADON_GITHUB_ACCESS_TOKEN }}
       run: |
         printenv
         pip install .

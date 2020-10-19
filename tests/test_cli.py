@@ -27,7 +27,9 @@ class CLITestCase(unittest.TestCase):
 
     def test_model(self):
         load_dotenv()
-        access_token = os.getenv('GITHUB_ACCESS_TOKEN')
+        access_token = os.getenv('TEST_TOKEN')
+        print(os.environ)
+        print('-----------')
         print(access_token)
 
         command = """
