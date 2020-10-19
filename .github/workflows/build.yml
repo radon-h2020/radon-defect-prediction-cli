@@ -30,4 +30,4 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Install and test with unittest
       run: |
-        sudo pytest -s
+        pytest -s
