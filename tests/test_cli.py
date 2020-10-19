@@ -39,6 +39,8 @@ class CLITestCase(unittest.TestCase):
 
     def test_model(self):
         load_dotenv()
+        print('=====: ' + os.getenv('GITHUB_ACCESS_TOKEN'))
+
         command = """
         radon-defect-predictor model download --path-to-repository {0} --host github -t {1} -o ANXS -n postgresql -l ansible -d {2}
         """.format(os.path.join(self.test_repositories, 'postgresql'),
