@@ -7,22 +7,22 @@ class CLITestCase(unittest.TestCase):
     test_model_folder = None
 
     @classmethod
-    def setUpClass(cls) -> None:
-        # Install command
-        os.system('pip install .')
+    def setUpClass(cls):
         cls.test_model_folder = os.path.join(os.getcwd(), 'test_data', 'model')
         cls.test_trained_model_folder = os.path.join(os.getcwd(), 'test_data', 'trained_model')
         os.mkdir(cls.test_model_folder)
 
     @classmethod
-    def tearDownClass(cls) -> None:
+    def tearDownClass(cls):
         shutil.rmtree(cls.test_model_folder)
 
     def test_train(self):
-        result = os.system(
-            f'radon-defect-predictor train --path-to-csv {os.path.join(os.getcwd(), "test_data", "train_set.csv")} '
-            f'--balancers "none rus ros" --normalizers "none minmax std" --classifiers "nb" '
-            f'--destination {self.test_model_folder}')
+        command = """radon-defect-predictor train --path-to-csv {0} --balancers "none rus ros" \
+                  --normalizers "none minmax std" --classifiers "nb" --destination {1} \
+                  """.format(os.path.join(os.getcwd(), "test_data", "train_set.csv"), self.test_model_folder)
+
+        print(command)
+        result = os.system(command)
 
         assert (0 == result)
         assert os.path.isfile(os.path.join(self.test_model_folder, 'model.pkl'))
@@ -33,12 +33,17 @@ class CLITestCase(unittest.TestCase):
         pass
 
     def test_predict(self):
-        result = os.system(f'radon-defect-predictor predict --path-to-model {self.test_trained_model_folder} '
-                           f'--path-to-file {os.path.join(os.getcwd(), "test_data", "an_ansible_playbook.yml")} '
-                           f'-l ansible --destination {self.test_model_folder}')
+        command = """
+        radon-defect-predictor predict --path-to-model {0} --path-to-file {1} -l ansible --d {2}
+        """.format(self.test_trained_model_folder,
+                   os.path.join(os.getcwd(), "test_data", "an_ansible_playbook.yml"),
+                   self.test_model_folder)
+
+        result = os.system(command)
 
         assert (0 == result)
         assert os.path.isfile(os.path.join(self.test_model_folder, 'prediction_report.json'))
+
 
 if __name__ == '__main__':
     unittest.main()

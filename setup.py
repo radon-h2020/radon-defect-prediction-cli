@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 VERSION = '0.1.0'
 
-setup(name='repository-miner',
+setup(name='radon-defect-predictor',
       version=VERSION,
       description='A Python library to train machine learning models for defect prediction of infrastructure code.',
       long_description=long_description,
@@ -19,7 +19,7 @@ setup(name='repository-miner',
       maintainer='Stefano Dalla Palma',
       author_email='stefano.dallapalma0@gmail.com',
       url='https://github.com/radon-h2020/radon-defect-predictor',
-      download_url=f'https://github.com/radon-h2020/radon-defect-predictor/archive/{VERSION}.tar.gz',
+      download_url='https://github.com/radon-h2020/radon-defect-predictor/archive/{0}.tar.gz'.format(VERSION),
       packages=find_packages(exclude=('tests',)),
       entry_points={
           'console_scripts': ['radon-defect-predictor=radondefectpredictor.cli:main'],

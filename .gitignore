@@ -1,6 +1,7 @@
 # Custom files
 .idea
 test_data/
+bin/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
