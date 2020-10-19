@@ -35,4 +35,5 @@ jobs:
         sudo chmod 777 test_data
     - name: Install and test with unittest
       run: |
+        pip install --prefix=/usr/local/ .
         pytest -s
