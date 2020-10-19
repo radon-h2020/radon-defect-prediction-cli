@@ -11,7 +11,7 @@ class CLITestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         load_dotenv()
-        print(os.getenv('GITHUB_ACCESS_TOKEN'))
+        print(os.getenv('INPUT_GITHUB_ACCESS_TOKEN'))
 
         cls.test_repositories = os.path.join(os.getcwd(), 'test_data', 'repositories')
         cls.test_trained_model_folder = os.path.join(os.getcwd(), 'test_data', 'trained_model')
