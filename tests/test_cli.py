@@ -11,8 +11,6 @@ class CLITestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        load_dotenv()
-
         cls.test_repositories = os.path.join(os.getcwd(), 'test_data', 'repositories')
         cls.test_trained_model_folder = os.path.join(os.getcwd(), 'test_data', 'trained_model')
 
@@ -32,7 +30,6 @@ class CLITestCase(unittest.TestCase):
                   --normalizers "none minmax std" --classifiers "nb" --destination {1} \
                   """.format(os.path.join(os.getcwd(), "test_data", "train_set.csv"), self.test_model_folder)
 
-        print(command)
         result = os.system(command)
 
         assert (0 == result)
@@ -41,6 +38,7 @@ class CLITestCase(unittest.TestCase):
         assert os.path.isfile(os.path.join(self.test_model_folder, 'model_report.json'))
 
     def test_model(self):
+        load_dotenv()
         command = """
         radon-defect-predictor model download --path-to-repository {0} --host github -t {1} -o ANXS -n postgresql -l ansible -d {2}
         """.format(os.path.join(self.test_repositories, 'postgresql'),
