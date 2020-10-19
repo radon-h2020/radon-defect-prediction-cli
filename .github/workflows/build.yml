@@ -33,5 +33,6 @@ jobs:
         sudo unzip test_data.zip -d .
     - name: Install and test with unittest
       run: |
-        pip install pytest
+        pip install pytest python-dotenv
+        sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/pytest /usr/local/bin
         sudo pytest -s
