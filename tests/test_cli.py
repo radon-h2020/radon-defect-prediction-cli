@@ -4,6 +4,7 @@ import shutil
 
 from dotenv import load_dotenv
 
+
 class CLITestCase(unittest.TestCase):
     test_model_folder = None
     test_download_model_folder = None
@@ -43,7 +44,7 @@ class CLITestCase(unittest.TestCase):
         command = """
         radon-defect-predictor model download --path-to-repository {0} --host github -t {1} -o ANXS -n postgresql -l ansible -d {2}
         """.format(os.path.join(self.test_repositories, 'postgresql'),
-                   os.getenv('INPUT_GITHUB_ACCESS_TOKEN'),
+                   os.getenv('GITHUB_ACCESS_TOKEN'),
                    self.test_download_model_folder)
 
         result = os.system(command)
