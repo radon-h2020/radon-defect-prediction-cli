@@ -29,7 +29,9 @@ jobs:
         sudo apt-get install unzip
         sudo unzip test_data.zip -d .
     - name: Export env variable
-      run: export TEST_TOKEN=${{ secrets.RADON_GITHUB_ACCESS_TOKEN }}
+      run: |
+        export TEST_TOKEN=${{ secrets.RADON_GITHUB_ACCESS_TOKEN }}
+        printenv
     - name: Install and test with unittest
       run: |
         pip install .
