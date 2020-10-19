@@ -1,4 +1,3 @@
-import argparse
 import datetime
 import io
 import json
@@ -6,7 +5,7 @@ import os
 import pandas as pd
 
 from ansiblemetrics import metrics_extractor
-from argparse import Namespace
+from argparse import ArgumentParser, ArgumentTypeError, Namespace
 
 from .train import DefectPredictor
 
@@ -18,7 +17,7 @@ def valid_dir(x: str) -> str:
     :return: the path if exists; raise an ArgumentTypeError otherwise
     """
     if not os.path.isdir(x):
-        raise argparse.ArgumentTypeError('Insert a valid path')
+        raise ArgumentTypeError('Insert a valid path')
 
     return x
 
@@ -30,7 +29,7 @@ def valid_file(x: str) -> str:
     :return: the path if exists; raise an ArgumentTypeError otherwise
     """
     if not os.path.isfile(x):
-        raise argparse.ArgumentTypeError('Insert a valid path')
+        raise ArgumentTypeError('Insert a valid path')
 
     return x
 
@@ -44,7 +43,7 @@ def valid_balancers(x: str):
     balancers = x.split(' ')
     for balancer in balancers:
         if balancer not in ('none', 'rus', 'ros'):
-            raise argparse.ArgumentTypeError(f'{balancer} is not a valid argument')
+            raise ArgumentTypeError(f'{balancer} is not a valid argument')
 
     return balancers
 
@@ -58,7 +57,7 @@ def valid_normalizers(x: str):
     normalizers = x.split(' ')
     for normalizer in normalizers:
         if normalizer not in ('none', 'minmax', 'std'):
-            raise argparse.ArgumentTypeError(f'{normalizer} is not a valid argument')
+            raise ArgumentTypeError(f'{normalizer} is not a valid argument')
 
     return normalizers
 
@@ -72,7 +71,7 @@ def valid_classifiers(x: str):
     classifiers = x.split(' ')
     for classifier in classifiers:
         if classifier not in ('dt', 'logit', 'nb', 'rf', 'svm'):
-            raise argparse.ArgumentTypeError(f'{classifier} is not a valid argument')
+            raise ArgumentTypeError(f'{classifier} is not a valid argument')
 
     return classifiers
 
@@ -217,7 +216,7 @@ def set_model_parser(subparsers):
 def get_parser():
     description = 'A Python library to train machine learning models for defect prediction of infrastructure code'
 
-    parser = argparse.ArgumentParser(prog='radon-defect-predictor', description=description)
+    parser = ArgumentParser(prog='radon-defect-predictor', description=description)
     parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.1.0')
     subparsers = parser.add_subparsers(dest='command')
 
