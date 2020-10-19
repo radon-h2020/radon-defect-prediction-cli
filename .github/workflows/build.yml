@@ -32,7 +32,7 @@ jobs:
       run: |
         sudo apt-get install unzip
         sudo unzip test_data.zip -d .
-        sudo find test_data -type d exec chmod 755 {} \;
+        sudo chmod 755 test_data
     - name: Install and test with unittest
       run: |
         pytest -s
