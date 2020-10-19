@@ -4,6 +4,7 @@ import shutil
 
 from dotenv import load_dotenv
 
+
 class CLITestCase(unittest.TestCase):
     test_model_folder = None
     test_download_model_folder = None
@@ -11,6 +12,7 @@ class CLITestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         load_dotenv()
+
         cls.test_repositories = os.path.join(os.getcwd(), 'test_data', 'repositories')
         cls.test_trained_model_folder = os.path.join(os.getcwd(), 'test_data', 'trained_model')
 
@@ -30,7 +32,6 @@ class CLITestCase(unittest.TestCase):
                   --normalizers "none minmax std" --classifiers "nb" --destination {1} \
                   """.format(os.path.join(os.getcwd(), "test_data", "train_set.csv"), self.test_model_folder)
 
-        print(command)
         result = os.system(command)
 
         assert (0 == result)
