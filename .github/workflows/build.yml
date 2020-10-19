@@ -28,6 +28,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Unzip folder containing test data
+      run: |
+        sudo apt-get install unzip
+        sudo umask 777
+        sudo unzip test_data.zip -d .
     - name: Install and test with unittest
       run: |
         pytest -s
