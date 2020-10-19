@@ -35,5 +35,6 @@ jobs:
         sudo chmod 777 test_data
     - name: Install and test with unittest
       run: |
-        pip install --prefix=/usr/local/ .
+        pip install .
+        sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/radon-defect-predictor /usr/local/bin
         pytest -s
