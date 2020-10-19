@@ -37,4 +37,5 @@ jobs:
       run: |
         pip install .
         sudo mv /opt/hostedtoolcache/Python/3.8.6/x64/bin/radon-defect-predictor /usr/local/bin
+        umask 777
         pytest -s
