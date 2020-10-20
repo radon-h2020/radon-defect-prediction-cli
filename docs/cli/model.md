@@ -3,7 +3,7 @@
 ```radon-defect-predictor model```
 
 ```text
-usage: radon-defect-predictor model [-h] {download,load} ...
+usage: radon-defect-predictor model [-h] {download} ...
 
 positional arguments:
   {download}
@@ -42,6 +42,8 @@ optional arguments:
 |:---|:---|
 | --path-to-repository | True |
 | --host | True |
+| -o --owner | True |
+| -n --name | True |
 | -t, --token | True |
 | -l, --language | True |
 | -d, --destination | True |
@@ -133,3 +135,27 @@ The path to the **folder** where to download the following files about the model
 
     
 ### Examples
+
+Git clone the repository to analyze, say **ansible-community/molecule**:
+
+`git clone https://github.com/ansible-community/molecule.git`
+
+Create a new folder to save the downloaded mode-related files and run the `radon-defect-predictor model download` command:
+
+```text
+cd molecule
+mkdir downloaded_model
+```
+
+Then, run:
+
+`radon-defect-predictor model download --path-to-repository . --host github -t ***** -o ansible-community -n molecule -l ansible -d downloaded_model`
+
+You should be now able to see the following files:
+
+```text
+cd downloaded_model
+ls
+
+model.pkl model_features.json
+```

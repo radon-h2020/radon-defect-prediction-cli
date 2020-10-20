@@ -93,3 +93,18 @@ to track the predictions over time for each analyzed file.
 <br>
 
 ## Examples
+
+Download a pre-trained model as described [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#Examples).
+Create folder for reports: `mkdir predictions`
+Then run:
+
+`radon-defect-predictor predict --path-to-model path/to/downloaded_model --path-to-file path/to/ansible_file.yml -l ansible --d path/to/predictions`
+
+You can now see the report:
+
+```text
+cd predictions
+ls
+
+prediction_results.json
+```

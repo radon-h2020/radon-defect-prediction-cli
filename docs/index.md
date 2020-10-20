@@ -4,10 +4,22 @@ The RADON Defect Predictor is a Python library and a command-line tool to train 
 
 ## How to install
 
+From PyPIP: **available soon**
+
+
 From source code:
 
 ```text
 git clone https://github.com/radon-h2020/radon-defect-predictor.git
 cd radon-defect-predictor
 pip install .
+```
+
+
+## How to test
+
+```text
+pip install pytest
+unzip test_data.zip -d .
+pytest tests/
 ```
