@@ -115,7 +115,7 @@
 
 <h1 id="download-a-pre-trained-model">Download a pre-trained model</h1>
 <p><code>radon-defect-predictor model</code></p>
-<pre><code class="text">usage: radon-defect-predictor model [-h] {download,load} ...
+<pre><code class="text">usage: radon-defect-predictor model [-h] {download} ...
 
 positional arguments:
   {download}
@@ -137,6 +137,10 @@ optional arguments:
                         whether the repository is hosted on Github or Gitlab
   -t TOKEN, --token TOKEN
                         the Github or Gitlab personal access token
+  -o, --owner REPOSITORY_OWNER
+                        the repository owner
+  -n, --name REPOSITORY_NAME
+                        the repository name
   -l {ansible,tosca}, --language {ansible,tosca}
                         the language of the file (i.e., TOSCA or YAML-based Ansible)
   -d DEST, --destination DEST
@@ -157,6 +161,14 @@ optional arguments:
 </tr>
 <tr>
 <td align="left">--host</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">-o --owner</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">-n --name</td>
 <td align="left">True</td>
 </tr>
 <tr>
@@ -205,6 +217,8 @@ If not passed in the command, the user will be prompt for inserting one. For exa
 Github access token: ***************
 </code></pre>
 
+<div class="admonition note">
+<p class="admonition-title">Planned! Not currently supported</p>
 <p>You may want to avoid the previous step. If so, add the following to your environment variables:</p>
 <ul>
 <li>
@@ -214,9 +228,14 @@ Github access token: ***************
 <p><code>GITLAB_ACCESS_TOKEN=&lt;paste here your token&gt;</code> for Gitlab.</p>
 </li>
 </ul>
+</div>
+<h3 id="-o-owner">-o, --owner</h3>
+<p><code>radon-defect-predictor model download -o radon-h2020</code> <br></p>
+<h3 id="-n-name">-n, --name</h3>
+<p><code>radon-defect-predictor model download -o radon-defect-predictor</code> <br></p>
 <h3 id="-l-language">-l, --language</h3>
-<p><code>radon-defect-predictor model download --l ansible</code> <br>
-<code>radon-defect-predictor model download --l tosca</code></p>
+<p><code>radon-defect-predictor model download -l ansible</code> <br>
+<code>radon-defect-predictor model download -l tosca</code></p>
 <p>Every models are trained for a specific language. 
 To download the proper model the user must specify the language (s)he wants to apply it to.
 Ansible and TOSCA are currently supported.
@@ -248,7 +267,22 @@ Use the same folder only if you are overriding a model. The downloaded model wil
 </ul>
 </div>
 <p><br></p>
-<h3 id="examples">Examples</h3></div>
+<h3 id="examples">Examples</h3>
+<p>Git clone the repository to analyze, say <strong>ansible-community/molecule</strong>:</p>
+<p><code>git clone https://github.com/ansible-community/molecule.git</code></p>
+<p>Create a new folder to save the downloaded mode-related files and run the <code>radon-defect-predictor model download</code> command:</p>
+<pre><code class="text">cd molecule
+mkdir downloaded_model
+</code></pre>
+
+<p>Then, run:</p>
+<p><code>radon-defect-predictor model download --path-to-repository . --host github -t ***** -o ansible-community -n molecule -l ansible -d downloaded_model</code></p>
+<p>You should be now able to see the following files:</p>
+<pre><code class="text">cd downloaded_model
+ls
+
+model.pkl model_features.json
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">

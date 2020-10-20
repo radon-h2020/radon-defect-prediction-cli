@@ -109,6 +109,7 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#radon-defect-predictor">RADON Defect Predictor</a></li>
             <li><a href="#how-to-install">How to install</a></li>
+            <li><a href="#how-to-test">How to test</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -116,10 +117,17 @@
 <h1 id="radon-defect-predictor">RADON Defect Predictor</h1>
 <p>The RADON Defect Predictor is a Python library and a command-line tool to train and use Machine-Learning models for infrastructure code defect prediction.</p>
 <h2 id="how-to-install">How to install</h2>
+<p>From PyPIP: <strong>available soon</strong></p>
 <p>From source code:</p>
 <pre><code class="text">git clone https://github.com/radon-h2020/radon-defect-predictor.git
 cd radon-defect-predictor
 pip install .
+</code></pre>
+
+<h2 id="how-to-test">How to test</h2>
+<pre><code class="text">pip install pytest
+unzip test_data.zip -d .
+pytest tests/
 </code></pre></div>
         </div>
 

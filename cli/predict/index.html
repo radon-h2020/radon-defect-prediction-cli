@@ -212,7 +212,17 @@ This is needed to automatically extract the proper metrics (through <code>radon-
 <p><strong>Note:</strong> if the file already exists, it will modified in <strong>appended mode</strong>. The field <code>analyzed_at</code> (YYYY-MM-DD) helps 
 to track the predictions over time for each analyzed file.
 <br></p>
-<h2 id="examples">Examples</h2></div>
+<h2 id="examples">Examples</h2>
+<p>Download a pre-trained model as described <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/model/#Examples">here</a>.
+Create folder for reports: <code>mkdir predictions</code>
+Then run:</p>
+<p><code>radon-defect-predictor predict --path-to-model path/to/downloaded_model --path-to-file path/to/ansible_file.yml -l ansible --d path/to/predictions</code></p>
+<p>You can now see the report:</p>
+<pre><code class="text">cd predictions
+ls
+
+prediction_results.json
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">

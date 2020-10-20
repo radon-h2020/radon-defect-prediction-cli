@@ -107,11 +107,55 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#api-reference">API Reference</a></li>
+            <li><a href="#traindefectpredictor">train.DefectPredictor</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
+<h1 id="api-reference">API Reference</h1>
+<h2 id="traindefectpredictor">train.DefectPredictor</h2>
+<p>This module includes one class, DefectPredictor, representing a defect predictor.</p>
+<div class="admonition note">
+<p class="admonition-title">class radondefectpredictor.train.DefectPredictor()</p>
+<p>Class representing a defect predictor. It contains the logic to train a model, save and load a model from the disk, use that model to predict unseen instances.</p>
 </div>
+<p><code>__init__()</code></p>
+<p>Init the DefectPredictor</p>
+<p><code>balancers() -&gt; list</code></p>
+<p>Return the list of instances used to balance the train data.</p>
+<p><code>balancers(balancers:List[str]) -&gt; None</code></p>
+<p>Set the balancers to train the model.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>balancers</strong>(List[str]) - a list of balancers (e.g.,  <code>[none, rus, ros]</code>) <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>ValueError</strong> - if one or more balancers are not in <code>[none, rus, ros]</code></p>
+<p><code>normalizers() -&gt; list</code></p>
+<p>Return the list of instances used to normalize train and test data.</p>
+<p><code>normalizers(normalizers:List[str]) -&gt; None</code></p>
+<p>Set the normalizers to scale data.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>normalizers</strong>(List[str]) - a list of normalizers (e.g.,  <code>[none, minmax, std]</code>) <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>ValueError</strong> - if one or more normalizers are not in <code>[none, minmax, std]</code></p>
+<p><code>classifiers()</code></p>
+<p>Return the list of instances used to train the model classifier.</p>
+<p><code>classifiers(classifiers:List[str])</code></p>
+<p>Set the balancers to train the model.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>classifiers</strong>(List[str]) - a list of classifiers (e.g.,  <code>[dt, logit, nb, rf, svm]</code>) <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>ValueError</strong> - if one or more normalizers are not in <code>[dt, logit, nb, rf, svm]</code></p>
+<p><code>train(data:pandas.DataFrame) -&gt; imblearn.pipeline.Pipeline</code>
+Train a new model</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>data</strong>(pandas.DataFrame) - the train data consisting of metrics and metadata about <em>clean</em> and <em>failure_prone</em> scripts <br>
+&emsp;&emsp;<strong>Return:</strong> the best fitted estimator, that is, the one that maximizes the average_precision <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>Fail</strong> - if columns <code>failure_prone</code>, <code>commit</code>, <code>committed_at</code>, <code>filepath</code> are not in <code>data</code></p>
+<p><code>predict(unseed_data:pandas.DataFrame) -&gt; bool</code>
+Predict an unseen instance as failure-prone or clean.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>data</strong>(pandas.DataFrame) - the unseen data consisting of the observations to predict <br>
+&emsp;&emsp;<strong>Return:</strong> <em>True</em> if <em>failure-prone</em>; <em>False</em> otherwise <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>Exception</strong> - if no model has been loaded.</p>
+<p><code>load_model(path_to_model_dir: str) -&gt; None</code>
+Load a model from the disk.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>path_to_model_dir</strong>(str) - the path to the directory containing model-related files <br></p>
+<p><code>dump_model(path_to_model_dir: str) -&gt; None</code>
+Dump the trained model to the disk.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>path_to_model_dir</strong>(str) - the path to the directory where to save model-related files <br></p></div>
         </div>
 
         <footer class="col-md-12">
