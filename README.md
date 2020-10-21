@@ -1,10 +1,7 @@
-
-<p align="center">
-
-<a href="https://github.com/radon-h2020/radon-defect-predictor/actions?query=workflow=Build"><img alt="GitHub Actions status" src="https://github.com/radon-h2020/radon-defect-predictor/workflows/Build/badge.svg?branch=main"></a>
-<a href="https://lgtm.com/projects/g/radon-h2020/radon-defect-predictor/context:python"><img alt="Language grade: Python" src="https://img.shields.io/lgtm/grade/python/g/radon-h2020/radon-defect-predictor.svg?logo=lgtm&logoWidth=18"></a>
-<a href="https://lgtm.com/projects/g/radon-h2020/radon-defect-predictor/context:python"><img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/radon-h2020/radon-defect-predictor.svg?logo=lgtm&logoWidth=18"></a>
-</p>
+![Build](https://github.com/radon-h2020/radon-defect-predictor/workflows/Build/badge.svg)
+![Documentation](https://github.com/radon-h2020/radon-defect-predictor/workflows/Documentation/badge.svg)
+![LGTM Grade](https://img.shields.io/lgtm/grade/python/github/radon-h2020/radon-defect-predictor)
+![LGTM Alerts](https://img.shields.io/lgtm/alerts/github/radon-h2020/radon-defect-predictor)
 
 # radon-defect-predictor
 The RADON command-line client for Infrastructure-as-Code Defect Prediction.

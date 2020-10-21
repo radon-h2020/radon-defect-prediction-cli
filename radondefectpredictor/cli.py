@@ -182,19 +182,12 @@ def set_download_model_parser(subparsers):
                         type=str,
                         help='the Github or Gitlab personal access token')
 
-    parser.add_argument('-o', '--owner',
+    parser.add_argument('-r', '--repository',
                         required=True,
                         action='store',
-                        dest='repository_owner',
+                        dest='repository_full_name_or_id',
                         type=str,
-                        help='the repository owner')
-
-    parser.add_argument('-n', '--name',
-                        required=True,
-                        action='store',
-                        dest='repository_name',
-                        type=str,
-                        help='the repository name')
+                        help='the repository full name or id (e.g., radon-h2020/radon-defect-predictor)')
 
     parser.add_argument('-l', '--language',
                         required=True,
@@ -256,8 +249,8 @@ def model(args: Namespace):
     scores = scorer.score_repository(
         path_to_repo=args.path_to_repository,
         access_token=args.token,
-        repo_owner=args.repository_owner,
-        repo_name=args.repository_name
+        full_name_or_id=args.repository_full_name_or_id,
+        host=args.host
     )
 
     #TODO update depending on API body

@@ -28,10 +28,8 @@ optional arguments:
                         whether the repository is hosted on Github or Gitlab
   -t TOKEN, --token TOKEN
                         the Github or Gitlab personal access token
-  -o, --owner REPOSITORY_OWNER
-                        the repository owner
-  -n, --name REPOSITORY_NAME
-                        the repository name
+  -r, --repository REPOSITORY_FULL_NAME_OR_ID
+                        the repository full name or id (e.g., radon-h2020/radon-defect-predictor)
   -l {ansible,tosca}, --language {ansible,tosca}
                         the language of the file (i.e., TOSCA or YAML-based Ansible)
   -d DEST, --destination DEST
@@ -96,13 +94,8 @@ Github access token: ***************
     
     * ```GITLAB_ACCESS_TOKEN=<paste here your token>``` for Gitlab.
 
- 
-### -o, --owner
-```radon-defect-predictor model download -o radon-h2020``` <br>
- 
-### -n, --name
-```radon-defect-predictor model download -o radon-defect-predictor``` <br>
- 
+### -r, --repository REPOSITORY_FULL_NAME_OR_ID
+    the repository full name or id (e.g., radon-h2020/radon-defect-predictor)
  
 ### -l, --language
 ```radon-defect-predictor model download -l ansible``` <br>
