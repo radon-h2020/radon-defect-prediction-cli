@@ -1,6 +1,6 @@
 # This workflow deploy the documentation via GitHub Pages
 
-name: Publish docs via GitHub Pages
+name: documentation
 on:
   push:
     branches:
