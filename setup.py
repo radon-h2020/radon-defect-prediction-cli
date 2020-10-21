@@ -22,7 +22,7 @@ setup(name='radon-defect-predictor',
       download_url='https://github.com/radon-h2020/radon-defect-predictor/archive/{0}.tar.gz'.format(VERSION),
       packages=find_packages(exclude=('tests',)),
       entry_points={
-          'console_scripts': ['radon-defect-predictor=radondefectpredictor.cli:main'],
+          'console_scripts': ['radon-defect-predictor=radondp.cli:main'],
       },
       classifiers=[
           "Development Status :: 3 - Alpha",
