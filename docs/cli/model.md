@@ -142,7 +142,7 @@ mkdir downloaded_model
 
 Then, run:
 
-`radon-defect-predictor model download --path-to-repository . --host github -t ***** -o ansible-community -n molecule -l ansible -d downloaded_model`
+`radon-defect-predictor model download --path-to-repository . --host github -t ***** -r ansible-community/molecule -l ansible -d downloaded_model`
 
 You should be now able to see the following files:
 
