@@ -137,10 +137,8 @@ optional arguments:
                         whether the repository is hosted on Github or Gitlab
   -t TOKEN, --token TOKEN
                         the Github or Gitlab personal access token
-  -o, --owner REPOSITORY_OWNER
-                        the repository owner
-  -n, --name REPOSITORY_NAME
-                        the repository name
+  -r, --repository REPOSITORY_FULL_NAME_OR_ID
+                        the repository full name or id (e.g., radon-h2020/radon-defect-predictor)
   -l {ansible,tosca}, --language {ansible,tosca}
                         the language of the file (i.e., TOSCA or YAML-based Ansible)
   -d DEST, --destination DEST
@@ -229,10 +227,9 @@ Github access token: ***************
 </li>
 </ul>
 </div>
-<h3 id="-o-owner">-o, --owner</h3>
-<p><code>radon-defect-predictor model download -o radon-h2020</code> <br></p>
-<h3 id="-n-name">-n, --name</h3>
-<p><code>radon-defect-predictor model download -o radon-defect-predictor</code> <br></p>
+<h3 id="-r-repository-repository_full_name_or_id">-r, --repository REPOSITORY_FULL_NAME_OR_ID</h3>
+<pre><code>the repository full name or id (e.g., radon-h2020/radon-defect-predictor)
+</code></pre>
 <h3 id="-l-language">-l, --language</h3>
 <p><code>radon-defect-predictor model download -l ansible</code> <br>
 <code>radon-defect-predictor model download -l tosca</code></p>
@@ -276,7 +273,7 @@ mkdir downloaded_model
 </code></pre>
 
 <p>Then, run:</p>
-<p><code>radon-defect-predictor model download --path-to-repository . --host github -t ***** -o ansible-community -n molecule -l ansible -d downloaded_model</code></p>
+<p><code>radon-defect-predictor model download --path-to-repository . --host github -t ***** -r ansible-community/molecule -l ansible -d downloaded_model</code></p>
 <p>You should be now able to see the following files:</p>
 <pre><code class="text">cd downloaded_model
 ls
