@@ -9,95 +9,80 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Model - RADON Defect Predictor</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../..">RADON Defect Predictor</a>
-                </div>
+                <a class="navbar-brand" href="../..">RADON Defect Predictor</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
+                <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Getting Started</a>
+                            </li>
                             <li class="dropdown active">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Getting Started <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">CLI Usage <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../..">Quick Start</a>
+<li>
+    <a href="../getting_started/" class="dropdown-item">Getting Started</a>
 </li>
                                     
-  <li class="dropdown-submenu">
-    <a href="#">Command-line Usage</a>
-    <ul class="dropdown-menu">
-            
-<li >
-    <a href="../getting_started/">Getting Started</a>
+<li>
+    <a href="../train/" class="dropdown-item">Train</a>
 </li>
-            
-<li >
-    <a href="../train/">Train</a>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Model</a>
 </li>
-            
-<li class="active">
-    <a href="./">Model</a>
+                                    
+<li>
+    <a href="../predict/" class="dropdown-item">Predict</a>
 </li>
-            
-<li >
-    <a href="../predict/">Predict</a>
-</li>
-    </ul>
-  </li>
                                 </ul>
                             </li>
-                            <li >
-                                <a href="../../apis/">API Reference</a>
+                            <li class="navitem">
+                                <a href="../../apis/" class="nav-link">API Reference</a>
                             </li>
-                            <li >
-                                <a href="../../about/">About</a>
+                            <li class="navitem">
+                                <a href="../../about/" class="nav-link">About</a>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../train/">
+                            <li class="nav-item">
+                                <a rel="prev" href="../train/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="../predict/">
+                            <li class="nav-item">
+                                <a rel="next" href="../predict/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
-                            <li>
-                                <a href="https://github.com/radon-h2020/radon-defect-predictor/edit/master/docs/cli/model.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            <li class="nav-item">
+                                <a href="https://github.com/radon-h2020/radon-defect-predictor/edit/master/docs/cli/model.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -105,17 +90,34 @@
         </div>
 
         <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#download-a-pre-trained-model">Download a pre-trained model</a></li>
-            <li><a href="#download-from-apis">Download from APIs</a></li>
-    </ul>
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#download-a-pre-trained-model" class="nav-link">Download a pre-trained model</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#download-from-apis" class="nav-link">Download from APIs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="download-a-pre-trained-model">Download a pre-trained model</h1>
 <p><code>radon-defect-predictor model</code></p>
-<pre><code class="text">usage: radon-defect-predictor model [-h] {download} ...
+<pre><code class="language-text">usage: radon-defect-predictor model [-h] {download} ...
 
 positional arguments:
   {download}
@@ -124,10 +126,9 @@ positional arguments:
 optional arguments:
   -h, --help       show this help message and exit
 </code></pre>
-
 <h2 id="download-from-apis">Download from APIs</h2>
 <p><code>radon-defect-predictor model download ...</code></p>
-<pre><code class="text">usage: radon-defect-predictor model download [-h] --path-to-repository PATH_TO_REPOSITORY --host {github,gitlab} [-t TOKEN] -l {ansible,tosca} -d DEST
+<pre><code class="language-text">usage: radon-defect-predictor model download [-h] --path-to-repository PATH_TO_REPOSITORY --host {github,gitlab} [-t TOKEN] -l {ansible,tosca} -d DEST
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -144,7 +145,6 @@ optional arguments:
   -d DEST, --destination DEST
                         destination folder to save the model
 </code></pre>
-
 <table>
 <thead>
 <tr>
@@ -211,10 +211,9 @@ This option is required to use the appropriate APIs (<a href="https://github.com
 See how to get one from <a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token">Github</a> and <a href="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html">Gitlab</a>. <br>
 Once generated, pass the token to the <code>--token</code> option. <br>
 If not passed in the command, the user will be prompt for inserting one. For example:</p>
-<pre><code class="text">radon-defect-predictor model download --path-to-repository some/path --host github -l ansible -d some/other/path/
+<pre><code class="language-text">radon-defect-predictor model download --path-to-repository some/path --host github -l ansible -d some/other/path/
 Github access token: ***************
 </code></pre>
-
 <div class="admonition note">
 <p class="admonition-title">Planned! Not currently supported</p>
 <p>You may want to avoid the previous step. If so, add the following to your environment variables:</p>
@@ -268,18 +267,18 @@ Use the same folder only if you are overriding a model. The downloaded model wil
 <p>Git clone the repository to analyze, say <strong>ansible-community/molecule</strong>:</p>
 <p><code>git clone https://github.com/ansible-community/molecule.git</code></p>
 <p>Create a new folder to save the downloaded mode-related files and run the <code>radon-defect-predictor model download</code> command:</p>
-<pre><code class="text">cd molecule
+<pre><code class="language-text">cd molecule
 mkdir downloaded_model
 </code></pre>
-
 <p>Then, run:</p>
 <p><code>radon-defect-predictor model download --path-to-repository . --host github -t ***** -r ansible-community/molecule -l ansible -d downloaded_model</code></p>
 <p>You should be now able to see the following files:</p>
-<pre><code class="text">cd downloaded_model
+<pre><code class="language-text">cd downloaded_model
 ls
 
 model.pkl model_features.json
 </code></pre></div>
+            </div>
         </div>
 
         <footer class="col-md-12">
@@ -293,21 +292,21 @@ model.pkl model_features.json
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
             </div>
             <div class="modal-body">
                 <p>
                     From here you can search these documents. Enter
                     your search terms below.
                 </p>
-                <form role="form">
+                <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
                 <div id="mkdocs-search-results"></div>
@@ -316,12 +315,12 @@ model.pkl model_features.json
             </div>
         </div>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
             </div>
             <div class="modal-body">
               <table class="table">
