@@ -2,13 +2,12 @@ site_name: RADON Defect Predictor
 repo_name: GitHub
 repo_url: https://github.com/radon-h2020/radon-defect-predictor/
 nav:
-    - Getting Started:
-        - Quick Start: index.md
-        - Command-line Usage:
-          - Getting Started: cli/getting_started.md
-          - Train: cli/train.md
-          - Model: cli/model.md
-          - Predict: cli/predict.md
+    - Getting Started: index.md
+    - CLI Usage:
+      - Getting Started: cli/getting_started.md
+      - Train: cli/train.md
+      - Model: cli/model.md
+      - Predict: cli/predict.md
     - API Reference: apis.md
     - About: about.md
 markdown_extensions:
