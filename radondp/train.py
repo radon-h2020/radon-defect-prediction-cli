@@ -168,14 +168,14 @@ class DefectPredictor:
             raise Exception('No model has been loaded yet. Please, load a model using instance.load(path_to_model_dir)')
 
         # Select same model features
-        test_instance = unseen_data[np.intersect1d(unseen_data.columns, self.selected_features)]
+        unseen_data = unseen_data[np.intersect1d(unseen_data.columns, self.selected_features)]
 
         # Perform pre-process if any
         if self.best_estimator.named_steps['normalization']:
-            test_instance = pd.DataFrame(self.best_estimator.named_steps['normalization'].transform(test_instance))
+            unseen_data = pd.DataFrame(self.best_estimator.named_steps['normalization'].transform(unseen_data))
 
         clf = self.best_estimator.named_steps['classification']
-        prediction = bool(clf.predict(test_instance)[0])
+        prediction = bool(clf.predict(unseen_data)[0])
 
         return prediction
 

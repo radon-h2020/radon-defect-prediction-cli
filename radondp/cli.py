@@ -5,7 +5,8 @@ import os
 import pandas as pd
 import requests
 
-from ansiblemetrics import metrics_extractor
+from ansiblemetrics import metrics_extractor as ansible_metrics_extractor
+from toscametrics import metrics_extractor as tosca_metrics_extractor
 from argparse import ArgumentParser, ArgumentTypeError, Namespace
 from dotenv import load_dotenv
 from getpass import getpass
@@ -292,9 +293,9 @@ def predict(args: Namespace):
 
     # Extract metrics
     if args.language == 'ansible':
-        metrics = metrics_extractor.extract_all(io.StringIO(script_content))
+        metrics = ansible_metrics_extractor.extract_all(io.StringIO(script_content))
     else:  # tosca
-        metrics = {}  # use toscametrics
+        metrics = tosca_metrics_extractor.extract_all(io.StringIO(script_content))
 
     unseen_data = pd.DataFrame(metrics, index=[0])
     prediction = dp.predict(unseen_data)
