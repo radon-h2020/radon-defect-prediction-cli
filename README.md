@@ -3,7 +3,7 @@
 ![LGTM Grade](https://img.shields.io/lgtm/grade/python/github/radon-h2020/radon-defect-predictor)
 ![LGTM Alerts](https://img.shields.io/lgtm/alerts/github/radon-h2020/radon-defect-predictor)
 
-# radon-defect-predictor
+# radon-defect-prediction
 The RADON command-line client for Infrastructure-as-Code Defect Prediction.
 
 
