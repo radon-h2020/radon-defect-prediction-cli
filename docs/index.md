@@ -10,7 +10,7 @@ From PyPIP: **available soon**
 From source code:
 
 ```text
-git clone https://github.com/radon-h2020/radon-defect-predictor.git
+git clone https://github.com/radon-h2020/radon-defect-prediction.git
 cd radon-defect-predictor
 pip install .
 ```
@@ -21,5 +21,6 @@ pip install .
 ```text
 pip install pytest
 unzip test_data.zip -d .
+pip install .
 pytest tests/
 ```
