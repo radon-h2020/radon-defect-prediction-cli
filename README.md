@@ -11,7 +11,7 @@ The RADON command-line client for Infrastructure-as-Code Defect Prediction.
 
 From source code:
 ```
-git clone https://github.com/radon-h2020/radon-defect-predictor.git
+git clone https://github.com/radon-h2020/radon-defect-prediction.git
 cd radon-defect-predictor
 pip install .
 ```
