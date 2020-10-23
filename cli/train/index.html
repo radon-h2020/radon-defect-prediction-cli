@@ -286,13 +286,13 @@ It generates the following files:</p>
 <div class="admonition note">
 <p class="admonition-title">Important!</p>
 <ul>
-<li>Do not delete any of these files if you want to test new instances with the <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/predict/"><code>radon-defect-predictor predict</code></a> using the trained model.</li>
+<li>Do not delete any of these files if you want to test new instances with the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/predict/"><code>radon-defect-predictor predict</code></a> using the trained model.</li>
 <li>Make sure you create a distinct folder for each repository to avoid conflicts with existing models, features and reports.
   Use the same folder only if you are re-training a model. The new model will replace the existing one only if its <em>average precision</em> (a.k.a. AUC-PR) is higher than the one of the current model (present in <em>path/to/report/model_report.json</em>).  </li>
 </ul>
 </div>
 <h2 id="examples">Examples</h2>
-<p>Download the following <a href="https://radon-h2020.github.io/radon-defect-predictor/examples_resources/molecule.csv">training set</a> generated from the <a href="https://github.com/ansible-community/molecule">ansible-community/molecule</a> project in <code>path/to/molecule.csv</code>.
+<p>Download the following <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/examples_resources/molecule.csv">training set</a> generated from the <a href="https://github.com/ansible-community/molecule">ansible-community/molecule</a> project in <code>path/to/molecule.csv</code>.
 This is the "ground truth" to train a model for that project. </p>
 <p>Create a new folder for reports:</p>
 <pre><code class="language-text">cd path/to/

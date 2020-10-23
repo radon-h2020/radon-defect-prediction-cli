@@ -105,7 +105,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#-path-to-file" class="nav-link">--path-to-file</a>
+            <li class="nav-item" data-level="2"><a href="#-path-to-artefact-path_to_artefact" class="nav-link">--path-to-artefact PATH_TO_ARTEFACT</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -130,7 +130,7 @@
 
 <h1 id="predict-unseen-instances">Predict unseen instances</h1>
 <p><code>radon-defect-predictor predict</code></p>
-<pre><code class="language-text">usage: radon-defect-predictor predict [-h] --path-to-model PATH_TO_MODEL_DIR --path-to-file PATH_TO_FILE -l {ansible,tosca} -d DEST
+<pre><code class="language-text">usage: radon-defect-predictor predict [-h] --path-to-model PATH_TO_MODEL_DIR --path-to-artefact PATH_TO_FILE -l {ansible,tosca} -d DEST
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -138,8 +138,8 @@ optional arguments:
 
   --path-to-model PATH_TO_MODEL_DIR
                         path to the folder containing the files related to the model
-  --path-to-file PATH_TO_FILE
-                        the path to the file to analyze
+  --path-to-artefact PATH_TO_ARTEFACT
+                        the path to the artefact to analyze (i.e., an Ansible or Tosca file or .csar)
   -l {ansible,tosca}, --language {ansible,tosca}
                         the language of the file (i.e., TOSCA or YAML-based Ansible)
   -d DEST, --destination DEST
@@ -158,7 +158,7 @@ optional arguments:
 <td align="left">True</td>
 </tr>
 <tr>
-<td align="left">--path-to-file</td>
+<td align="left">--path-to-artefact</td>
 <td align="left">True</td>
 </tr>
 <tr>
@@ -196,10 +196,11 @@ The folder has to be structured as follows:</p>
     |- model_features.json
     |- model_report.json
 </code></pre>
-<p>Information about the aforementioned files can be found <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination">here</a> or <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination">here</a>.</p>
-<h2 id="-path-to-file">--path-to-file</h2>
+<p>Information about the aforementioned files can be found <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/#-d-destination">here</a> or <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination">here</a>.</p>
+<h2 id="-path-to-artefact-path_to_artefact">--path-to-artefact PATH_TO_ARTEFACT</h2>
 <p><code>radon-defect-predictor train --path-to-csv path/to/repository-data.csv</code></p>
-<p>The path to the <strong>.yml or .tosca</strong> file analyze.</p>
+<p>The path to the artefact to analyze.
+An <em>artefact</em> can be an Ansible file (<strong>.yml</strong>) or a TOSCA definition (<strong>.tosca</strong>), or a TOSCA Cloud Service Archive(<strong>.csar</strong>).</p>
 <h2 id="-l-language">-l, --language</h2>
 <p><code>radon-defect-predictor predict --l ansible</code> <br>
 <code>radon-defect-predictor predict --l tosca</code></p>
@@ -221,10 +222,25 @@ This is needed to automatically extract the proper metrics (through <code>radon-
 to track the predictions over time for each analyzed file.
 <br></p>
 <h2 id="examples">Examples</h2>
-<p>Download a pre-trained model as described <a href="https://radon-h2020.github.io/radon-defect-predictor/cli/model/#Examples">here</a>.
+<p>Download a pre-trained model as described <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/#Examples">here</a>.
 Create folder for reports: <code>mkdir predictions</code>
 Then run:</p>
-<p><code>radon-defect-predictor predict --path-to-model path/to/downloaded_model --path-to-file path/to/ansible_file.yml -l ansible --d path/to/predictions</code></p>
+<p><code>radon-defect-predictor predict --path-to-model path/to/downloaded_model --path-to-artefact path/to/ansible_file.yml -l ansible --d path/to/predictions</code></p>
+<p>You can now see the report:</p>
+<pre><code class="language-text">cd predictions
+ls
+
+prediction_results.json
+</code></pre>
+<h3 id="predict-on-a-csar">Predict on a .CSAR</h3>
+<p>Create a working directory:</p>
+<pre><code class="language-text">mkdir csar_example
+cd csar_example
+</code></pre>
+<p>Download the following [tosca.csar] and a pre-trained model as described [here] in <em>csar_example</em>.</p>
+<p>Create folder for reports: <code>mkdir reports</code></p>
+<p>Then run:</p>
+<p><code>radon-defect-predictor predict --path-to-model downloaded_model --path-to-artefact tosca.csar -l ansible --d reports</code></p>
 <p>You can now see the report:</p>
 <pre><code class="language-text">cd predictions
 ls
