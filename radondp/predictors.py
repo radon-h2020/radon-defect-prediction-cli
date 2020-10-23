@@ -192,19 +192,19 @@ class DefectPredictor:
         with open(os.path.join(path_to_model_dir, 'model_features.json'), 'r') as f:
             self.selected_features = json.load(f)
 
-    def dump_model(self, path_to_model_dir: str):
+    def dump_model(self, path_to_dir: str):
         """
-        :param path_to_model_dir: the path to the directory containing model-related files
+        :param path_to_dir: the path to the directory containing model-related files
         :return: None
         """
+        joblib.dump({'model': self.best_estimator,
+                     'features': self.selected_features,
+                     'report': self.cv_report_map},
+                    os.path.join(path_to_dir, 'radondp_model.joblib'))
 
-        # Dump the best estimator
-        joblib.dump(self.best_estimator, os.path.join(path_to_model_dir, 'model.pkl'))
-
-        # Dump the selected features
-        with open(os.path.join(path_to_model_dir, 'model_features.json'), 'w') as f:
-            json.dump(self.selected_features, f)
-
-        # Dump the training report
-        with open(os.path.join(path_to_model_dir, 'model_report.json'), 'w') as f:
-            json.dump(self.cv_report_map, f)
+        """
+        with ZipFile('radondp_model.zip', 'w') as model_zip:
+            model_zip.writestr(buffer_model.getvalue(), 'model.pkl')
+            model_zip.writestr(json.dumps(self.selected_features), 'features.json')
+            model_zip.writestr(json.dumps(self.cv_report_map), 'report.json')
+        """

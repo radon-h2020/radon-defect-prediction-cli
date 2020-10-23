@@ -84,20 +84,22 @@ def valid_classifiers(x: str):
 
 def set_train_parser(subparsers):
     parser = subparsers.add_parser('train', help='Train a brand new model from scratch')
-    parser.add_argument('--path-to-csv',
-                        required=True,
-                        action='store',
+    parser.add_argument(action='store',
                         dest='path_to_csv',
                         type=valid_file,
                         help='the path to the csv file containing the data for training')
 
-    parser.add_argument('--balancers',
+    parser.add_argument(dest='classifiers',
+                        type=valid_classifiers,
+                        help='a list of classifiers to train. Possible choices [dt, logit, nb, rf, svm]')
+
+    parser.add_argument('-b', '--balancers',
                         required=False,
                         dest='balancers',
                         type=valid_balancers,
                         help='a list of balancer to balance training data. Possible choices [none, rus, ros]')
 
-    parser.add_argument('--normalizers',
+    parser.add_argument('-n', '--normalizers',
                         required=False,
                         dest='normalizers',
                         type=valid_normalizers,
@@ -105,18 +107,6 @@ def set_train_parser(subparsers):
 
     # TODO: add feature-selectors
 
-    parser.add_argument('--classifiers',
-                        required=True,
-                        dest='classifiers',
-                        type=valid_classifiers,
-                        help='a list of classifiers to train. Possible choices [dt, logit, nb, rf, svm]')
-
-    parser.add_argument('-d', '--destination',
-                        required=True,
-                        action='store',
-                        dest='dest',
-                        type=valid_dir,
-                        help='destination folder to save the model and reports')
 
     """
     parser.add_argument('--verbose',
@@ -234,7 +224,7 @@ def train(args: Namespace):
     dp.normalizers = args.normalizers
     dp.classifiers = args.classifiers
     dp.train(pd.read_csv(args.path_to_csv))
-    dp.dump_model(args.dest)
+    dp.dump_model(os.getcwd())
     exit(0)
 
 

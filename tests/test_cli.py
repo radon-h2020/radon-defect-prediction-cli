@@ -15,6 +15,14 @@ class CLITestCase(unittest.TestCase):
     def setUpClass(cls):
         load_dotenv()
 
+        # Create a working directory for Ansible
+        cls.ansible_workdir = os.path.join(os.getcwd(), 'test_data', 'ansible_workdir')
+        os.mkdir(cls.ansible_workdir)
+
+        # Create working directory for Tosca
+        cls.tosca_workdir = os.path.join(os.getcwd(), 'test_data', 'tosca_workdir')
+        os.mkdir(cls.tosca_workdir)
+
         cls.test_repositories = os.path.join(os.getcwd(), 'test_data', 'repositories')
         cls.path_to_trained_ansible_model = os.path.join(os.getcwd(), 'test_data', 'trained_model_ansible')
         cls.path_to_trained_tosca_model = os.path.join(os.getcwd(), 'test_data', 'trained_model_tosca')
@@ -30,35 +38,12 @@ class CLITestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        shutil.rmtree(cls.ansible_workdir)
+        shutil.rmtree(cls.tosca_workdir)
+
         shutil.rmtree(cls.path_to_download_model)
         shutil.rmtree(cls.path_to_new_ansible_model)
         shutil.rmtree(cls.path_to_new_tosca_model)
-
-    def test_train_ansible(self):
-        command = """radon-defect-predictor train --path-to-csv {0} --balancers "none rus ros" \
-                  --normalizers "none minmax std" --classifiers "nb" --destination {1} \
-                  """.format(os.path.join(os.getcwd(), "test_data", "ansible_train_set.csv"),
-                             self.path_to_new_ansible_model)
-
-        result = os.system(command)
-
-        assert (0 == result)
-        assert os.path.isfile(os.path.join(self.path_to_new_ansible_model, 'model.pkl'))
-        assert os.path.isfile(os.path.join(self.path_to_new_ansible_model, 'model_features.json'))
-        assert os.path.isfile(os.path.join(self.path_to_new_ansible_model, 'model_report.json'))
-
-    def test_train_tosca(self):
-        command = """radon-defect-predictor train --path-to-csv {0} --balancers "none rus ros" \
-                  --normalizers "none minmax std" --classifiers "dt" --destination {1} \
-                  """.format(os.path.join(os.getcwd(), "test_data", "tosca_train_set.csv"),
-                             self.path_to_new_tosca_model)
-
-        result = os.system(command)
-
-        assert (0 == result)
-        assert os.path.isfile(os.path.join(self.path_to_new_tosca_model, 'model.pkl'))
-        assert os.path.isfile(os.path.join(self.path_to_new_tosca_model, 'model_features.json'))
-        assert os.path.isfile(os.path.join(self.path_to_new_tosca_model, 'model_report.json'))
 
     def test_model(self):
         command = """
