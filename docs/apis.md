@@ -1,10 +1,10 @@
 # API Reference
 
-## train.DefectPredictor
+## predictors.DefectPredictor
 
 This module includes one class, DefectPredictor, representing a defect predictor.
 
-!!! note "class radondp.train.DefectPredictor()"
+!!! note "class radondp.predictors.DefectPredictor()"
     Class representing a defect predictor. It contains the logic to train a model, save and load a model from the disk, use that model to predict unseen instances.
     
 `__init__()`

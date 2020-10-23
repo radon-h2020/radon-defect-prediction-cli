@@ -5,7 +5,7 @@ import pandas as pd
 import joblib
 import json
 
-from typing import Generator, List
+from typing import List
 
 from imblearn.pipeline import Pipeline
 from sklearn.metrics import make_scorer, matthews_corrcoef

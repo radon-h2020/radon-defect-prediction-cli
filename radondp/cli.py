@@ -11,8 +11,9 @@ from argparse import ArgumentParser, ArgumentTypeError, Namespace
 from dotenv import load_dotenv
 from getpass import getpass
 from repositoryscorer import scorer
+from zipfile import ZipFile
 
-from .train import DefectPredictor
+from .predictors import DefectPredictor
 
 
 def valid_dir(x: str) -> str:
@@ -254,7 +255,7 @@ def model(args: Namespace):
         host=args.host
     )
 
-    #TODO update depending on API body
+    # TODO update depending on API body
     scores['commitFrequency'] = scores['commit_frequency']
     scores['coreContributors'] = scores['core_contributors']
     scores['issueFrequency'] = scores['issue_frequency']
@@ -279,7 +280,6 @@ def model(args: Namespace):
         with open(os.path.join(args.dest, 'model_features.json'), 'w') as f:
             json.dump(response_body['attributes'], f)
 
-    print('Done!')
     exit(0)
 
 
@@ -287,26 +287,61 @@ def predict(args: Namespace):
     dp = DefectPredictor()
     dp.load_model(args.path_to_model_dir)
 
-    # Read content of the script to analyze
-    with open(args.path_to_artefact, 'r') as f:
-        script_content = f.read()
+    report = []
 
     # Extract metrics
     if args.language == 'ansible':
-        metrics = ansible_metrics_extractor.extract_all(io.StringIO(script_content))
+        # Read content of the script to analyze
+        with open(args.path_to_artefact, 'r') as f:
+            script_content = f.read()
+        unseen_data = pd.DataFrame(ansible_metrics_extractor.extract_all(io.StringIO(script_content)), index=[0])
+        prediction = dp.predict(unseen_data)
+        report.append(dict(
+            file=args.path_to_artefact,
+            failure_prone=prediction,
+            analyzed_at=str(datetime.date.today())
+        ))
+
     else:  # tosca
-        metrics = tosca_metrics_extractor.extract_all(io.StringIO(script_content))
 
-    unseen_data = pd.DataFrame(metrics, index=[0])
-    prediction = dp.predict(unseen_data)
-    report = dict(
-        file=args.path_to_artefact,
-        failure_prone=prediction,
-        analyzed_at=str(datetime.date.today())
-    )
+        if args.path_to_artefact.endswith('.csar'):
 
-    with open(os.path.join(args.dest, 'prediction_report.json'), 'a') as f:
-        json.dump(report, f)
+            with ZipFile(args.path_to_artefact, 'r') as zip_file:
+                for filepath in zip_file.namelist():
+                    if filepath.endswith('.tosca'):
+                        try:
+                            script_content = zip_file.read(filepath).decode('utf-8')
+                            unseen_data = pd.DataFrame(tosca_metrics_extractor.extract_all(io.StringIO(script_content)), index=[0])
+                            prediction = dp.predict(unseen_data)
+                            report.append(dict(
+                                file=os.path.join(args.path_to_artefact, filepath),
+                                failure_prone=prediction,
+                                analyzed_at=str(datetime.date.today())
+                            ))
+                        except ValueError:
+                            pass
+        else:
+            # Read content of the script to analyze
+            with open(args.path_to_artefact, 'r') as f:
+                script_content = f.read()
+
+            unseen_data = pd.DataFrame(tosca_metrics_extractor.extract_all(io.StringIO(script_content)), index=[0])
+
+            prediction = dp.predict(unseen_data)
+            report.append(dict(
+                file=args.path_to_artefact,
+                failure_prone=prediction,
+                analyzed_at=str(datetime.date.today())
+            ))
+
+    if report:
+        destination = os.path.join(args.dest, 'prediction_report.json')
+        if os.path.isfile(destination):
+            with open(destination, 'r') as f:
+                report.extend(json.load(f))
+
+        with open(destination, 'w') as f:
+            json.dump(report, f)
 
     exit(0)
 

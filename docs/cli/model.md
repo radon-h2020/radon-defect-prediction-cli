@@ -119,7 +119,7 @@ The path to the **folder** where to download the following files about the model
 * ```path/to/model-info/model_report.json``` - the cross-validation report of model training.
 
 !!! note "Important!" 
-    * Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-predictor/cli/predict/) using the downloaded model.
+    * Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/predict/) using the downloaded model.
     
     * Make sure you save the model and related files to a distinct folder for each repository and language (i.e., Ansible and Tosca) to avoid conflicts with existing models, features and reports.
     Use the same folder only if you are overriding a model. The downloaded model will replace the existing one.

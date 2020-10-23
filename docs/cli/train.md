@@ -107,14 +107,14 @@ It generates the following files:
 * ```path/to/report/model_report.json``` - the cross-validation report of model training.
 
 !!! note "Important!"
-    * Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-predictor/cli/predict/) using the trained model.
+    * Do not delete any of these files if you want to test new instances with the [```radon-defect-predictor predict```](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/predict/) using the trained model.
     * Make sure you create a distinct folder for each repository to avoid conflicts with existing models, features and reports.
       Use the same folder only if you are re-training a model. The new model will replace the existing one only if its *average precision* (a.k.a. AUC-PR) is higher than the one of the current model (present in *path/to/report/model_report.json*).  
 
 
 ## Examples
 
-Download the following [training set](https://radon-h2020.github.io/radon-defect-predictor/examples_resources/molecule.csv) generated from the [ansible-community/molecule](https://github.com/ansible-community/molecule) project in ```path/to/molecule.csv```.
+Download the following [training set](https://radon-h2020.github.io/radon-defect-prediction-cli/examples_resources/molecule.csv) generated from the [ansible-community/molecule](https://github.com/ansible-community/molecule) project in ```path/to/molecule.csv```.
 This is the "ground truth" to train a model for that project. 
 
 Create a new folder for reports:

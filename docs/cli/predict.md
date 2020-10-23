@@ -56,7 +56,7 @@ path/to/
     |- model_report.json
 ```
     
-Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
+Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
 
 
 ## --path-to-artefact PATH_TO_ARTEFACT
@@ -95,11 +95,36 @@ to track the predictions over time for each analyzed file.
 
 ## Examples
 
-Download a pre-trained model as described [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#Examples).
+Download a pre-trained model as described [here](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/#Examples).
 Create folder for reports: `mkdir predictions`
 Then run:
 
 `radon-defect-predictor predict --path-to-model path/to/downloaded_model --path-to-artefact path/to/ansible_file.yml -l ansible --d path/to/predictions`
+
+You can now see the report:
+
+```text
+cd predictions
+ls
+
+prediction_results.json
+```
+
+### Predict on a .CSAR
+Create a working directory:
+
+```text
+mkdir csar_example
+cd csar_example
+```
+
+Download the following [tosca.csar] and a pre-trained model as described [here] in *csar_example*.
+
+Create folder for reports: `mkdir reports`
+
+Then run:
+
+`radon-defect-predictor predict --path-to-model downloaded_model --path-to-artefact tosca.csar -l ansible --d reports`
 
 You can now see the report:
 
