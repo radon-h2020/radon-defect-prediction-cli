@@ -1,110 +1,70 @@
 # Predict unseen instances
 
-```radon-defect-predictor predict```
 
 ```text
-usage: radon-defect-predictor predict [-h] --path-to-model PATH_TO_MODEL_DIR --path-to-artefact PATH_TO_FILE -l {ansible,tosca} -d DEST
+usage: radon-defect-predictor predict [-h] language path_to_artefact
+
+positional arguments:
+  {ansible,tosca}   the language of the file (i.e., TOSCA or YAML-based Ansible)
+  path_to_artefact  the path to the artefact to analyze (i.e., an Ansible or Tosca file or .csar
 
 optional arguments:
   -h, --help            show this help message and exit
 
-
-  --path-to-model PATH_TO_MODEL_DIR
-                        path to the folder containing the files related to the model
-  --path-to-artefact PATH_TO_ARTEFACT
-                        the path to the artefact to analyze (i.e., an Ansible or Tosca file or .csar)
-  -l {ansible,tosca}, --language {ansible,tosca}
-                        the language of the file (i.e., TOSCA or YAML-based Ansible)
-  -d DEST, --destination DEST
-                        destination folder to save the prediction report
 ```
 
-| Option | Required |
-|:---|:---|
-| --path-to-model | True |
-| --path-to-artefact | True |
-| -l, --language | True |
-| -d, --destination | True |
+
+!!! note "Output"
+    This command will generate a **`radondp_predictions.json`** file in the user working directory.
+    The file contains information about the *filepath*, *failure-proneness*, and *date* of analysis of the analyzed files.
+    If a file already exists with that name, this command will **append** the new predictions to it.
+
+    **Note:** To let the tool automatically identify the model, the user **must** run the command within the same working
+    directory of `radondp_model.joblib`.
+    Make sure you trained or downloaded a model first. 
 
 
-<br>
-
-**Return:**
-
-* ```exit(0)``` if the file is predicted *clean*;
-
-* ```exit(1)``` if the file is predicted *failure-prone*.
-
-<br>
-
-
-!!! note "Important!" 
-    Make sure you trained a model using or downloaded a pre-trained model using, first. 
-
-## --path-to-model 
-
-```radon-defect-predictor predict --path-to-model path/to/model/```
-
-The path to the **folder** containing files related to a model (model, selected_features and report).
-The folder has to be structured as follows:
-
-```text
-path/to/
-  |- model/
-    |- model.pkl
-    |- model_features.json
-    |- model_report.json
-```
-    
-Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
-
-
-## --path-to-artefact PATH_TO_ARTEFACT
-```radon-defect-predictor train --path-to-csv path/to/repository-data.csv```
-
-The path to the artefact to analyze.
-An *artefact* can be an Ansible file (**.yml**) or a TOSCA definition (**.tosca**), or a TOSCA Cloud Service Archive(**.csar**).
-
-
-## -l, --language
-```radon-defect-predictor predict --l ansible``` <br>
-```radon-defect-predictor predict --l tosca```
-
+## language
 The language of the file to analyze (that is Ansible or Tosca).
 This is needed to automatically extract the proper metrics (through ```radon-ansible-metrics```(https://github.com/radon-h2020/radon-ansible-metrics) or ```radon-tosca-metrics```(https://github.com/radon-h2020/radon-tosca-metrics)) to pass to the predictor.  
 
+## path_to_artefact
 
-## -d, --destination 
-```radon-defect-predictor predict --d path/to/results/```
+The path to the artefact to analyze.
+An *artefact* can be an Ansible file (**.yml**), a TOSCA definition (**.tosca**), or a TOSCA Cloud Service Archive(**.csar**).
 
-The path to the **folder** where to log the results. It will save the following file:
-
-*  ```path/to/results/prediction_results.json``` - a json file with the following schema:
-
-```text
-{ 
-  file=<string>,
-  failure_prone=<boolean>,
-  analyzed_at=<string> 
-}
-```
-
-**Note:** if the file already exists, it will modified in **appended mode**. The field ```analyzed_at``` (YYYY-MM-DD) helps 
-to track the predictions over time for each analyzed file.
-<br>
 
 ## Examples
 
-Download a pre-trained model as described [here](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/#Examples).
-Create folder for reports: `mkdir predictions`
-Then run:
+### Predict on a single script
 
-`radon-defect-predictor predict --path-to-model path/to/downloaded_model --path-to-artefact path/to/ansible_file.yml -l ansible --d path/to/predictions`
+For the sake of example, move to the `radon_example` working directory.
+If you do not have a model, [train](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/#Example)
+or [download](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/#Examples) one first.
 
-You can now see the report:
+* Download [playbook.yml](https://radon-h2020.github.io/radon-defect-prediction-cli/examples_resources/playbook.yml) to test 
+an Ansible model.
+
+* Download [definition.tosca](https://radon-h2020.github.io/radon-defect-prediction-cli/examples_resources/definition.tosca)
+to test a Tosca model.
+
+* Download [tosca.csar](https://radon-h2020.github.io/radon-defect-prediction-cli/examples_resources/tosca.csar)
+to test a Tosca model.
+
+
+Copy the file(s) in `radon_example`.
+
+Then, run:
+
+`radon-defect-predictor predict ansible playbook.yml` (for Ansible)
+
+`radon-defect-predictor predict tosca definition.yml` (for Tosca)
+
+`radon-defect-predictor predict tosca tosca.csar` (for Tosca CSAR)
+
+You can now see the results:
 
 ```text
-cd predictions
 ls
 
 prediction_results.json

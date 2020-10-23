@@ -1,5 +1,4 @@
 # Train a new model from scratch
-```radon-defect-predictor train```
 
 ```text
 usage: radon-defect-predictor train [-h] [--balancers BALANCERS] [--normalizers NORMALIZERS] path_to_csv classifiers
@@ -17,8 +16,8 @@ optional arguments:
                         a list of normalizers to normalize data. Possible choices [none, minmax, std]
 ```
 
-!!! warning "Output"
-    This command will generate a **radondp_model.joblib** file in the user working directory.
+!!! note "Output"
+    This command will generate a **`radondp_model.joblib`** file in the user working directory.
     The file contains information about the best estimator, subset of features selected by the training, and the results
     of cross-validation.
     
@@ -28,7 +27,7 @@ optional arguments:
 
 <br>
 
-## --path-to-csv 
+## path_to_csv 
 **```radon-defect-predictor train --path-to-csv path/to/repository-data.csv```**
 
 The path to the training data (a **.csv** file). 
@@ -47,6 +46,20 @@ An example observation is the following:
 
 !!! warning 
     Missing one of the following columns will raise an error: ```filepath```, ```commit```, ```committed_at```, ```failure_prone```. 
+
+## classifiers 
+
+**```radon-defect-predictor train --classifiers="dt logit nb rf svm"```**
+
+* ```dt``` - Train a model using a **[sklearn.tree.DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)** classifier;
+
+* ```logit``` - Train a model using a **[sklearn.linear_model.LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)** classifier;
+
+* ```nb``` - Train a model using a **[sklearn.naive_bayes.GaussianNB](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html)** classifier;
+
+* ```rf``` - Train a model using a **[sklearn.ensemble.RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)** classifier;
+
+* ```svm``` - Train a model using a **[sklearn.tree.DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)** classifier.
 
 
 ## --balancers 
@@ -79,19 +92,6 @@ However, this option can be passed along the others to train the model by either
 
 
 
-## --classifiers 
-
-**```radon-defect-predictor train --classifiers="dt logit nb rf svm"```**
-
-* ```dt``` - Train a model using a **[sklearn.tree.DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)** classifier;
-
-* ```logit``` - Train a model using a **[sklearn.linear_model.LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)** classifier;
-
-* ```nb``` - Train a model using a **[sklearn.naive_bayes.GaussianNB](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html)** classifier;
-
-* ```rf``` - Train a model using a **[sklearn.ensemble.RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)** classifier;
-
-* ```svm``` - Train a model using a **[sklearn.tree.DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)** classifier.
 
 
 

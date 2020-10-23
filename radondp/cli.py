@@ -1,6 +1,7 @@
 import datetime
 import io
 import json
+import joblib
 import os
 import pandas as pd
 import requests
@@ -120,52 +121,42 @@ def set_train_parser(subparsers):
 def set_predict_parser(subparsers):
     parser = subparsers.add_parser('predict', help='Predict unseen instances')
 
-    parser.add_argument('--path-to-model',
-                        required=True,
-                        action='store',
-                        dest='path_to_model_dir',
-                        type=valid_dir,
-                        help='path to the folder containing the files related to the model')
-
-    parser.add_argument('--path-to-artefact',
-                        required=True,
-                        action='store',
-                        dest='path_to_artefact',
-                        type=valid_file,
-                        help='the path to the artefact to analyze (i.e., an Ansible or Tosca file or .csar')
-
-    parser.add_argument('-l', '--language',
-                        required=True,
-                        action='store',
+    parser.add_argument(action='store',
                         dest='language',
                         type=str,
                         choices=['ansible', 'tosca'],
                         help='the language of the file (i.e., TOSCA or YAML-based Ansible)')
 
-    parser.add_argument('-d', '--destination',
-                        required=True,
-                        action='store',
-                        dest='dest',
-                        type=valid_dir,
-                        help='destination folder to save the prediction report')
+    parser.add_argument(action='store',
+                        dest='path_to_artefact',
+                        type=valid_file,
+                        help='the path to the artefact to analyze (i.e., an Ansible or Tosca file or .csar')
 
 
 def set_download_model_parser(subparsers):
-    parser = subparsers.add_parser('download', help='Download a pre-trained model from the online APIs')
-    parser.add_argument('--path-to-repository',
-                        required=True,
-                        action='store',
-                        dest='path_to_repository',
-                        type=valid_dir,
-                        help='path to the cloned repository')
+    parser = subparsers.add_parser('download-model', help='Download a pre-trained model from the online APIs')
 
-    parser.add_argument('--host',
-                        required=True,
-                        action='store',
+    parser.add_argument(action='store',
+                        dest='language',
+                        type=str,
+                        choices=['ansible', 'tosca'],
+                        help='the language the model is trained on')
+
+    parser.add_argument(action='store',
                         dest='host',
                         type=str,
                         choices=['github', 'gitlab'],
-                        help='whether the repository is hosted on Github or Gitlab')
+                        help='the platform the user\'s repository is hosted to')
+
+    parser.add_argument(action='store',
+                        dest='repository_full_name_or_id',
+                        type=str,
+                        help='the remote repository full name or id (e.g., radon-h2020/radon-defect-prediction-cli)')
+
+    parser.add_argument(action='store',
+                        dest='path_to_repository',
+                        type=valid_dir,
+                        help='the local path to the user\'s repository')
 
     parser.add_argument('-t', '--token',
                         required=False,  # TODO: handle with environment variable
@@ -173,35 +164,6 @@ def set_download_model_parser(subparsers):
                         dest='token',
                         type=str,
                         help='the Github or Gitlab personal access token')
-
-    parser.add_argument('-r', '--repository',
-                        required=True,
-                        action='store',
-                        dest='repository_full_name_or_id',
-                        type=str,
-                        help='the repository full name or id (e.g., radon-h2020/radon-defect-predictor)')
-
-    parser.add_argument('-l', '--language',
-                        required=True,
-                        action='store',
-                        dest='language',
-                        type=str,
-                        choices=['ansible', 'tosca'],
-                        help='the language of the file (i.e., TOSCA or YAML-based Ansible)')
-
-    parser.add_argument('-d', '--destination',
-                        required=True,
-                        action='store',
-                        dest='dest',
-                        type=valid_dir,
-                        help='destination folder to save the model')
-
-
-def set_model_parser(subparsers):
-    parser = subparsers.add_parser('model', help='Get a pre-trained model to predict unseen instances')
-    subparsers = parser.add_subparsers(dest='command')
-    set_download_model_parser(subparsers)
-    # set_load_model_parser(subparsers)
 
 
 def get_parser():
@@ -212,7 +174,7 @@ def get_parser():
     subparsers = parser.add_subparsers(dest='command')
 
     set_train_parser(subparsers)
-    set_model_parser(subparsers)
+    set_download_model_parser(subparsers)
     set_predict_parser(subparsers)
 
     return parser
@@ -231,12 +193,16 @@ def train(args: Namespace):
 def model(args: Namespace):
     load_dotenv()
 
-    if not (args.token or os.getenv('GITHUB_ACCESS_TOKEN')):
-        args.token = getpass('Github access token:')
-    elif not args.token:
-        args.token = os.getenv('GITHUB_ACCESS_TOKEN')
+    if not args.token:
+        if args.host == 'github' and os.getenv('GITHUB_ACCESS_TOKEN'):
+            args.token = os.getenv('GITHUB_ACCESS_TOKEN')
+        elif args.host == 'gitlab' and os.getenv('GITLAB_ACCESS_TOKEN'):
+            args.token = os.getenv('GITLAB_ACCESS_TOKEN')
+        else:
+            args.token = getpass('Github access token:')
 
-    # TODO deal --host and --language
+    # TODO deal language {ansible, tosca}
+
     print('Downloading model...')
     scores = scorer.score_repository(
         path_to_repo=args.path_to_repository,
@@ -262,20 +228,19 @@ def model(args: Namespace):
 
     response_body = response.json()
 
-    if response_body['model']:
-        with open(os.path.join(args.dest, 'model.pkl'), 'w') as f:
-            f.write(response_body['model'])
+    # TODO: move this process to the online APIs and make them return the joblib file
 
-    if response_body['attributes']:
-        with open(os.path.join(args.dest, 'model_features.json'), 'w') as f:
-            json.dump(response_body['attributes'], f)
+    if response_body['model'] and response_body['attributes']:
+        joblib.dump({'model': response_body['model'],
+                     'features': response_body['attributes']
+                     }, os.path.join(os.getcwd(), 'radondp_model.joblib'))
 
     exit(0)
 
 
 def predict(args: Namespace):
     dp = DefectPredictor()
-    dp.load_model(args.path_to_model_dir)
+    dp.load_model(os.getcwd())
 
     report = []
 
@@ -325,7 +290,7 @@ def predict(args: Namespace):
             ))
 
     if report:
-        destination = os.path.join(args.dest, 'prediction_report.json')
+        destination = os.path.join(os.getcwd(), 'radondp_predictions.json')
         if os.path.isfile(destination):
             with open(destination, 'r') as f:
                 report.extend(json.load(f))
@@ -340,7 +305,7 @@ def main():
     args = get_parser().parse_args()
     if args.command == 'train':
         train(args)
-    elif args.command == 'download':
+    elif args.command == 'download-model':
         model(args)
     elif args.command == 'predict':
         predict(args)
