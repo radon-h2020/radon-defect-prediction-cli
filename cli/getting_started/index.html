@@ -109,16 +109,15 @@
                     <div class="col-md-9" role="main">
 
 <h2 id="getting-started">Getting Started</h2>
-<p><code>radon-defect-predictor</code></p>
-<pre><code class="language-text">usage: radon-defect-predictor [-h] [-v] {train,predict,model} ...
+<pre><code class="language-text">usage: radon-defect-predictor [-h] [-v] {train,download-model,predict} ...
 
 A Python library to train machine learning models for defect prediction of infrastructure code
 
 positional arguments:
-  {train,predict,model}
-    train               train a brand new model from scratch
-    model               get a pre-trained model to test unseen instances
-    predict             predict unseen instances
+  {train,download-model,predict}
+    train               Train a brand new model from scratch
+    download-model      Download a pre-trained model from the online APIs
+    predict             Predict unseen instances
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -127,10 +126,10 @@ optional arguments:
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><code>radon-defect-predictor predict</code> <strong>must</strong> be used after having trained a model with 
-<code>radon-defect-predictor train</code>, or after having loaded a pre-trained model from the disk or from the online RADON 
-Defect Prediction Framework APIs, using the <code>radon-defect-predictor model</code> command.</p>
+<code>radon-defect-predictor train</code>, or after having downloaded a pre-trained model from the online RADON 
+Defect Prediction Framework APIs, using the <code>radon-defect-predictor download-model</code> command.</p>
 </div>
-<p>Go the next pages for examples of usage of each of the three command-line options.</p></div>
+<p>Go the next pages for examples of usage of each of the command-line options.</p></div>
             </div>
         </div>
 

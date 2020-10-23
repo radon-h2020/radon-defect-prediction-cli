@@ -101,10 +101,6 @@
             
             <li class="nav-item" data-level="1"><a href="#download-a-pre-trained-model" class="nav-link">Download a pre-trained model</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#download-from-apis" class="nav-link">Download from APIs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
               </ul>
             </li>
         </ul>
@@ -113,75 +109,36 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="download-a-pre-trained-model">Download a pre-trained model</h1>
-<p><code>radon-defect-predictor model</code></p>
-<pre><code class="language-text">usage: radon-defect-predictor model [-h] {download} ...
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This command is partially implemented.</p>
+</div>
+<pre><code class="language-text">usage: radon-defect-predictor download-model [-h] [-t TOKEN] {ansible,tosca} {github,gitlab} repository_full_name_or_id path_to_repository
 
 positional arguments:
-  {download}
-    download       Download a pre-trained model from the online APIs
-
-optional arguments:
-  -h, --help       show this help message and exit
-</code></pre>
-<h2 id="download-from-apis">Download from APIs</h2>
-<p><code>radon-defect-predictor model download ...</code></p>
-<pre><code class="language-text">usage: radon-defect-predictor model download [-h] --path-to-repository PATH_TO_REPOSITORY --host {github,gitlab} [-t TOKEN] -l {ansible,tosca} -d DEST
+  {ansible,tosca}       the language the model to download is trained on
+  {github,gitlab}       the platform the user's repository is hosted to
+  repository_full_name_or_id
+                        the remote repository full name or id (e.g., radon-h2020/radon-defect-prediction-cli)
+  path_to_repository    the local path to the user's repository
 
 optional arguments:
   -h, --help            show this help message and exit
-  --path-to-repository PATH_TO_REPOSITORY
-                        path to the cloned repository
-  --host {github,gitlab}
-                        whether the repository is hosted on Github or Gitlab
   -t TOKEN, --token TOKEN
                         the Github or Gitlab personal access token
-  -r, --repository REPOSITORY_FULL_NAME_OR_ID
-                        the repository full name or id (e.g., radon-h2020/radon-defect-predictor)
-  -l {ansible,tosca}, --language {ansible,tosca}
-                        the language of the file (i.e., TOSCA or YAML-based Ansible)
-  -d DEST, --destination DEST
-                        destination folder to save the model
+
 </code></pre>
-<table>
-<thead>
-<tr>
-<th align="left">Option</th>
-<th align="left">Required</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">--path-to-repository</td>
-<td align="left">True</td>
-</tr>
-<tr>
-<td align="left">--host</td>
-<td align="left">True</td>
-</tr>
-<tr>
-<td align="left">-o --owner</td>
-<td align="left">True</td>
-</tr>
-<tr>
-<td align="left">-n --name</td>
-<td align="left">True</td>
-</tr>
-<tr>
-<td align="left">-t, --token</td>
-<td align="left">True</td>
-</tr>
-<tr>
-<td align="left">-l, --language</td>
-<td align="left">True</td>
-</tr>
-<tr>
-<td align="left">-d, --destination</td>
-<td align="left">True</td>
-</tr>
-</tbody>
-</table>
-<p><br></p>
-<h3 id="-path-to-repository">--path-to-repository</h3>
+<h3 id="language">language</h3>
+<p>Every models are trained for a specific language. 
+To download the proper model the user <strong>must</strong> specify the language on which they want to use the model.
+Ansible and TOSCA are currently supported.
+If the project contains both Ansible and Tosca files, the user can download two models by running the command twice, 
+passing the option <code>ansible</code> and <code>tosca</code>, respectively.</p>
+<h3 id="host-github-gitlab">host {github, gitlab}</h3>
+<p>The hosting platform for software development and version control using Git. Github and Gitlab are supported.
+This option is required to use the appropriate APIs (<a href="https://github.com/PyGithub/PyGithub"><code>pygithub</code></a> or 
+<a href="https://github.com/python-gitlab/python-gitlab"><code>python-gitlab</code></a>) to compute some of the aforementioned criteria.</p>
+<h3 id="path_to_repository">path_to_repository</h3>
 <p><strong><code>radon-defect-predictor model download --path-to-csv path/to/local/git/repository/</code></strong></p>
 <p>The path to the a local <strong>git repository</strong>. <br>
 It is necessary to select the appropriate model for the repository at hand.
@@ -197,11 +154,8 @@ Indeed, the downloaded model is the model trained on the most similar repository
 <li><strong>Ratio of IaC scripts:</strong> ratio between Infrastructure-as-Code (IaC) files and total files.</li>
 </ul>
 <p>The value of each criterion is automatically extracted by the <a href="https://github.com/radon-h2020/radon-repository-scorer"><code>radon-repository-scorer</code></a> this tool depends on. <br></p>
-<h3 id="-host">--host</h3>
-<p><code>radon-defect-predictor model download --host github</code> <br>
-<code>radon-defect-predictor model download --host gitlab</code></p>
-<p>The hosting platform for software development and version control using Git. Github and Gitlab are supported.
-This option is required to use the appropriate APIs (<a href="https://github.com/PyGithub/PyGithub"><code>pygithub</code></a> or <a href="https://github.com/python-gitlab/python-gitlab"><code>python-gitlab</code></a>) to compute some of the aforementioned criteria.</p>
+<h3 id="repository_full_name_or_id">repository_full_name_or_id</h3>
+<p>The repository full name or id (e.g., radon-h2020/radon-defect-predictor).</p>
 <h3 id="-t-token">-t, --token</h3>
 <p><code>radon-defect-predictor model download -t &lt;SECRET_TOKEN&gt;</code> <br></p>
 <p>The personal access token to access Github and Gitlab APIs.
@@ -212,69 +166,45 @@ If not passed in the command, the user will be prompt for inserting one. For exa
 Github access token: ***************
 </code></pre>
 <div class="admonition note">
-<p class="admonition-title">Planned! Not currently supported</p>
+<p class="admonition-title">Note</p>
 <p>You may want to avoid the previous step. If so, add the following to your environment variables:</p>
 <ul>
 <li>
-<p><code>GITHUB_ACCESS_TOKEN=&lt;paste here your token&gt;</code> for Github, and/or</p>
+<p><code>GITHUB_ACCESS_TOKEN=&lt;paste your token here&gt;</code> for Github, and/or</p>
 </li>
 <li>
-<p><code>GITLAB_ACCESS_TOKEN=&lt;paste here your token&gt;</code> for Gitlab.</p>
+<p><code>GITLAB_ACCESS_TOKEN=&lt;paste your token here&gt;</code> for Gitlab.</p>
 </li>
 </ul>
 </div>
-<h3 id="-r-repository-repository_full_name_or_id">-r, --repository REPOSITORY_FULL_NAME_OR_ID</h3>
-<pre><code>the repository full name or id (e.g., radon-h2020/radon-defect-predictor)
-</code></pre>
-<h3 id="-l-language">-l, --language</h3>
-<p><code>radon-defect-predictor model download -l ansible</code> <br>
-<code>radon-defect-predictor model download -l tosca</code></p>
-<p>Every models are trained for a specific language. 
-To download the proper model the user must specify the language (s)he wants to apply it to.
-Ansible and TOSCA are currently supported.
-If the project contains both Ansible and Tosca files, the user can download two models by running the command twice, passing the optiion <code>-l ansible</code> and <code>-l tosca</code>, respectively.</p>
-<h3 id="-d-destination">-d, --destination</h3>
-<p><code>radon-defect-predictor train --d path/to/model-info/</code></p>
-<p>The path to the <strong>folder</strong> where to download the following files about the model:</p>
-<ul>
-<li>
-<p><code>path/to/model-info/model.pkl</code> - the exported model in pickle format. After training a model, it is desirable to have a way to persist the model for future use without having to retrain. </p>
-</li>
-<li>
-<p><code>path/to/model-info/model_features.json</code> - the features selected by feature selection during training. It is important to track these features so to reduce the <em>test instances</em> to the same set of features used for training. </p>
-</li>
-<li>
-<p><code>path/to/model-info/model_report.json</code> - the cross-validation report of model training.</p>
-</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Important!</p>
-<ul>
-<li>
-<p>Do not delete any of these files if you want to test new instances with the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/predict/"><code>radon-defect-predictor predict</code></a> using the downloaded model.</p>
-</li>
-<li>
-<p>Make sure you save the model and related files to a distinct folder for each repository and language (i.e., Ansible and Tosca) to avoid conflicts with existing models, features and reports.
-Use the same folder only if you are overriding a model. The downloaded model will replace the existing one.</p>
-</li>
-</ul>
-</div>
-<p><br></p>
 <h3 id="examples">Examples</h3>
-<p>Git clone the repository to analyze, say <strong>ansible-community/molecule</strong>:</p>
-<p><code>git clone https://github.com/ansible-community/molecule.git</code></p>
-<p>Create a new folder to save the downloaded mode-related files and run the <code>radon-defect-predictor model download</code> command:</p>
+<p>TODO</p>
+<!-- Git clone the repository to analyze, say **ansible-community/molecule**:
+
+`git clone https://github.com/ansible-community/molecule.git`
+
+Create a new folder to save the downloaded mode-related files and run the `radon-defect-predictor model download` command:
+
+
 <pre><code class="language-text">cd molecule
 mkdir downloaded_model
 </code></pre>
-<p>Then, run:</p>
-<p><code>radon-defect-predictor model download --path-to-repository . --host github -t ***** -r ansible-community/molecule -l ansible -d downloaded_model</code></p>
-<p>You should be now able to see the following files:</p>
+
+
+Then, run:
+
+`radon-defect-predictor model download --path-to-repository . --host github -t ***** -r ansible-community/molecule -l ansible -d downloaded_model`
+
+You should be now able to see the following files:
+
+
 <pre><code class="language-text">cd downloaded_model
 ls
 
 model.pkl model_features.json
-</code></pre></div>
+</code></pre>
+
+--></div>
             </div>
         </div>
 

@@ -101,7 +101,11 @@
             
             <li class="nav-item" data-level="1"><a href="#train-a-new-model-from-scratch" class="nav-link">Train a new model from scratch</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#-path-to-csv" class="nav-link">--path-to-csv</a>
+            <li class="nav-item" data-level="2"><a href="#path_to_csv" class="nav-link">path_to_csv</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#classifiers" class="nav-link">classifiers</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -113,15 +117,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#-classifiers" class="nav-link">--classifiers</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#-d-destination" class="nav-link">-d, --destination</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#examples" class="nav-link">Examples</a>
+            <li class="nav-item" data-level="2"><a href="#example" class="nav-link">Example</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -133,56 +129,32 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="train-a-new-model-from-scratch">Train a new model from scratch</h1>
-<p><code>radon-defect-predictor train</code></p>
-<pre><code class="language-text">usage: radon-defect-predictor train [-h] --path-to-csv PATH_TO_CSV [--balancers BALANCERS] [--normalizers NORMALIZERS] --classifiers CLASSIFIERS -d DEST
+<pre><code class="language-text">usage: radon-defect-predictor train [-h] [--balancers BALANCERS] [--normalizers NORMALIZERS] path_to_csv classifiers
+
+positional arguments:
+  path_to_csv           the path to the csv file containing the data for training
+  classifiers           a list of classifiers to train. Possible choices [dt, logit, nb, rf, svm]
+
 
 optional arguments:
   -h, --help            show this help message and exit
-  --path-to-csv PATH_TO_CSV
-                        the path to the csv file containing the data for training
   --balancers BALANCERS
                         a list of balancer to balance training data. Possible choices [none, rus, ros]
   --normalizers NORMALIZERS
                         a list of normalizers to normalize data. Possible choices [none, minmax, std]
-  --classifiers CLASSIFIERS
-                        a list of classifiers to train. Possible choices [decision-tree, logit, naive-bayes, random-forest, svm]
-  -d DEST, --destination DEST
-                        destination folder to save the model and reports
 </code></pre>
-<table>
-<thead>
-<tr>
-<th align="left">Option</th>
-<th align="left">Required</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">--path-to-csv</td>
-<td align="left">True</td>
-</tr>
-<tr>
-<td align="left">--balancers</td>
-<td align="left">False</td>
-</tr>
-<tr>
-<td align="left">--normalizers</td>
-<td align="left">False</td>
-</tr>
-<tr>
-<td align="left">--classifiers</td>
-<td align="left">True</td>
-</tr>
-<tr>
-<td align="left">-d, --destination</td>
-<td align="left">True</td>
-</tr>
-</tbody>
-</table>
+<div class="admonition note">
+<p class="admonition-title">Output</p>
+<p>This command will generate a <strong><code>radondp_model.joblib</code></strong> file in the user working directory.
+The file contains information about the best estimator, subset of features selected by the training, and the results
+of cross-validation.</p>
+<p><strong>Note:</strong> The <em>radondp_model.joblib</em> will override the existing one in the user working directory, if any.  </p>
+</div>
 <p><br></p>
-<h2 id="-path-to-csv">--path-to-csv</h2>
+<h2 id="path_to_csv">path_to_csv</h2>
 <p><strong><code>radon-defect-predictor train --path-to-csv path/to/repository-data.csv</code></strong></p>
-<p>The path to the <strong>.csv</strong> file containing observations to train the model. Observations are metrics for every script in the repository at each release.
+<p>The path to the training data (a <strong>.csv</strong> file). 
+You can generate training data for IaC defect-prediction through <a href="https://github.com/radon-h2020/radon-repository-miner/">radon-miner</a>.
 An example observation is the following:</p>
 <table>
 <thead>
@@ -211,14 +183,33 @@ An example observation is the following:</p>
 <ul>
 <li><code>filepath: string</code> is the path to the file from the repository root;</li>
 <li><code>commit: string</code> is the commit sha the file belongs to. In per-release based defect-prediction, it is the commit sha of a release, and it is used to group observations of the same release;</li>
-<li><code>committed_at: integer</code> is the timestamp of the commit date. In per-release based defect-prediction, it is the release date. It is used to sort releases for walk-forward validation;</li>
-<li><code>failure_pront: integer</code> 1 if the observation is <strong>failure-prone</strong>; 0 otherwise;</li>
+<li><code>committed_at: string</code> is the commit datetime. In release-based defect-prediction, it is the release date. In just-in-time defect-prediction is the commit date. It is used to sort releases/commits for walk-forward validation;</li>
+<li><code>failure_prone: integer</code> <strong>1</strong> if the observation is <strong>failure-prone</strong>; 0 otherwise;</li>
 <li><code>metric_i: float</code> a metric.</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Lacking one of the following columns will raise an error: <code>filepath</code>, <code>commit</code>, <code>committed_at</code>, <code>failure_prone</code>. </p>
+<p>Missing one of the following columns will raise an error: <code>filepath</code>, <code>commit</code>, <code>committed_at</code>, <code>failure_prone</code>. </p>
 </div>
+<h2 id="classifiers">classifiers</h2>
+<p><strong><code>radon-defect-predictor train --classifiers="dt logit nb rf svm"</code></strong></p>
+<ul>
+<li>
+<p><code>dt</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">sklearn.tree.DecisionTreeClassifier</a></strong> classifier;</p>
+</li>
+<li>
+<p><code>logit</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">sklearn.linear_model.LogisticRegression</a></strong> classifier;</p>
+</li>
+<li>
+<p><code>nb</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html">sklearn.naive_bayes.GaussianNB</a></strong> classifier;</p>
+</li>
+<li>
+<p><code>rf</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">sklearn.ensemble.RandomForestClassifier</a></strong> classifier;</p>
+</li>
+<li>
+<p><code>svm</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">sklearn.tree.DecisionTreeClassifier</a></strong> classifier.</p>
+</li>
+</ul>
 <h2 id="-balancers">--balancers</h2>
 <p><strong><code>radon-defect-predictor train --balancers="none rus ros"</code></strong></p>
 <ul>
@@ -249,65 +240,33 @@ However, this option can be passed along the others to train the model by either
 </ul>
 <p>Not providing any options is the same as passing the option <code>none</code>.
 However, this option can be passed along the others to train the model by either normalizing and not normalizing the training set. </p>
-<h2 id="-classifiers">--classifiers</h2>
-<p><strong><code>radon-defect-predictor train --classifiers="dt logit nb rf svm"</code></strong></p>
-<ul>
-<li>
-<p><code>dt</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">sklearn.tree.DecisionTreeClassifier</a></strong> classifier;</p>
-</li>
-<li>
-<p><code>logit</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">sklearn.linear_model.LogisticRegression</a></strong> classifier;</p>
-</li>
-<li>
-<p><code>nb</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html">sklearn.naive_bayes.GaussianNB</a></strong> classifier;</p>
-</li>
-<li>
-<p><code>rf</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">sklearn.ensemble.RandomForestClassifier</a></strong> classifier;</p>
-</li>
-<li>
-<p><code>svm</code> - Train a model using a <strong><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">sklearn.tree.DecisionTreeClassifier</a></strong> classifier.</p>
-</li>
-</ul>
-<h2 id="-d-destination">-d, --destination</h2>
-<p><strong><code>radon-defect-predictor train --d path/to/report/</code></strong></p>
-<p>The path to the <strong>folder</strong> where to save training report and the fitted model.
-It generates the following files:</p>
-<ul>
-<li>
-<p><code>path/to/report/model.pkl</code> - the exported model in pickle format. After training a model, it is desirable to have a way to persist the model for future use without having to retrain. </p>
-</li>
-<li>
-<p><code>path/to/report/model_features.json</code> - the features selected by feature selection during training. It is important to track these features so to reduce the <em>test instances</em> to the same set of features used for training. </p>
-</li>
-<li>
-<p><code>path/to/report/model_report.json</code> - the cross-validation report of model training.</p>
-</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Important!</p>
-<ul>
-<li>Do not delete any of these files if you want to test new instances with the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/predict/"><code>radon-defect-predictor predict</code></a> using the trained model.</li>
-<li>Make sure you create a distinct folder for each repository to avoid conflicts with existing models, features and reports.
-  Use the same folder only if you are re-training a model. The new model will replace the existing one only if its <em>average precision</em> (a.k.a. AUC-PR) is higher than the one of the current model (present in <em>path/to/report/model_report.json</em>).  </li>
-</ul>
-</div>
-<h2 id="examples">Examples</h2>
-<p>Download the following <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/examples_resources/molecule.csv">training set</a> generated from the <a href="https://github.com/ansible-community/molecule">ansible-community/molecule</a> project in <code>path/to/molecule.csv</code>.
+<h2 id="example">Example</h2>
+<p>Assuming we are training a new model for the <a href="https://github.com/ansible-community/molecule">ansible-community/molecule</a> project,
+download the following training set <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/examples_resources/molecule.csv">molecule.csv</a>
+generated using <a href="https://github.com/radon-h2020/radon-repository-miner/">radon-miner</a>.
 This is the "ground truth" to train a model for that project. </p>
-<p>Create a new folder for reports:</p>
-<pre><code class="language-text">cd path/to/
-mkdir molecule_reports
+<p>You can now run the <code>radon-defect-predictor train ...</code> wherever on your system. 
+For the sake of example, let's create and move to a new working directory:</p>
+<pre><code class="language-text">mkdir radon_example
+cd radon_example
+mv /home/&lt;user&gt;/Downloads/molecule.csv .
 </code></pre>
-<p>Then, run:</p>
-<pre><code class="language-text">radon-defect-predictor train --path-to-csv path/to/molecule.csv --balancers &quot;none rus&quot; --normalizers &quot;minmax&quot; --classifiers &quot;dt logit&quot; -d path/to/molecule_reports/
-</code></pre>
-<p>This command loads the csv file and prepares it for training.</p>
-<p>Afterwards, it (1) uses the Random Under-Sampling balancer to balance the training data (<code>rus</code>), or none (<code>none</code>);
-(2) normalizes the data within the range [0,1] (<code>minmax</code>); and (3) uses the DecisionTree and LogisticRegression classifiers (<code>dt logit</code> , respectively).</p>
-<p>Finally, the best model (<code>model.pkl</code>), selected features (<code>model_features.json</code>), and cross-validation report (<code>model_report.json</code>) are saved into <code>path/to/molecule_reports/</code>.
-You can see them by running</p>
-<pre><code class="language-text">cd molecule_reports
-ls
+<p>Now run:</p>
+<p><code>radon-defect-predictor train molecule.csv  "dt logit" --balancers "none rus" --normalizers "minmax"</code></p>
+<p>or (equivalent)</p>
+<p><code>radon-defect-predictor train molecule.csv  "dt logit" -b "none rus" -n "minmax"</code></p>
+<p>The previous command loads and prepares the <em>.csv</em> file. Then, it builds a model using:</p>
+<ul>
+<li>the Decision Tree and Logistic Regression classifiers (<code>"dt logit"</code>);</li>
+<li>the Random Under-Sampling technique to balance the training data (<code>rus</code>), or none (<code>none</code>);</li>
+<li>the minmax normalization to scale data within the range [0,1] (<code>minmax</code>).</li>
+</ul>
+<p>The built model (<code>model.pkl</code>), selected features (<code>features.json</code>), and cross-validation report (<code>report.json</code>) are saved into <code>radondp_model.zip</code>.
+You can see it by running:</p>
+<pre><code class="language-text">ls
+
+molecule.csv
+radondp_model.joblib
 </code></pre>
 <p>You can run the same command with different combinations of balancers, normalizers, and classifiers, as explained in 
 previous sections.</p></div>
