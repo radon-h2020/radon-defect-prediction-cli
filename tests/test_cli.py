@@ -74,7 +74,7 @@ class CLITestCase(unittest.TestCase):
 
     def test_predict_ansible(self):
         command = """
-        radon-defect-predictor predict --path-to-model {0} --path-to-file {1} -l ansible --d {2}
+        radon-defect-predictor predict --path-to-model {0} --path-to-artefact {1} -l ansible --d {2}
         """.format(self.path_to_trained_ansible_model,
                    os.path.join(os.getcwd(), "test_data", "an_ansible_playbook.yml"),
                    self.path_to_new_ansible_model)
@@ -86,7 +86,7 @@ class CLITestCase(unittest.TestCase):
 
     def test_predict_tosca(self):
         command = """
-        radon-defect-predictor predict --path-to-model {0} --path-to-file {1} -l tosca --d {2}
+        radon-defect-predictor predict --path-to-model {0} --path-to-artefact {1} -l tosca --d {2}
         """.format(self.path_to_trained_tosca_model,
                    os.path.join(os.getcwd(), "test_data", "a_tosca_definition.tosca"),
                    self.path_to_new_tosca_model)

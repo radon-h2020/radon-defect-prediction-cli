@@ -136,12 +136,12 @@ def set_predict_parser(subparsers):
                         type=valid_dir,
                         help='path to the folder containing the files related to the model')
 
-    parser.add_argument('--path-to-file',
+    parser.add_argument('--path-to-artefact',
                         required=True,
                         action='store',
-                        dest='path_to_file',
+                        dest='path_to_artefact',
                         type=valid_file,
-                        help='the path to the file to analyze')
+                        help='the path to the artefact to analyze (i.e., an Ansible or Tosca file or .csar')
 
     parser.add_argument('-l', '--language',
                         required=True,
@@ -288,7 +288,7 @@ def predict(args: Namespace):
     dp.load_model(args.path_to_model_dir)
 
     # Read content of the script to analyze
-    with open(args.path_to_file, 'r') as f:
+    with open(args.path_to_artefact, 'r') as f:
         script_content = f.read()
 
     # Extract metrics
@@ -300,7 +300,7 @@ def predict(args: Namespace):
     unseen_data = pd.DataFrame(metrics, index=[0])
     prediction = dp.predict(unseen_data)
     report = dict(
-        file=args.path_to_file,
+        file=args.path_to_artefact,
         failure_prone=prediction,
         analyzed_at=str(datetime.date.today())
     )

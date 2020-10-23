@@ -3,7 +3,7 @@
 ```radon-defect-predictor predict```
 
 ```text
-usage: radon-defect-predictor predict [-h] --path-to-model PATH_TO_MODEL_DIR --path-to-file PATH_TO_FILE -l {ansible,tosca} -d DEST
+usage: radon-defect-predictor predict [-h] --path-to-model PATH_TO_MODEL_DIR --path-to-artefact PATH_TO_FILE -l {ansible,tosca} -d DEST
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -11,8 +11,8 @@ optional arguments:
 
   --path-to-model PATH_TO_MODEL_DIR
                         path to the folder containing the files related to the model
-  --path-to-file PATH_TO_FILE
-                        the path to the file to analyze
+  --path-to-artefact PATH_TO_ARTEFACT
+                        the path to the artefact to analyze (i.e., an Ansible or Tosca file or .csar)
   -l {ansible,tosca}, --language {ansible,tosca}
                         the language of the file (i.e., TOSCA or YAML-based Ansible)
   -d DEST, --destination DEST
@@ -22,7 +22,7 @@ optional arguments:
 | Option | Required |
 |:---|:---|
 | --path-to-model | True |
-| --path-to-file | True |
+| --path-to-artefact | True |
 | -l, --language | True |
 | -d, --destination | True |
 
@@ -59,10 +59,11 @@ path/to/
 Information about the aforementioned files can be found [here](https://radon-h2020.github.io/radon-defect-predictor/cli/train/#-d-destination) or [here](https://radon-h2020.github.io/radon-defect-predictor/cli/model/#-d-destination).
 
 
-## --path-to-file
+## --path-to-artefact PATH_TO_ARTEFACT
 ```radon-defect-predictor train --path-to-csv path/to/repository-data.csv```
 
-The path to the **.yml or .tosca** file analyze.
+The path to the artefact to analyze.
+An *artefact* can be an Ansible file (**.yml**) or a TOSCA definition (**.tosca**), or a TOSCA Cloud Service Archive(**.csar**).
 
 
 ## -l, --language
@@ -98,7 +99,7 @@ Download a pre-trained model as described [here](https://radon-h2020.github.io/r
 Create folder for reports: `mkdir predictions`
 Then run:
 
-`radon-defect-predictor predict --path-to-model path/to/downloaded_model --path-to-file path/to/ansible_file.yml -l ansible --d path/to/predictions`
+`radon-defect-predictor predict --path-to-model path/to/downloaded_model --path-to-artefact path/to/ansible_file.yml -l ansible --d path/to/predictions`
 
 You can now see the report:
 
