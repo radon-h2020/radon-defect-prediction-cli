@@ -252,16 +252,16 @@ cd radon_example
 mv /home/&lt;user&gt;/Downloads/molecule.csv .
 </code></pre>
 <p>Now run:</p>
-<p><code>radon-defect-predictor train molecule.csv  "dt logit" --balancers "none rus" --normalizers "minmax"</code></p>
+<p><code>radon-defect-predictor train molecule.csv  "dt" --balancers "none rus" --normalizers "minmax"</code></p>
 <p>or (equivalent)</p>
-<p><code>radon-defect-predictor train molecule.csv  "dt logit" -b "none rus" -n "minmax"</code></p>
+<p><code>radon-defect-predictor train molecule.csv  "dt" -b "none rus" -n "minmax"</code></p>
 <p>The previous command loads and prepares the <em>.csv</em> file. Then, it builds a model using:</p>
 <ul>
-<li>the Decision Tree and Logistic Regression classifiers (<code>"dt logit"</code>);</li>
+<li>the Decision Tree classifier (<code>"dt"</code>);</li>
 <li>the Random Under-Sampling technique to balance the training data (<code>rus</code>), or none (<code>none</code>);</li>
 <li>the minmax normalization to scale data within the range [0,1] (<code>minmax</code>).</li>
 </ul>
-<p>The built model (<code>model.pkl</code>), selected features (<code>features.json</code>), and cross-validation report (<code>report.json</code>) are saved into <code>radondp_model.zip</code>.
+<p>The built model (<code>radondp_model.joblib</code>) is saved into the current working directory.
 You can see it by running:</p>
 <pre><code class="language-text">ls
 
