@@ -113,20 +113,20 @@ mv /home/<user>/Downloads/molecule.csv .
 
 Now run:
 
-`radon-defect-predictor train molecule.csv  "dt logit" --balancers "none rus" --normalizers "minmax"`
+`radon-defect-predictor train molecule.csv  "dt" --balancers "none rus" --normalizers "minmax"`
 
 or (equivalent)
 
-`radon-defect-predictor train molecule.csv  "dt logit" -b "none rus" -n "minmax"`
+`radon-defect-predictor train molecule.csv  "dt" -b "none rus" -n "minmax"`
 
 The previous command loads and prepares the *.csv* file. Then, it builds a model using:
 
-* the Decision Tree and Logistic Regression classifiers (`"dt logit"`);
+* the Decision Tree classifier (`"dt"`);
 * the Random Under-Sampling technique to balance the training data (```rus```), or none (```none```);
 * the minmax normalization to scale data within the range [0,1] (```minmax```).
 
 
-The built model (`model.pkl`), selected features (`features.json`), and cross-validation report (`report.json`) are saved into `radondp_model.zip`.
+The built model (`radondp_model.joblib`) is saved into the current working directory.
 You can see it by running:
 
 ```text
