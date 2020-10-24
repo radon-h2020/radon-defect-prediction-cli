@@ -136,6 +136,7 @@ molecule.csv
 radondp_model.joblib
 ```   
 
+![Alt Text](../media/cli_train.gif)
 
 You can run the same command with different combinations of balancers, normalizers, and classifiers, as explained in 
 previous sections.
