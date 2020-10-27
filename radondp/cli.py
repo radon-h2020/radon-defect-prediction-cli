@@ -9,9 +9,8 @@ import requests
 from ansiblemetrics import metrics_extractor as ansible_metrics_extractor
 from toscametrics import metrics_extractor as tosca_metrics_extractor
 from argparse import ArgumentParser, ArgumentTypeError, Namespace
-from dotenv import load_dotenv
 from getpass import getpass
-from repositoryscorer import scorer
+from radonscorer import scorer
 from zipfile import ZipFile
 
 from .predictors import DefectPredictor
@@ -170,7 +169,7 @@ def get_parser():
     description = 'A Python library to train machine learning models for defect prediction of infrastructure code'
 
     parser = ArgumentParser(prog='radon-defect-predictor', description=description)
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.1.0')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.1.1')
     subparsers = parser.add_subparsers(dest='command')
 
     set_train_parser(subparsers)
@@ -191,7 +190,6 @@ def train(args: Namespace):
 
 
 def model(args: Namespace):
-    load_dotenv()
 
     if not args.token:
         if args.host == 'github' and os.getenv('GITHUB_ACCESS_TOKEN'):
@@ -202,11 +200,9 @@ def model(args: Namespace):
             args.token = getpass('Github access token:')
 
     # TODO deal language {ansible, tosca}
-
     print('Downloading model...')
     scores = scorer.score_repository(
         path_to_repo=args.path_to_repository,
-        access_token=args.token,
         full_name_or_id=args.repository_full_name_or_id,
         host=args.host
     )

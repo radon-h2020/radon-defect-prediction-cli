@@ -4,14 +4,11 @@ import os
 import shutil
 import unittest
 
-from dotenv import load_dotenv
-
 
 class CLIToscaTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        load_dotenv()
 
         cls.training_data_csv = os.path.join(os.getcwd(), "test_data", "tosca.csv")
         cls.tosca_definition = os.path.join(os.getcwd(), "test_data/definition.tosca")

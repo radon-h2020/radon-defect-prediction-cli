@@ -4,14 +4,11 @@ import os
 import shutil
 import unittest
 
-from dotenv import load_dotenv
-
 
 class CLIAnsibleTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        load_dotenv()
 
         # Path to training_data
         cls.training_data_csv = os.path.join(os.getcwd(), "test_data", "ansible.csv")
