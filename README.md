@@ -19,9 +19,7 @@ pip install .
 
 ## Quick Start
 
-```radon-defect-predictor --help```
-
-```prompt
+```text
 usage: radon-defect-predictor [-h] [-v] {train,predict,model} ...
 
 A Python library to train machine learning models for defect prediction of infrastructure code
@@ -36,5 +34,33 @@ optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
 ```
+
+
+
+
+# How to build Docker container
+
+`docker build --tag radon-dp:latest .`
+
+
+# How to run Docker container
+
+First, create a host volume to share data and results between the host machine and the Docker container:
+
+`mkdir /tmp/radon-dp-volume/` 
+ 
+## Train
+
+Create a training dataset `metrics.csv` and copy/move it to `/tmp/radon-dp-volume/`.
+See how to generate the training data for defect prediction [here](https://radon-h2020.github.io/radon-repository-miner/cli/metrics/). 
+
+Run:
+
+`docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor train metrics.csv ...`
+
+See the [docs](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/) for more details about this command. 
+
+The built model can be accessed at `/tmp/radon-dp-volume/radon_modoel.joblib`.
+
 
 See the [Docs](https://radon-h2020.github.io/radon-defect-predictor/) for details and examples of usage.
