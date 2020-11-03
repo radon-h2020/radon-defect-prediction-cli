@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as reqs_file:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = '0.1.2'
+VERSION = '0.2.0'
 
 setup(name='radon-defect-predictor',
       version=VERSION,
@@ -25,7 +25,7 @@ setup(name='radon-defect-predictor',
           'console_scripts': ['radon-defect-predictor=radondp.cli:main'],
       },
       classifiers=[
-          "Development Status :: 3 - Alpha",
+          "Development Status :: 4 - Beta",
           "Intended Audience :: Developers",
           "Programming Language :: Python :: 3.7",
           "License :: OSI Approved :: Apache Software License",

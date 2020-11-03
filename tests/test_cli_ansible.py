@@ -18,12 +18,12 @@ class CLIAnsibleTestCase(unittest.TestCase):
         # Create a working directory for Ansible
         cls.workdir = os.path.join(os.getcwd(), 'test_data', 'ansible_workdir')
         cls.train_dir = os.path.join(cls.workdir, 'train')
-        cls.downloaded_model_dir = os.path.join(cls.workdir, 'downloaded_model')
+        cls.download_model_dir = os.path.join(cls.workdir, 'downloaded_model')
         cls.predict_dir = os.path.join(cls.workdir, 'predict')
 
         os.mkdir(cls.workdir)
         os.mkdir(cls.train_dir)
-        os.mkdir(cls.downloaded_model_dir)
+        os.mkdir(cls.download_model_dir)
         os.mkdir(cls.predict_dir)
 
         os.system('cp {0} {1}/radondp_model.joblib'.format(
@@ -49,15 +49,13 @@ class CLIAnsibleTestCase(unittest.TestCase):
         assert model['report']
 
     def test_model(self):
-        command = 'cd {0} && radon-defect-predictor download-model ansible github ANXS/postgresql {1}'.format(self.downloaded_model_dir,
-                                                                                                              self.repository)
+        command = 'cd {0} && radon-defect-predictor download-model ansible github ANXS/postgresql'.format(self.download_model_dir)
         result = os.system(command)
         assert (0 == result)
 
-        model = joblib.load(os.path.join(self.downloaded_model_dir, 'radondp_model.joblib'), mmap_mode='r')
+        model = joblib.load(os.path.join(self.download_model_dir, 'radondp_model.joblib'), mmap_mode='r')
         assert model['model']
         assert model['features']
-
 
     def test_predict(self):
         command = 'cd {0} && radon-defect-predictor predict ansible {1}'.format(self.predict_dir, self.playbook)
@@ -71,6 +69,18 @@ class CLIAnsibleTestCase(unittest.TestCase):
             assert predictions[0]['file'] == self.playbook
             assert type(predictions[0]['failure_prone']) == bool
 
+    def test_model_and_predict(self):
+        get_model = 'cd {0} && radon-defect-predictor download-model ansible github ANXS/postgresql'.format(self.download_model_dir)
+        predict = 'cd {0} && radon-defect-predictor predict ansible {1}'.format(self.download_model_dir, self.playbook)
+
+        result = os.system(get_model)
+        assert (0 == result)
+        result = os.system(predict)
+        assert (0 == result)
+
+        with open(os.path.join(self.download_model_dir, 'radondp_predictions.json'), 'r') as f:
+            predictions = json.load(f)
+            assert len(predictions) == 1
 
 if __name__ == '__main__':
     unittest.main()

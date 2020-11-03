@@ -148,28 +148,16 @@ def set_download_model_parser(subparsers):
                         help='the platform the user\'s repository is hosted to')
 
     parser.add_argument(action='store',
-                        dest='repository_full_name_or_id',
+                        dest='repository',
                         type=str,
-                        help='the remote repository full name or id (e.g., radon-h2020/radon-defect-prediction-cli)')
-
-    parser.add_argument(action='store',
-                        dest='path_to_repository',
-                        type=valid_dir,
-                        help='the local path to the user\'s repository')
-
-    parser.add_argument('-t', '--token',
-                        required=False,  # TODO: handle with environment variable
-                        action='store',
-                        dest='token',
-                        type=str,
-                        help='the Github or Gitlab personal access token')
+                        help='the user\'s remote repository in the form <namespace>/<repository> (e.g., radon-h2020/radon-defect-prediction-cli)')
 
 
 def get_parser():
     description = 'A Python library to train machine learning models for defect prediction of infrastructure code'
 
     parser = ArgumentParser(prog='radon-defect-predictor', description=description)
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.1.1')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.2.0')
     subparsers = parser.add_subparsers(dest='command')
 
     set_train_parser(subparsers)
@@ -190,15 +178,26 @@ def train(args: Namespace):
 
 
 def model(args: Namespace):
+    # TODO: update when API model are fully ready online
 
-    if not args.token:
-        if args.host == 'github' and os.getenv('GITHUB_ACCESS_TOKEN'):
-            args.token = os.getenv('GITHUB_ACCESS_TOKEN')
-        elif args.host == 'gitlab' and os.getenv('GITLAB_ACCESS_TOKEN'):
-            args.token = os.getenv('GITLAB_ACCESS_TOKEN')
-        else:
-            args.token = getpass('Github access token:')
+    url = f'https://radon-test-api.herokuapp.com/models/?language={args.language}'
+    r = requests.get(url, stream=True)
+    if r.ok:
+        dest = os.path.join(os.getcwd(), 'radondp_model.joblib')
 
+        # For debug
+        print("Saving to", dest)
+
+        with open(dest, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024 * 8):
+                if chunk:
+                    f.write(chunk)
+                    f.flush()
+                    os.fsync(f.fileno())
+    else:  # HTTP status code 4XX/5XX
+        print("Download failed: status code {}\n{}".format(r.status_code, r.text))
+
+    """
     # TODO deal language {ansible, tosca}
     print('Downloading model...')
     scores = scorer.score_repository(
@@ -230,7 +229,7 @@ def model(args: Namespace):
         joblib.dump({'model': response_body['model'],
                      'features': response_body['attributes']
                      }, os.path.join(os.getcwd(), 'radondp_model.joblib'))
-
+    """
     exit(0)
 
 

@@ -19,7 +19,7 @@ optional arguments:
     The file contains information about the *filepath*, *failure-proneness*, and *date* of analysis of the analyzed files.
     If a file already exists with that name, this command will **append** the new predictions to it.
 
-    **Note:** To let the tool automatically identify the model, the user **must** run the command within the same working
+    **Note:** To let the tool automatically identify the model, the user **MUST** run the command within the same working
     directory of `radondp_model.joblib`.
     Make sure you trained or downloaded a model first. 
 
@@ -36,9 +36,6 @@ An *artefact* can be an Ansible file (**.yml**), a TOSCA definition (**.tosca**)
 
 ## Examples
 
-### Predict on a single script
-
-For the sake of example, move to the `radon_example` working directory.
 If you do not have a model, [train](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/#Example)
 or [download](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/#Examples) one first.
 
@@ -52,7 +49,10 @@ to test a Tosca model.
 to test a Tosca model.
 
 
-Copy the file(s) in `radon_example`.
+Move to the working directory where there is the model (Ansible or Tosca) to use.
+**It is important that the model is in the same working directory from which the user run the command!** 
+To this end, you can either move/copy the model to your working directory or changing the current working directory by moving
+to the one containing the model.
 
 Then, run:
 
@@ -62,34 +62,9 @@ Then, run:
 
 `radon-defect-predictor predict tosca tosca.csar` (for Tosca CSAR)
 
-You can now see the results:
+You can see the results in the current working directory:
 
 ```text
-ls
-
-prediction_results.json
-```
-
-### Predict on a .CSAR
-Create a working directory:
-
-```text
-mkdir csar_example
-cd csar_example
-```
-
-Download the following [tosca.csar] and a pre-trained model as described [here] in *csar_example*.
-
-Create folder for reports: `mkdir reports`
-
-Then run:
-
-`radon-defect-predictor predict --path-to-model downloaded_model --path-to-artefact tosca.csar -l ansible --d reports`
-
-You can now see the report:
-
-```text
-cd predictions
 ls
 
 prediction_results.json
