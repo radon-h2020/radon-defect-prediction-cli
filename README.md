@@ -39,8 +39,6 @@ optional arguments:
 ```
 
 
-
-
 # How to build Docker container
 
 `docker build --tag radon-dp:latest .`
@@ -63,7 +61,36 @@ Run:
 
 See the [docs](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/) for more details about this command. 
 
-The built model can be accessed at `/tmp/radon-dp-volume/radon_modoel.joblib`.
+The built model can be accessed at `/tmp/radon-dp-volume/radondp_model.joblib`.
 
 
-See the [Docs](https://radon-h2020.github.io/radon-defect-predictor/) for details and examples of usage.
+
+## Model
+
+Run:
+
+`docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor download-model ...`
+
+See the [docs](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/) for more details about this command. 
+
+The downloaded model can be accessed at `/tmp/radon-dp-volume/radondp_model.joblib`.
+
+
+
+## Predict
+
+Move the model and the files to predict in the shared volume.
+For example, if you want to run the prediction on a .csar, then
+
+`cp patah/to/file.csar /tmp/radon-dp-volume`.
+
+Alternatively, you can create a volume from the folder containing the .csar (in that case, make sure to move the model within it).
+
+Run:
+
+`docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor predict ...`
+
+See the [docs](https://radon-h2020.github.io/radon-defect-prediction-cli/cli/predict/) for more details about this command. 
+
+The predictions can be accessed at `/tmp/radon-dp-volume/radondp_predictions.json`.
+

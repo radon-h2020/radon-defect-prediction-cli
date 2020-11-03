@@ -15,12 +15,15 @@ optional arguments:
   -h, --help       show this help message and exit
 ```
 
-!!! note
+!!! warning
     It is important to set up the following variables in your environment:
     
     * `GITHUB_ACCESS_TOKEN=<paste your token here>` for Github, and/or
     
     * `GITLAB_ACCESS_TOKEN=<paste your token here>` for Gitlab.
+    
+    * `TMP_REPOSITORIES_DIR=/tmp/` if not using the Docker image. It is the directory where the tool clones the repository
+    to extract the information to get the best matching model.
 
 
 ## language {ansible, tosca}
