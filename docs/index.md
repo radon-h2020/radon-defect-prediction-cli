@@ -22,5 +22,7 @@ pip install .
 pip install pytest
 unzip test_data.zip -d .
 pip install .
+GITHUB_ACCESS_TOKEN=************
+GITLAB_ACCESS_TOKEN=******
 pytest tests/
 ```

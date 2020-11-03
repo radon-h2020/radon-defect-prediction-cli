@@ -10,7 +10,7 @@ from ansiblemetrics import metrics_extractor as ansible_metrics_extractor
 from toscametrics import metrics_extractor as tosca_metrics_extractor
 from argparse import ArgumentParser, ArgumentTypeError, Namespace
 from getpass import getpass
-from radonscorer import scorer
+from reposcorer import scorer
 from zipfile import ZipFile
 
 from .predictors import DefectPredictor
