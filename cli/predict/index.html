@@ -136,7 +136,7 @@ optional arguments:
 <p>This command will generate a <strong><code>radondp_predictions.json</code></strong> file in the user working directory.
 The file contains information about the <em>filepath</em>, <em>failure-proneness</em>, and <em>date</em> of analysis of the analyzed files.
 If a file already exists with that name, this command will <strong>append</strong> the new predictions to it.</p>
-<p><strong>Note:</strong> To let the tool automatically identify the model, the user <strong>must</strong> run the command within the same working
+<p><strong>Note:</strong> To let the tool automatically identify the model, the user <strong>MUST</strong> run the command within the same working
 directory of <code>radondp_model.joblib</code>.
 Make sure you trained or downloaded a model first. </p>
 </div>
@@ -147,9 +147,7 @@ This is needed to automatically extract the proper metrics (through <code>radon-
 <p>The path to the artefact to analyze.
 An <em>artefact</em> can be an Ansible file (<strong>.yml</strong>), a TOSCA definition (<strong>.tosca</strong>), or a TOSCA Cloud Service Archive(<strong>.csar</strong>).</p>
 <h2 id="examples">Examples</h2>
-<h3 id="predict-on-a-single-script">Predict on a single script</h3>
-<p>For the sake of example, move to the <code>radon_example</code> working directory.
-If you do not have a model, <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/#Example">train</a>
+<p>If you do not have a model, <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/#Example">train</a>
 or <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/#Examples">download</a> one first.</p>
 <ul>
 <li>
@@ -165,28 +163,16 @@ to test a Tosca model.</p>
 to test a Tosca model.</p>
 </li>
 </ul>
-<p>Copy the file(s) in <code>radon_example</code>.</p>
+<p>Move to the working directory where there is the model (Ansible or Tosca) to use.
+<strong>It is important that the model is in the same working directory from which the user run the command!</strong> 
+To this end, you can either move/copy the model to your working directory or changing the current working directory by moving
+to the one containing the model.</p>
 <p>Then, run:</p>
 <p><code>radon-defect-predictor predict ansible playbook.yml</code> (for Ansible)</p>
 <p><code>radon-defect-predictor predict tosca definition.yml</code> (for Tosca)</p>
 <p><code>radon-defect-predictor predict tosca tosca.csar</code> (for Tosca CSAR)</p>
-<p>You can now see the results:</p>
+<p>You can see the results in the current working directory:</p>
 <pre><code class="language-text">ls
-
-prediction_results.json
-</code></pre>
-<h3 id="predict-on-a-csar">Predict on a .CSAR</h3>
-<p>Create a working directory:</p>
-<pre><code class="language-text">mkdir csar_example
-cd csar_example
-</code></pre>
-<p>Download the following [tosca.csar] and a pre-trained model as described [here] in <em>csar_example</em>.</p>
-<p>Create folder for reports: <code>mkdir reports</code></p>
-<p>Then run:</p>
-<p><code>radon-defect-predictor predict --path-to-model downloaded_model --path-to-artefact tosca.csar -l ansible --d reports</code></p>
-<p>You can now see the report:</p>
-<pre><code class="language-text">cd predictions
-ls
 
 prediction_results.json
 </code></pre></div>

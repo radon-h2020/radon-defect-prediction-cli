@@ -101,6 +101,22 @@
             
             <li class="nav-item" data-level="1"><a href="#download-a-pre-trained-model" class="nav-link">Download a pre-trained model</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#language-ansible-tosca" class="nav-link">language {ansible, tosca}</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#host-github-gitlab" class="nav-link">host {github, gitlab}</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#repository" class="nav-link">repository</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#examples" class="nav-link">Examples</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -113,34 +129,40 @@
 <p class="admonition-title">Warning</p>
 <p>This command is partially implemented.</p>
 </div>
-<pre><code class="language-text">usage: radon-defect-predictor download-model [-h] [-t TOKEN] {ansible,tosca} {github,gitlab} repository_full_name_or_id path_to_repository
+<pre><code class="language-text">usage: radon-defect-predictor download-model [-h] {ansible,tosca} {github,gitlab} repository
 
 positional arguments:
-  {ansible,tosca}       the language the model to download is trained on
-  {github,gitlab}       the platform the user's repository is hosted to
-  repository_full_name_or_id
-                        the remote repository full name or id (e.g., radon-h2020/radon-defect-prediction-cli)
-  path_to_repository    the local path to the user's repository
+  {ansible,tosca}  the language the model is trained on
+  {github,gitlab}  the platform the user's repository is hosted to
+  repository       the user's remote repository in the form &lt;namespace&gt;/&lt;repository&gt; (e.g., radon-h2020/radon-defect-prediction-cli)
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -t TOKEN, --token TOKEN
-                        the Github or Gitlab personal access token
-
+  -h, --help       show this help message and exit
 </code></pre>
-<h3 id="language">language</h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is important to set up the following variables in your environment:</p>
+<ul>
+<li>
+<p><code>GITHUB_ACCESS_TOKEN=&lt;paste your token here&gt;</code> for Github, and/or</p>
+</li>
+<li>
+<p><code>GITLAB_ACCESS_TOKEN=&lt;paste your token here&gt;</code> for Gitlab.</p>
+</li>
+</ul>
+</div>
+<h2 id="language-ansible-tosca">language {ansible, tosca}</h2>
 <p>Every models are trained for a specific language. 
 To download the proper model the user <strong>must</strong> specify the language on which they want to use the model.
 Ansible and TOSCA are currently supported.
 If the project contains both Ansible and Tosca files, the user can download two models by running the command twice, 
 passing the option <code>ansible</code> and <code>tosca</code>, respectively.</p>
-<h3 id="host-github-gitlab">host {github, gitlab}</h3>
+<h2 id="host-github-gitlab">host {github, gitlab}</h2>
 <p>The hosting platform for software development and version control using Git. Github and Gitlab are supported.
 This option is required to use the appropriate APIs (<a href="https://github.com/PyGithub/PyGithub"><code>pygithub</code></a> or 
 <a href="https://github.com/python-gitlab/python-gitlab"><code>python-gitlab</code></a>) to compute some of the aforementioned criteria.</p>
-<h3 id="path_to_repository">path_to_repository</h3>
-<p><strong><code>radon-defect-predictor model download --path-to-csv path/to/local/git/repository/</code></strong></p>
-<p>The path to the a local <strong>git repository</strong>. <br>
+<h2 id="repository">repository</h2>
+<p>The user's repository full name <em>namespace/repository</em> (e.g., radon-h2020/radon-defect-prediction-cli). <br>
 It is necessary to select the appropriate model for the repository at hand.
 Indeed, the downloaded model is the model trained on the most similar repository based on the following criteria: </p>
 <ul>
@@ -154,57 +176,31 @@ Indeed, the downloaded model is the model trained on the most similar repository
 <li><strong>Ratio of IaC scripts:</strong> ratio between Infrastructure-as-Code (IaC) files and total files.</li>
 </ul>
 <p>The value of each criterion is automatically extracted by the <a href="https://github.com/radon-h2020/radon-repository-scorer"><code>radon-repository-scorer</code></a> this tool depends on. <br></p>
-<h3 id="repository_full_name_or_id">repository_full_name_or_id</h3>
-<p>The repository full name or id (e.g., radon-h2020/radon-defect-predictor).</p>
-<h3 id="-t-token">-t, --token</h3>
-<p><code>radon-defect-predictor model download -t &lt;SECRET_TOKEN&gt;</code> <br></p>
-<p>The personal access token to access Github and Gitlab APIs.
-See how to get one from <a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token">Github</a> and <a href="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html">Gitlab</a>. <br>
-Once generated, pass the token to the <code>--token</code> option. <br>
-If not passed in the command, the user will be prompt for inserting one. For example:</p>
-<pre><code class="language-text">radon-defect-predictor model download --path-to-repository some/path --host github -l ansible -d some/other/path/
-Github access token: ***************
+<h2 id="examples">Examples</h2>
+<h3 id="ansible">Ansible</h3>
+<p>Let's assume the user wants to download an Ansible model suitable for <a href="https://github.com/ANXS/postgresql.git">ANXS/postgresql</a>.</p>
+<p>For the sake of the example, let's create and move to a working directory:</p>
+<p><code>mkdir radon-wd-ansible &amp;&amp; cd radon-wd-ansible</code></p>
+<p>The user can now get an Ansible model by running:</p>
+<p><code>radon-defect-predictor download-model ansible github ANXS/postgresql</code></p>
+<p>The model is saved in the current working directory:</p>
+<pre><code class="language-text">ls
+
+radondp_model.joblib
 </code></pre>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You may want to avoid the previous step. If so, add the following to your environment variables:</p>
-<ul>
-<li>
-<p><code>GITHUB_ACCESS_TOKEN=&lt;paste your token here&gt;</code> for Github, and/or</p>
-</li>
-<li>
-<p><code>GITLAB_ACCESS_TOKEN=&lt;paste your token here&gt;</code> for Gitlab.</p>
-</li>
-</ul>
-</div>
-<h3 id="examples">Examples</h3>
-<p>TODO</p>
-<!-- Git clone the repository to analyze, say **ansible-community/molecule**:
+<p>The model can be used later for predictions.</p>
+<h3 id="tosca">Tosca</h3>
+<p>Let's assume the user wants to download a TOSCA model suitable for <a href="https://github.com/UoW-CPC/COLARepo.git">UoW-CPC/COLARepo</a>.</p>
+<p>For the sake of the example, let's create and move to a working directory:</p>
+<p><code>mkdir radon-wd-tosca &amp;&amp; cd radon-wd-tosca</code></p>
+<p>The user can now get an Ansible model by running:</p>
+<p><code>radon-defect-predictor download-model tosca github UoW-CPC/COLARepo</code></p>
+<p>The model is saved in the current working directory:</p>
+<pre><code class="language-text">ls
 
-`git clone https://github.com/ansible-community/molecule.git`
-
-Create a new folder to save the downloaded mode-related files and run the `radon-defect-predictor model download` command:
-
-
-<pre><code class="language-text">cd molecule
-mkdir downloaded_model
+radondp_model.joblib
 </code></pre>
-
-
-Then, run:
-
-`radon-defect-predictor model download --path-to-repository . --host github -t ***** -r ansible-community/molecule -l ansible -d downloaded_model`
-
-You should be now able to see the following files:
-
-
-<pre><code class="language-text">cd downloaded_model
-ls
-
-model.pkl model_features.json
-</code></pre>
-
---></div>
+<p>The model can be used later for predictions. </p></div>
             </div>
         </div>
 
