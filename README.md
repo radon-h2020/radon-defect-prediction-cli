@@ -13,8 +13,13 @@ The RADON command-line client for Infrastructure-as-Code Defect Prediction.
 
 ## How to Install
 
+From [PyPI](https://pypi.org/project/radon-defect-predictor/):
+
+`pip install radon-defect-predictor`
+
 From source code:
-```
+
+```text
 git clone https://github.com/radon-h2020/radon-defect-prediction.git
 cd radon-defect-predictor
 pip install .
