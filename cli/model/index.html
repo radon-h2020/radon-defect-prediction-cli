@@ -139,8 +139,8 @@ positional arguments:
 optional arguments:
   -h, --help       show this help message and exit
 </code></pre>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p>It is important to set up the following variables in your environment:</p>
 <ul>
 <li>
@@ -148,6 +148,10 @@ optional arguments:
 </li>
 <li>
 <p><code>GITLAB_ACCESS_TOKEN=&lt;paste your token here&gt;</code> for Gitlab.</p>
+</li>
+<li>
+<p><code>TMP_REPOSITORIES_DIR=/tmp/</code> if not using the Docker image. It is the directory where the tool clones the repository
+to extract the information to get the best matching model.</p>
 </li>
 </ul>
 </div>

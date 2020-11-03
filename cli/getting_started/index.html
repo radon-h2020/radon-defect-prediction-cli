@@ -99,8 +99,12 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="2"><a href="#getting-started" class="nav-link">Getting Started</a>
+            <li class="nav-item" data-level="1"><a href="#getting-started" class="nav-link">Getting Started</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#a-quick-start-with-docker" class="nav-link">A quick start with Docker</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -108,7 +112,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h2 id="getting-started">Getting Started</h2>
+<h1 id="getting-started">Getting Started</h1>
 <pre><code class="language-text">usage: radon-defect-predictor [-h] [-v] {train,download-model,predict} ...
 
 A Python library to train machine learning models for defect prediction of infrastructure code
@@ -125,11 +129,35 @@ optional arguments:
 </code></pre>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p><code>radon-defect-predictor predict</code> <strong>must</strong> be used after having trained a model with 
+<p><code>radon-defect-predictor predict</code> <strong>MUST</strong> be used after having trained a model with 
 <code>radon-defect-predictor train</code>, or after having downloaded a pre-trained model from the online RADON 
 Defect Prediction Framework APIs, using the <code>radon-defect-predictor download-model</code> command.</p>
 </div>
-<p>Go the next pages for examples of usage of each of the command-line options.</p></div>
+<p>Go the next pages for examples of usage of each of the command-line options.</p>
+<h2 id="a-quick-start-with-docker">A quick start with Docker</h2>
+<p>First, create a host volume to share data and results between the host machine and the Docker container:</p>
+<p><code>mkdir /tmp/radon-dp-volume/</code> (you can name it as you please)</p>
+<h3 id="train">Train</h3>
+<p>Create a training dataset <code>metrics.csv</code> and copy/move it to <code>/tmp/radon-dp-volume/</code>.
+See how to generate the training data for defect prediction <a href="https://radon-h2020.github.io/radon-repository-miner/cli/metrics/">here</a>. </p>
+<p>Run:</p>
+<p><code>docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor train metrics.csv ...</code></p>
+<p>See the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/">docs</a> for more details about this command. </p>
+<p>The built model can be accessed at <code>/tmp/radon-dp-volume/radondp_model.joblib</code>.</p>
+<h3 id="model">Model</h3>
+<p>Run:</p>
+<p><code>docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor download-model ...</code></p>
+<p>See the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/">docs</a> for more details about this command. </p>
+<p>The downloaded model can be accessed at <code>/tmp/radon-dp-volume/radondp_model.joblib</code>.</p>
+<h3 id="predict">Predict</h3>
+<p>Move the model and the files to predict in the shared volume.
+For example, if you want to run the prediction on a .csar, then</p>
+<p><code>cp patah/to/file.csar /tmp/radon-dp-volume</code>.</p>
+<p>Alternatively, you can create a volume from the folder containing the .csar (in that case, make sure to move the model within it).</p>
+<p>Run:</p>
+<p><code>docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor predict ...</code></p>
+<p>See the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/predict/">docs</a> for more details about this command. </p>
+<p>The predictions can be accessed at <code>/tmp/radon-dp-volume/radondp_predictions.json</code>.</p></div>
             </div>
         </div>
 
