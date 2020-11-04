@@ -6,6 +6,7 @@
 ![pypi-status](https://img.shields.io/pypi/status/radon-defect-predictor)
 ![release-date](https://img.shields.io/github/release-date/radon-h2020/radon-defect-prediction-cli)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![python-version](https://img.shields.io/pypi/pyversions/radon-defect-predictor)
 
 # radon-defect-prediction
 The RADON command-line client for Infrastructure-as-Code Defect Prediction.
