@@ -101,7 +101,7 @@
             
             <li class="nav-item" data-level="1"><a href="#radon-defect-predictor" class="nav-link">RADON Defect Predictor</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#how-to-install" class="nav-link">How to install</a>
+            <li class="nav-item" data-level="2"><a href="#how-to-install" class="nav-link">How to Install</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -118,16 +118,19 @@
 
 <h1 id="radon-defect-predictor">RADON Defect Predictor</h1>
 <p>The RADON Defect Predictor is a Python library and a command-line tool to train and use Machine-Learning models for infrastructure code defect prediction.</p>
-<h2 id="how-to-install">How to install</h2>
-<p>From PyPIP: <strong>available soon</strong></p>
+<h2 id="how-to-install">How to Install</h2>
+<p>From <a href="https://pypi.org/project/radon-defect-predictor/">PyPI</a>:</p>
+<p><code>pip install radon-defect-predictor</code></p>
 <p>From source code:</p>
 <pre><code class="language-text">git clone https://github.com/radon-h2020/radon-defect-prediction.git
 cd radon-defect-predictor
+pip install -r requirements.txt
 pip install .
 </code></pre>
 <h2 id="how-to-test">How to test</h2>
 <pre><code class="language-text">pip install pytest
 unzip test_data.zip -d .
+pip install -r requirements.txt
 pip install .
 GITHUB_ACCESS_TOKEN=************
 GITLAB_ACCESS_TOKEN=******
@@ -216,5 +219,5 @@ pytest tests/
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2020-11-04 09:10:56.650198+00:00
+Build Date UTC : 2020-11-04 09:11:33.336619+00:00
 -->
