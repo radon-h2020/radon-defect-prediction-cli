@@ -22,6 +22,7 @@ From source code:
 ```text
 git clone https://github.com/radon-h2020/radon-defect-prediction.git
 cd radon-defect-predictor
+pip install -r requirements.txt
 pip install .
 ```
 
