@@ -1,7 +1,6 @@
 import datetime
 import io
 import json
-import joblib
 import os
 import pandas as pd
 import requests
@@ -9,8 +8,6 @@ import requests
 from ansiblemetrics import metrics_extractor as ansible_metrics_extractor
 from toscametrics import metrics_extractor as tosca_metrics_extractor
 from argparse import ArgumentParser, ArgumentTypeError, Namespace
-from getpass import getpass
-from reposcorer import scorer
 from zipfile import ZipFile
 
 from .predictors import DefectPredictor
@@ -157,7 +154,7 @@ def get_parser():
     description = 'A Python library to train machine learning models for defect prediction of infrastructure code'
 
     parser = ArgumentParser(prog='radon-defect-predictor', description=description)
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.2.1')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.2.2')
     subparsers = parser.add_subparsers(dest='command')
 
     set_train_parser(subparsers)

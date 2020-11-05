@@ -190,6 +190,7 @@ class DefectPredictor:
 
     def dump_model(self, path_to_dir: str):
         """
+        Dump the best model to file
         :param path_to_dir: the path to the directory containing model-related files
         :return: None
         """
@@ -197,3 +198,16 @@ class DefectPredictor:
                      'features': self.selected_features,
                      'report': self.cv_report_map},
                     os.path.join(path_to_dir, 'radondp_model.joblib'))
+
+    def dumps_model(self) -> bytes:
+        """
+        Dump the best model to a byte buffer
+        :return: bytes
+        """
+        buff = io.BytesIO()
+        joblib.dump({'model': self.best_estimator,
+                     'features': self.selected_features,
+                     'report': self.cv_report_map},
+                    buff)
+
+        return buff.getvalue()
