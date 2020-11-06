@@ -167,6 +167,11 @@ class DefectPredictor:
         if not self.best_estimator:
             raise Exception('No model has been loaded yet. Please, load a model using instance.load(path_to_model_dir)')
 
+        # Set missing features in unseen_data to zero
+        for feature_name in self.selected_features:
+            if feature_name not in unseen_data:
+                unseen_data[feature_name] = 0
+
         # Select same model features
         unseen_data = unseen_data[np.intersect1d(unseen_data.columns, self.selected_features)]
 
