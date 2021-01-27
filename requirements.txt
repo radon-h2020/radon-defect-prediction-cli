@@ -6,5 +6,5 @@ numpy~=1.19.4
 pandas~=1.1.4
 repository-scorer~=0.2.1
 requests~=2.24.0
-scikit-learn~=0.23.2
-tosca-metrics~=0.0.5
+scikit-learn~=0.24.1
+tosca-metrics~=0.0.6

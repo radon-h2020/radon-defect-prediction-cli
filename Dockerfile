@@ -17,6 +17,7 @@ WORKDIR /app
 
 # Install application (latest)
 RUN pip install -r requirements.txt
-RUN pip install radon-defect-predictor
+#RUN pip install radon-defect-predictor
+RUN pip install .
 
 CMD radon-defect-predictor -h

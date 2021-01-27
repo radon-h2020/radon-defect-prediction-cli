@@ -190,8 +190,8 @@ class DefectPredictor:
         :return: None
         """
         model = joblib.load(os.path.join(path_to_dir, 'radondp_model.joblib'), mmap_mode='r')
-        self.best_estimator = model['model']
-        self.selected_features = model['features']
+        self.best_estimator = model['estimator']
+        self.selected_features = model['selected_features']
 
     def dump_model(self, path_to_dir: str):
         """

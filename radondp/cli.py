@@ -154,7 +154,7 @@ def get_parser():
     description = 'A Python library to train machine learning models for defect prediction of infrastructure code'
 
     parser = ArgumentParser(prog='radon-defect-predictor', description=description)
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.2.3')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.2.4')
     subparsers = parser.add_subparsers(dest='command')
 
     set_train_parser(subparsers)
@@ -175,9 +175,26 @@ def train(args: Namespace):
 
 
 def model(args: Namespace):
-    # TODO: update when API model are fully ready online
+    """
+        # Compute scores
+        print('Downloading model...')
+        scores = scorer.score_repository(
+            path_to_repo=args.repository,
+            full_name_or_id=args.repository_full_name_or_id,
+            host=args.host
+        )
 
-    url = f'https://radon-test-api.herokuapp.com/models/?language={args.language}'
+        scores['commitFrequency'] = scores['commit_frequency']
+        scores['coreContributors'] = scores['core_contributors']
+        //scores['issueFrequency'] = scores['issue_frequency']
+        scores['percentComments'] = scores['percent_comment']
+        scores['percentIac'] = scores['iac_ratio']
+        scores['sloc'] = scores['repository_size']
+
+        // TODO: Add parameters to url query
+    """
+
+    url = f'https://radon-test-api.herokuapp.com/models/?language={args.language}&repository_size=100&return_model=1'
     r = requests.get(url, stream=True)
     if r.ok:
         dest = os.path.join(os.getcwd(), 'radondp_model.joblib')
@@ -194,39 +211,6 @@ def model(args: Namespace):
     else:  # HTTP status code 4XX/5XX
         print("Download failed: status code {}\n{}".format(r.status_code, r.text))
 
-    """
-    # TODO deal language {ansible, tosca}
-    print('Downloading model...')
-    scores = scorer.score_repository(
-        path_to_repo=args.path_to_repository,
-        full_name_or_id=args.repository_full_name_or_id,
-        host=args.host
-    )
-
-    # TODO update depending on API body
-    scores['commitFrequency'] = scores['commit_frequency']
-    scores['coreContributors'] = scores['core_contributors']
-    scores['issueFrequency'] = scores['issue_frequency']
-    scores['percentComments'] = scores['percent_comment']
-    scores['percentIac'] = scores['iac_ratio']
-    scores['sloc'] = scores['repository_size']
-
-    url = 'https://radon.giovanni.pink/api/models/pre-trained-model'
-    response = requests.post(url, json=scores)
-
-    if response.status_code != 200:
-        print(f'Response returned status: {response.status_code}')
-        exit(1)
-
-    response_body = response.json()
-
-    # TODO: move this process to the online APIs and make them return the joblib file
-
-    if response_body['model'] and response_body['attributes']:
-        joblib.dump({'model': response_body['model'],
-                     'features': response_body['attributes']
-                     }, os.path.join(os.getcwd(), 'radondp_model.joblib'))
-    """
     exit(0)
 
 
@@ -241,7 +225,7 @@ def predict(args: Namespace):
         # Read content of the script to analyze
         with open(args.path_to_artefact, 'r') as f:
             script_content = f.read()
-        unseen_data = pd.DataFrame(ansible_metrics_extractor.extract_all(io.StringIO(script_content)), index=[0])
+        unseen_data = pd.DataFrame(ansible_metrics_extractor.extract_all(script_content), index=[0])
         prediction = dp.predict(unseen_data)
         report.append(dict(
             file=args.path_to_artefact,
@@ -258,7 +242,7 @@ def predict(args: Namespace):
                     if filepath.endswith('.tosca'):
                         try:
                             script_content = zip_file.read(filepath).decode('utf-8')
-                            unseen_data = pd.DataFrame(tosca_metrics_extractor.extract_all(io.StringIO(script_content)), index=[0])
+                            unseen_data = pd.DataFrame(tosca_metrics_extractor.extract_all(script_content), index=[0])
                             prediction = dp.predict(unseen_data)
                             report.append(dict(
                                 file=os.path.join(args.path_to_artefact, filepath),
@@ -272,7 +256,7 @@ def predict(args: Namespace):
             with open(args.path_to_artefact, 'r') as f:
                 script_content = f.read()
 
-            unseen_data = pd.DataFrame(tosca_metrics_extractor.extract_all(io.StringIO(script_content)), index=[0])
+            unseen_data = pd.DataFrame(tosca_metrics_extractor.extract_all(script_content), index=[0])
 
             prediction = dp.predict(unseen_data)
             report.append(dict(
