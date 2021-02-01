@@ -199,8 +199,8 @@ class DefectPredictor:
         :param path_to_dir: the path to the directory containing model-related files
         :return: None
         """
-        joblib.dump({'model': self.best_estimator,
-                     'features': self.selected_features,
+        joblib.dump({'estimator': self.best_estimator,
+                     'selected_features': self.selected_features,
                      'report': self.cv_report_map},
                     os.path.join(path_to_dir, 'radondp_model.joblib'))
 
@@ -210,8 +210,8 @@ class DefectPredictor:
         :return: bytes
         """
         buff = io.BytesIO()
-        joblib.dump({'model': self.best_estimator,
-                     'features': self.selected_features,
+        joblib.dump({'estimator': self.best_estimator,
+                     'selected_features': self.selected_features,
                      'report': self.cv_report_map},
                     buff)
 
