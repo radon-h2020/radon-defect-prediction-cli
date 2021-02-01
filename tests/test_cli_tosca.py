@@ -41,8 +41,8 @@ class CLIToscaTestCase(unittest.TestCase):
         assert (0 == result)
         assert 'radondp_model.joblib' in os.listdir(self.train_dir)
         model = joblib.load(os.path.join(self.train_dir, 'radondp_model.joblib'), mmap_mode='r')
-        assert model['model']
-        assert model['features']
+        assert model['estimator']
+        assert model['selected_features']
         assert model['report']
 
     def test_model(self):
@@ -61,8 +61,6 @@ class CLIToscaTestCase(unittest.TestCase):
             assert type(predictions[0]['failure_prone']) == bool
 
     def test_predict_tosca_csar(self):
-        path_to_csar = os.path.join(os.getcwd(), "test_data", "tosca.csar")
-
         command = 'cd {0} && radon-defect-predictor predict tosca {1}'.format(self.predict_dir, self.tosca_csar)
         result = os.system(command)
 

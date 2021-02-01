@@ -9,7 +9,6 @@ class CLIAnsibleTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-
         # Path to training_data
         cls.training_data_csv = os.path.join(os.getcwd(), "test_data", "ansible.csv")
         cls.playbook = os.path.join(os.getcwd(), "test_data/playbook.yml")
@@ -44,18 +43,19 @@ class CLIAnsibleTestCase(unittest.TestCase):
         assert (0 == result)
         assert 'radondp_model.joblib' in os.listdir(self.train_dir)
         model = joblib.load(os.path.join(self.train_dir, 'radondp_model.joblib'), mmap_mode='r')
-        assert model['model']
-        assert model['features']
+        assert model['estimator']
+        assert model['selected_features']
         assert model['report']
 
     def test_model(self):
-        command = 'cd {0} && radon-defect-predictor download-model ansible github ANXS/postgresql'.format(self.download_model_dir)
+        command = 'cd {0} && radon-defect-predictor download-model ansible github ANXS/postgresql'.format(
+            self.download_model_dir)
         result = os.system(command)
         assert (0 == result)
 
         model = joblib.load(os.path.join(self.download_model_dir, 'radondp_model.joblib'), mmap_mode='r')
-        assert model['model']
-        assert model['features']
+        assert model['estimator']
+        assert model['selected_features']
 
     def test_predict(self):
         command = 'cd {0} && radon-defect-predictor predict ansible {1}'.format(self.predict_dir, self.playbook)
@@ -70,7 +70,8 @@ class CLIAnsibleTestCase(unittest.TestCase):
             assert type(predictions[0]['failure_prone']) == bool
 
     def test_model_and_predict(self):
-        get_model = 'cd {0} && radon-defect-predictor download-model ansible github ANXS/postgresql'.format(self.download_model_dir)
+        get_model = 'cd {0} && radon-defect-predictor download-model ansible github ANXS/postgresql'.format(
+            self.download_model_dir)
         predict = 'cd {0} && radon-defect-predictor predict ansible {1}'.format(self.download_model_dir, self.playbook)
 
         result = os.system(get_model)
@@ -81,6 +82,7 @@ class CLIAnsibleTestCase(unittest.TestCase):
         with open(os.path.join(self.download_model_dir, 'radondp_predictions.json'), 'r') as f:
             predictions = json.load(f)
             assert len(predictions) == 1
+
 
 if __name__ == '__main__':
     unittest.main()
