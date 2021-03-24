@@ -4,6 +4,8 @@ import os
 import shutil
 import unittest
 
+from argparse import Namespace
+from radondp.cli import predict
 
 class CLIToscaTestCase(unittest.TestCase):
 
@@ -73,6 +75,32 @@ class CLIToscaTestCase(unittest.TestCase):
             assert os.path.join(self.tosca_csar, '_definitions/radonartifacts__Ansible.tosca') in files
             assert os.path.join(self.tosca_csar, '_definitions/radonnodesaws__AwsLambdaFunction.tosca') in files
             assert os.path.join(self.tosca_csar, '_definitions/radondatatypesfunction__Entries.tosca') in files
+
+    def test_predict_csar_2(self):
+        args = Namespace(language='tosca', path_to_artefact=self.tosca_csar)
+
+        try:
+            shutil.copy(os.path.join(os.getcwd(), "test_data", "radondp_model_ansible.joblib"),
+                        os.path.join(os.getcwd(), 'radondp_model.joblib'))
+
+            predict(args)
+        except SystemExit as exc:
+
+            assert exc.code == 0
+
+            shutil.move(os.path.join(os.getcwd(), 'radondp_model.joblib'),
+                        os.path.join( self.predict_dir, 'radondp_model_ansible.joblib'))
+
+            shutil.move(os.path.join(os.getcwd(), 'radondp_predictions.json'),
+                        os.path.join( self.predict_dir, 'radondp_predictions.json'))
+
+            with open(os.path.join(self.predict_dir, 'radondp_predictions.json'), 'r') as f:
+                predictions = json.load(f)
+                files = set([item['file'] for item in predictions])
+                assert os.path.join(self.tosca_csar, '_definitions/radonartifacts__Ansible.tosca') in files
+                assert os.path.join(self.tosca_csar, '_definitions/radonnodesaws__AwsLambdaFunction.tosca') in files
+                assert os.path.join(self.tosca_csar, '_definitions/radondatatypesfunction__Entries.tosca') in files
+
 
 
 if __name__ == '__main__':

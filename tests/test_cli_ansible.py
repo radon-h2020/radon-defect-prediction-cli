@@ -167,24 +167,5 @@ class CLIAnsibleTestCase(unittest.TestCase):
                 assert predictions[0]['file'] == self.playbook
                 assert type(predictions[0]['failure_prone']) == bool
 
-
-    """
-
-    def test_model_and_predict(self):
-        get_model = 'cd {0} && radon-defect-predictor download-model ansible github ANXS/postgresql'.format(
-            self.download_model_dir)
-        predict = 'cd {0} && radon-defect-predictor predict ansible {1}'.format(self.download_model_dir, self.playbook)
-
-        result = os.system(get_model)
-        assert (0 == result)
-        result = os.system(predict)
-        assert (0 == result)
-
-        with open(os.path.join(self.download_model_dir, 'radondp_predictions.json'), 'r') as f:
-            predictions = json.load(f)
-            assert len(predictions) == 1
-
-    """
-
 if __name__ == '__main__':
     unittest.main()
