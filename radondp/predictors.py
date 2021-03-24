@@ -101,6 +101,9 @@ class DefectPredictor:
         :return: an estimator of type Pipeline
         """
 
+        if not self.classifiers:
+            raise RuntimeError('A classifier is missing. Please call DefectPredictor.classifiers = [\'choiche]\' to set a classifier for training.')
+
         X, y = prepare_training_data(data)
         releases = X.group.tolist()
         X = X.drop(['group'], axis=1)

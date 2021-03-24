@@ -165,9 +165,9 @@ def get_parser():
 
 def train(args: Namespace):
     dp = DefectPredictor()
-    dp.balancers = args.balancers
-    dp.normalizers = args.normalizers
-    dp.classifiers = args.classifiers
+    dp.balancers = args.balancers if hasattr(args, 'balancers') else []
+    dp.normalizers = args.normalizers if hasattr(args, 'normalizers') else []
+    dp.classifiers = args.classifiers if hasattr(args, 'classifiers') else []
     dp.train(pd.read_csv(args.path_to_csv))
     dp.dump_model(os.getcwd())
     exit(0)
@@ -193,8 +193,21 @@ def model(args: Namespace):
         // TODO: Add parameters to url query
     """
 
-    url = f'https://radon-test-api.herokuapp.com/models/?language={args.language}&repository_size=100&return_model=1'
+    language = args.language if hasattr(args, 'language') else ''
+
+    url = f'https://radon-test-api.herokuapp.com/models/?language={language}&repository_size=100&return_model=1'
     r = requests.get(url, stream=True)
+
+    if r.content:
+
+        try:
+            content = json.loads(r.content)
+            if 'ERROR' in content:
+                print('ERROR:', content['ERROR'])
+                exit(1)
+        except UnicodeError:
+            pass
+
     if r.ok:
         dest = os.path.join(os.getcwd(), 'radondp_model.joblib')
 
@@ -209,11 +222,21 @@ def model(args: Namespace):
                     os.fsync(f.fileno())
     else:  # HTTP status code 4XX/5XX
         print("Download failed: status code {}\n{}".format(r.status_code, r.text))
+        exit(1)
 
     exit(0)
 
 
 def predict(args: Namespace):
+
+    if not hasattr(args, 'language') or args.language not in ('ansible', 'tosca'):
+        print('Please, provide a valid language. Choose one between [ansible, tosca]')
+        exit(1)
+
+    if not hasattr(args, 'path_to_artefact'):
+        print('Please, provide a path to a valid Ansible or Tosca artifact. The file extension must be a .yml or .csar.')
+        exit(1)
+
     dp = DefectPredictor()
     dp.load_model(os.getcwd())
 
