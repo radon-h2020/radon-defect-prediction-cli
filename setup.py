@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as reqs_file:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = '0.2.5'
+VERSION = '0.2.6'
 
 setup(name='radon-defect-predictor',
       version=VERSION,
@@ -36,5 +36,5 @@ setup(name='radon-defect-predictor',
           "Topic :: Software Development :: Libraries :: Python Modules",
           "Operating System :: OS Independent"
       ],
-      insall_requires=requirements
+      install_requires=requirements
 )
