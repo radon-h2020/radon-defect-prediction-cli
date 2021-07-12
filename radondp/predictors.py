@@ -44,11 +44,11 @@ def prepare_training_data(data: pd.DataFrame):
 
 class DefectPredictor:
 
-    def __init__(self):
+    def __init__(self, verbose: int = 0):
         """
         Initialize a new DefectPredictor
         """
-
+        self._verbose = verbose
         self._balancers = []
         self._classifiers = []
         self._normalizers = []
@@ -139,7 +139,7 @@ class DefectPredictor:
                 search_params['normalization'] = self.normalizers
 
             search = RandomizedSearchCV(pipe, search_params, cv=walk_forward_release(X, y, releases),
-                                        scoring=scoring, refit='average_precision', verbose=0)
+                                        scoring=scoring, refit='average_precision', verbose=self._verbose)
 
             search.fit(X, y)
 

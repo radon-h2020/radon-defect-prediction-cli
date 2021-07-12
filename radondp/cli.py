@@ -153,7 +153,7 @@ def get_parser():
     description = 'A Python library to train machine learning models for defect prediction of infrastructure code'
 
     parser = ArgumentParser(prog='radon-defect-predictor', description=description)
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.2.5')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.2.6')
     subparsers = parser.add_subparsers(dest='command')
 
     set_train_parser(subparsers)
