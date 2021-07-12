@@ -7,23 +7,23 @@
         
         
         
-        <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Getting Started - RADON Defect Predictor</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/font-awesome.min.css" rel="stylesheet">
-        <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>APIs - RADON Defect Predictor</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
-        <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="../..">RADON Defect Predictor</a>
+                <a class="navbar-brand" href="index.html">RADON Defect Predictor</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -34,31 +34,31 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem">
-                                <a href="../.." class="nav-link">Getting Started</a>
+                                <a href="index.html" class="nav-link">Getting Started</a>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">CLI <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active">Getting Started</a>
+    <a href="cli/getting_started.html" class="dropdown-item">Getting Started</a>
 </li>
                                     
 <li>
-    <a href="../train/" class="dropdown-item">Train</a>
+    <a href="cli/train.html" class="dropdown-item">Train</a>
 </li>
                                     
 <li>
-    <a href="../model/" class="dropdown-item">Model</a>
+    <a href="cli/model.html" class="dropdown-item">Model</a>
 </li>
                                     
 <li>
-    <a href="../predict/" class="dropdown-item">Predict</a>
+    <a href="cli/predict.html" class="dropdown-item">Predict</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="navitem">
-                                <a href="../../apis/" class="nav-link">APIs</a>
+                            <li class="navitem active">
+                                <a href="apis.html" class="nav-link">APIs</a>
                             </li>
                         </ul>
 
@@ -69,17 +69,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../.." class="nav-link">
+                                <a rel="prev" href="cli/predict.html" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../train/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/radon-h2020/radon-defect-predictor/edit/master/docs/cli/getting_started.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/radon-h2020/radon-defect-predictor/edit/master/docs/apis.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -99,9 +99,9 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#getting-started" class="nav-link">Getting Started</a>
+            <li class="nav-item" data-level="1"><a href="#api-reference" class="nav-link">API Reference</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#a-quick-start-with-docker" class="nav-link">A quick start with Docker</a>
+            <li class="nav-item" data-level="2"><a href="#predictorsdefectpredictor" class="nav-link">predictors.DefectPredictor</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -112,52 +112,49 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="getting-started">Getting Started</h1>
-<pre><code class="language-text">usage: radon-defect-predictor [-h] [-v] {train,download-model,predict} ...
-
-A Python library to train machine learning models for defect prediction of infrastructure code
-
-positional arguments:
-  {train,download-model,predict}
-    train               Train a brand new model from scratch
-    download-model      Download a pre-trained model from the online APIs
-    predict             Predict unseen instances
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -v, --version         show program's version number and exit
-</code></pre>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p><code>radon-defect-predictor predict</code> <strong>MUST</strong> be used after having trained a model with 
-<code>radon-defect-predictor train</code>, or after having downloaded a pre-trained model from the online RADON 
-Defect Prediction Framework APIs, using the <code>radon-defect-predictor download-model</code> command.</p>
+<h1 id="api-reference">API Reference</h1>
+<h2 id="predictorsdefectpredictor">predictors.DefectPredictor</h2>
+<p>This module includes one class, DefectPredictor, representing a defect predictor.</p>
+<div class="admonition note">
+<p class="admonition-title">class radondp.predictors.DefectPredictor()</p>
+<p>Class representing a defect predictor. It contains the logic to train a model, save and load a model from the disk, use that model to predict unseen instances.</p>
 </div>
-<p>Go the next pages for examples of usage of each of the command-line options.</p>
-<h2 id="a-quick-start-with-docker">A quick start with Docker</h2>
-<p>First, create a host volume to share data and results between the host machine and the Docker container:</p>
-<p><code>mkdir /tmp/radon-dp-volume/</code> (you can name it as you please)</p>
-<h3 id="train">Train</h3>
-<p>Create a training dataset <code>metrics.csv</code> and copy/move it to <code>/tmp/radon-dp-volume/</code>.
-See how to generate the training data for defect prediction <a href="https://radon-h2020.github.io/radon-repository-miner/cli/metrics/">here</a>. </p>
-<p>Run:</p>
-<p><code>docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor train metrics.csv ...</code></p>
-<p>See the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/train/">docs</a> for more details about this command. </p>
-<p>The built model can be accessed at <code>/tmp/radon-dp-volume/radondp_model.joblib</code>.</p>
-<h3 id="model">Model</h3>
-<p>Run:</p>
-<p><code>docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor download-model ...</code></p>
-<p>See the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/model/">docs</a> for more details about this command. </p>
-<p>The downloaded model can be accessed at <code>/tmp/radon-dp-volume/radondp_model.joblib</code>.</p>
-<h3 id="predict">Predict</h3>
-<p>Move the model and the files to predict in the shared volume.
-For example, if you want to run the prediction on a .csar, then</p>
-<p><code>cp patah/to/file.csar /tmp/radon-dp-volume</code>.</p>
-<p>Alternatively, you can create a volume from the folder containing the .csar (in that case, make sure to move the model within it).</p>
-<p>Run:</p>
-<p><code>docker run -v /tmp/radon-dp-volume:/app radon-dp:latest radon-defect-predictor predict ...</code></p>
-<p>See the <a href="https://radon-h2020.github.io/radon-defect-prediction-cli/cli/predict/">docs</a> for more details about this command. </p>
-<p>The predictions can be accessed at <code>/tmp/radon-dp-volume/radondp_predictions.json</code>.</p></div>
+<p><code>__init__()</code></p>
+<p>Init the DefectPredictor</p>
+<p><code>balancers() -&gt; list</code></p>
+<p>Return the list of instances used to balance the train data.</p>
+<p><code>balancers(balancers:List[str]) -&gt; None</code></p>
+<p>Set the balancers to train the model.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>balancers</strong>(List[str]) - a list of balancers (e.g.,  <code>[none, rus, ros]</code>) <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>ValueError</strong> - if one or more balancers are not in <code>[none, rus, ros]</code></p>
+<p><code>normalizers() -&gt; list</code></p>
+<p>Return the list of instances used to normalize train and test data.</p>
+<p><code>normalizers(normalizers:List[str]) -&gt; None</code></p>
+<p>Set the normalizers to scale data.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>normalizers</strong>(List[str]) - a list of normalizers (e.g.,  <code>[none, minmax, std]</code>) <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>ValueError</strong> - if one or more normalizers are not in <code>[none, minmax, std]</code></p>
+<p><code>classifiers()</code></p>
+<p>Return the list of instances used to train the model classifier.</p>
+<p><code>classifiers(classifiers:List[str])</code></p>
+<p>Set the balancers to train the model.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>classifiers</strong>(List[str]) - a list of classifiers (e.g.,  <code>[dt, logit, nb, rf, svm]</code>) <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>ValueError</strong> - if one or more normalizers are not in <code>[dt, logit, nb, rf, svm]</code></p>
+<p><code>train(data:pandas.DataFrame) -&gt; imblearn.pipeline.Pipeline</code>
+Train a new model</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>data</strong>(pandas.DataFrame) - the train data consisting of metrics and metadata about <em>clean</em> and <em>failure_prone</em> scripts <br>
+&emsp;&emsp;<strong>Return:</strong> the best fitted estimator, that is, the one that maximizes the average_precision <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>Fail</strong> - if columns <code>failure_prone</code>, <code>commit</code>, <code>committed_at</code>, <code>filepath</code> are not in <code>data</code></p>
+<p><code>predict(unseed_data:pandas.DataFrame) -&gt; bool</code>
+Predict an unseen instance as failure-prone or clean.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>data</strong>(pandas.DataFrame) - the unseen data consisting of the observations to predict <br>
+&emsp;&emsp;<strong>Return:</strong> <em>True</em> if <em>failure-prone</em>; <em>False</em> otherwise <br>
+&emsp;&emsp;<strong>Raise:</strong>&emsp;&emsp;<strong>Exception</strong> - if no model has been loaded.</p>
+<p><code>load_model(path_to_model_dir: str) -&gt; None</code>
+Load a model from the disk.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>path_to_model_dir</strong>(str) - the path to the directory containing model-related files <br></p>
+<p><code>dump_model(path_to_model_dir: str) -&gt; None</code>
+Dump the trained model to the disk.</p>
+<p>&emsp;&emsp;<strong>Parameters:</strong>&emsp;&emsp;<strong>path_to_model_dir</strong>(str) - the path to the directory where to save model-related files <br></p></div>
             </div>
         </div>
 
@@ -166,11 +163,11 @@ For example, if you want to run the prediction on a .csar, then</p>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>
-            var base_url = "../..",
+            var base_url = ".",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../js/base.js" defer></script>
-        <script src="../../search/main.js" defer></script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -180,16 +177,13 @@ For example, if you want to run the prediction on a .csar, then</p>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+                <p>From here you can search these documents. Enter your search terms below.</p>
                 <form>
                     <div class="form-group">
                         <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
