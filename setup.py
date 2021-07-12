@@ -36,5 +36,5 @@ setup(name='radon-defect-predictor',
           "Topic :: Software Development :: Libraries :: Python Modules",
           "Operating System :: OS Independent"
       ],
-      insall_requires=requirements
+      install_requires=requirements
 )
